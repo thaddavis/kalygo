@@ -6,7 +6,6 @@ import { RoutesData } from "../routes";
 import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
-import Transactions from "./Transactions";
 import Settings from "./Settings";
 import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
@@ -52,6 +51,7 @@ import Preloader from "../components/Preloader";
 import { RootState } from "../store/store";
 import { updateState } from "../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import EscrowOverview from "./EscrowOverview";
 
 const RouteWithLoader = ({ Component, ...rest }: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -64,7 +64,9 @@ const RouteWithLoader = ({ Component, ...rest }: any) => {
   return (
     <>
       {" "}
-      <Preloader show={loaded ? false : true} /> <Component {...rest} />{" "}
+      <Preloader show={loaded ? false : true} />
+      <Outlet />
+      {/* <Component {...rest} />{" "} */}
     </>
   );
 };
@@ -89,29 +91,12 @@ const RouteWithSidebar = (props: any) => {
             ledger: settings.selectedNetwork,
           });
 
-          console.log("accounts", accounts);
-
-          // console.log("BEFORE");
           dispatch(
             updateState({
               accounts: accounts,
             })
           );
-          // console.log("AFTER");
-
-          // setLoaded(true);
         } catch (e) {}
-
-        // window.AlgoSigner.connect()
-        //   .then(() =>
-        //     window.AlgoSigner.accounts({
-        //       ledger: "localhost",
-        //     })
-        //   )
-        //   .then((accountData) => {})
-        //   .catch((e) => {
-        //     console.error(e);
-        //   });
       } else {
         console.error("NO AlgoSigner");
       }
@@ -155,11 +140,10 @@ const RouteWithSidebar = (props: any) => {
 
 const Router = () => (
   <Routes>
-    <Route
-      path={RoutesData.Presentation.path}
-      element={<RouteWithLoader component={Presentation} />}
-    />
-    <Route
+    <Route path="/" element={<RouteWithLoader />}>
+      <Route path={""} element={<Presentation />} />
+    </Route>
+    {/* <Route
       path={RoutesData.Signin.path}
       element={<RouteWithLoader component={Signin} />}
     />
@@ -186,12 +170,12 @@ const Router = () => (
     <Route
       path={RoutesData.ServerError.path}
       element={<RouteWithLoader component={ServerError} />}
-    />
+    /> */}
 
     {/* pages */}
     <Route path="/dashboard/" element={<RouteWithSidebar />}>
       <Route path={"overview"} element={<DashboardOverview />} />
-      <Route path={"transactions"} element={<Transactions />} />
+      <Route path={"transactions"} element={<EscrowOverview />} />
       <Route path={"settings"} element={<Settings />} />
     </Route>
     {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />

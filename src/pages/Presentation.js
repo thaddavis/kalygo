@@ -1,11 +1,46 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook, faExternalLinkAlt, fa, faTimesCircle, faCheckCircle, faCalendarAlt, faCodeBranch, faShoppingCart, faFolder, faMapMarkedAlt, faPager, faFileCode, faDownload } from "@fortawesome/free-solid-svg-icons";
-import { faBootstrap, faGithub, faJs, faReact, faSass } from "@fortawesome/free-brands-svg-icons";
-import { Col, Row, Card, Image, Button, Container, ListGroup, Tooltip, Form, Navbar, Nav, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
-import GitHubButton from 'react-github-btn';
+import {
+  faBook,
+  faExternalLinkAlt,
+  fa,
+  faTimesCircle,
+  faCheckCircle,
+  faCalendarAlt,
+  faCodeBranch,
+  faShoppingCart,
+  faFolder,
+  faMapMarkedAlt,
+  faPager,
+  faFileCode,
+  faDownload,
+  faTableCellsLarge,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faBootstrap,
+  faGithub,
+  faHive,
+  faJs,
+  faReact,
+  faSass,
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  Col,
+  Row,
+  Card,
+  Image,
+  Button,
+  Container,
+  ListGroup,
+  Tooltip,
+  Form,
+  Navbar,
+  Nav,
+  Badge,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
+import GitHubButton from "react-github-btn";
 
 import { RoutesData } from "../routes";
 import ThemesbergLogoIcon from "../assets/img/themesberg.svg";
@@ -29,12 +64,21 @@ const Presentation = () => {
 
     return (
       <Col xs={6} className="mb-5">
-        <Card.Link as={Link} to={link} className="page-preview page-preview-lg scale-up-hover-2">
-          <Image src={image} className="shadow-lg rounded scale" alt="Dashboard page preview" />
+        <Card.Link
+          as={Link}
+          to={link}
+          className="page-preview page-preview-lg scale-up-hover-2"
+        >
+          <Image
+            src={image}
+            className="shadow-lg rounded scale"
+            alt="Dashboard page preview"
+          />
 
           <div className="text-center show-on-hover">
             <h6 className="m-0 text-center text-white">
-              {name} <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-2" />
+              {name}{" "}
+              <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-2" />
             </h6>
           </div>
         </Card.Link>
@@ -70,25 +114,44 @@ const Presentation = () => {
       //   placement="left"
       //   overlay={<Tooltip>{tooltip}</Tooltip>}
       // >
-        <li data-toggle="tooltip" data-placement="left" title="Main folder that you will be working with">
-          <FontAwesomeIcon icon={icon ? icon : faFolder} className={`${color} me-2`} /> {name}
-        </li>
+      <li
+        data-toggle="tooltip"
+        data-placement="left"
+        title="Main folder that you will be working with"
+      >
+        <FontAwesomeIcon
+          icon={icon ? icon : faFolder}
+          className={`${color} me-2`}
+        />{" "}
+        {name}
+      </li>
       // </OverlayTrigger>
     );
   };
 
   return (
     <>
-      <Navbar variant="dark" expand="lg" bg="dark" className="navbar-transparent navbar-theme-primary sticky-top">
+      <Navbar
+        variant="dark"
+        expand="lg"
+        bg="dark"
+        className="navbar-transparent navbar-theme-primary sticky-top"
+      >
         <Container className="position-relative justify-content-between px-3">
-          <Navbar.Brand as={HashLink} to="#home" className="me-lg-3 d-flex align-items-center">
+          <Navbar.Brand
+            as={HashLink}
+            to="#home"
+            className="me-lg-3 d-flex align-items-center"
+          >
             <span className="ms-2 brand-text d-none d-md-inline">Kalygo</span>
           </Navbar.Brand>
 
           <div className="d-flex align-items-center">
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
-                <Nav.Link as={HashLink} to="#features">Features</Nav.Link>
+                <Nav.Link as={HashLink} to="#features">
+                  Features
+                </Nav.Link>
                 {/* <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
                 <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link>
@@ -99,50 +162,58 @@ const Presentation = () => {
           </div>
         </Container>
       </Navbar>
-      <section className="section-header overflow-hidden pt-5 pt-lg-6 pb-9 pb-lg-12 bg-primary text-white" id="home">
+      <section
+        className="section-header overflow-hidden pt-5 pt-lg-6 pb-4 pb-lg-6 bg-primary text-white"
+        id="home"
+      >
         <Container>
           <Row>
             <Col xs={12} className="text-center">
-              <div className="react-big-icon d-none d-lg-block"><span className="fab fa-react"></span></div>
-              <h1 className="fw-bolder text-secondary">KALYGO</h1>
-              <p className="text-muted fw-light mb-5 h5">Peer-to-Peer Escrow</p>
-              <div className="d-flex align-items-center justify-content-center">
-                <Button variant="secondary" as={Link} to={RoutesData.DashboardOverview.path} className="text-dark me-3">
-                  Explore App <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
+              <div className="react-big-icon d-none d-lg-block">
+                <span className="fab fa-react"></span>
+              </div>
+              <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
+              <p className="text-muted fw-light mb-2 h5">Peer-to-Peer Escrow</p>
+              <div className="d-flex align-items-center justify-content-center mb-4">
+                <Button
+                  variant="secondary"
+                  as={Link}
+                  to={RoutesData.DashboardOverview.path}
+                  className="text-dark me-3"
+                >
+                  Explore App{" "}
+                  <FontAwesomeIcon
+                    icon={faExternalLinkAlt}
+                    className="d-none d-sm-inline ms-1"
+                  />
                 </Button>
               </div>
-              {/* <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
-                <div className="text-center">
-                  <a href="https://themesberg.com" target="_blank">
-                    <p className="text-muted font-small m-0">A Command production</p>
-                  </a>
-                </div>
-              </div> */}
+              <div>
+                <FontAwesomeIcon
+                  style={{ height: 256, width: 256 }}
+                  icon={faHive}
+                  className="d-block mx-auto py-4 px-4"
+                />
+              </div>
             </Col>
           </Row>
-          <figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
-            <svg className="fill-soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 185.4">
-              <path d="M3000,0v185.4H0V0c496.4,115.6,996.4,173.4,1500,173.4S2503.6,115.6,3000,0z" />
-            </svg>
-          </figure>
         </Container>
       </section>
-      <div className="section pt-0">
+      {/* <div className="section pt-0">
         <Container className="mt-n10 mt-lg-n12 z-2">
-          <Row className="justify-content-center mt-5 mt-lg-6">  
-          </Row>
+          <Row className="justify-content-center mt-5 mt-lg-6"></Row>
         </Container>
-      </div>
+      </div> */}
       <section className="section section-md bg-soft" id="features">
         <Container>
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
               <h2>Powered by Blockchain</h2>
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
-              <p className="mb-4">Kalygo escrow is implemented via a smart contract running on the Algorand Blockchain.</p>
-            </Col>
-            <Col lg={6} className="order-lg-1">
-              <Image src={BlockchainSvg} height={256} alt="Blockchain" className="d-block mx-auto" />
+              <p className="mb-4">
+                Kalygo escrow is implemented via a smart contract running on the
+                Algorand Blockchain.
+              </p>
             </Col>
           </Row>
         </Container>
@@ -152,10 +223,12 @@ const Presentation = () => {
           <Row className="justify-content-center text-center text-white">
             <Col xs={12}>
               <h2 className="fw-light mb-3">
-                Less <span className="fw-bold">hassle</span>, more <span className="fw-bold">time for you</span>.
+                Less <span className="fw-bold">hassle</span>, more{" "}
+                <span className="fw-bold">time for you</span>.
               </h2>
               <p className="lead px-lg-8">
-                Enhance your Real Estate purchasing experience with Kalygo. Peer-to-Peer escrow running on the Algorand blockchain.
+                Enhance your Real Estate purchasing experience with Kalygo.
+                Peer-to-Peer escrow running on the Algorand blockchain.
               </p>
             </Col>
           </Row>
@@ -165,8 +238,13 @@ const Presentation = () => {
         <Container>
           <Row>
             <Col xs={12} lg={8}>
-              <h2 className="fw-light mb-3">Peer-2-Peer with arbitration fallback</h2>
-              <p className="lead mb-4 me-lg-6">In the case of a dispute, Kalygo smart contracts offer a arbitration fallback.</p>
+              <h2 className="fw-light mb-3">
+                Peer-2-Peer with arbitration fallback
+              </h2>
+              <p className="lead mb-4 me-lg-6">
+                In the case of a dispute, Kalygo smart contracts offer a
+                arbitration fallback.
+              </p>
             </Col>
             {/* <Col xs={12} lg={4}>
               <div className="github-big-icon">
@@ -190,7 +268,11 @@ const Presentation = () => {
                   <Image src={ReactHero} />
                   <span className="ms-2 brand-text">Kalygo</span>
                 </Navbar.Brand> */}
-                <p>Kalygo is a free and open source smart contract template for peer-to-peer escrow with arbitration fallbacks running on blockchain.</p>
+                <p>
+                  Kalygo is a free and open source smart contract template for
+                  peer-to-peer escrow with arbitration fallbacks running on
+                  blockchain.
+                </p>
               </div>
             </Col>
             {/* <Col xs={6} md={2} className="mb-5 mb-lg-0">
@@ -235,8 +317,17 @@ const Presentation = () => {
               {/* <Card.Link href="https://themesberg.com" target="_blank" className="d-flex justify-content-center">
                 <Image src={ThemesbergLogo} height={35} className="d-block mx-auto mb-3" alt="Themesberg Logo" />
               </Card.Link> */}
-              <div className="d-flex text-center justify-content-center align-items-center" role="contentinfo">
-                <p className="font-weight-normal font-small mb-0">Copyright © COMMAND -<span className="current-year">{new Date().getFullYear()}</span>. All rights reserved.</p>
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                role="contentinfo"
+              >
+                <p className="font-weight-normal font-small mb-0">
+                  Copyright © COMMAND -
+                  <span className="current-year">
+                    {new Date().getFullYear()}
+                  </span>
+                  . All rights reserved.
+                </p>
               </div>
             </Col>
           </Row>
@@ -246,4 +337,4 @@ const Presentation = () => {
   );
 };
 
-export default Presentation
+export default Presentation;

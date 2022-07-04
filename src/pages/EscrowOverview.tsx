@@ -1,36 +1,57 @@
-import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faCog, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown } from 'react-bootstrap';
+import React, { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheck,
+  faCog,
+  faHome,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faCashRegister,
+  faChartLine,
+  faCloudUploadAlt,
+  faPlus,
+  faRocket,
+  faTasks,
+  faUserShield,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  Col,
+  Row,
+  Form,
+  Button,
+  ButtonGroup,
+  Breadcrumb,
+  InputGroup,
+  Dropdown,
+} from "react-bootstrap";
 
 import { TransactionsTable } from "../components/Tables";
 
-export default () => {
+const EscrowOverview = () => {
+  useEffect(() => {});
+
   return (
     <>
-      <div className="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <h4>Escrow Contracts</h4>
-        
+      {/* <div className="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"> */}
+      <div className="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap py-4">
         <Dropdown className="btn-toolbar">
-          <Dropdown.Toggle as={Button} variant="primary" size="sm" className="me-2">
-            <FontAwesomeIcon icon={faPlus} className="me-2" />New Contract
+          <Dropdown.Toggle
+            as={Button}
+            variant="primary"
+            size="sm"
+            className="me-2"
+          >
+            <FontAwesomeIcon icon={faPlus} className="me-2" />
+            Actions
           </Dropdown.Toggle>
           <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
             <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faTasks} className="me-2" /> New Task
+              <FontAwesomeIcon icon={faTasks} className="me-2" /> New Contract
             </Dropdown.Item>
             <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" /> Upload Files
-            </Dropdown.Item>
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faUserShield} className="me-2" /> Preview Security
-            </Dropdown.Item>
-
-            <Dropdown.Divider />
-
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faRocket} className="text-danger me-2" /> Upgrade to Pro
+              <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />{" "}
+              Reload
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -70,3 +91,5 @@ export default () => {
     </>
   );
 };
+
+export default EscrowOverview;
