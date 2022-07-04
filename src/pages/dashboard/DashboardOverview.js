@@ -12,8 +12,8 @@ import { WidgetA } from "../../components/Widgets/WidgetA";
 const DashboardOverview = () => {
   return (
     <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <Dropdown className="btn-toolbar">
+      {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"> */}
+        {/* <Dropdown className="btn-toolbar">
           <Dropdown.Toggle as={Button} variant="primary" size="sm" className="me-2">
             <FontAwesomeIcon icon={faPlus} className="me-2" />New Task
           </Dropdown.Toggle>
@@ -34,23 +34,18 @@ const DashboardOverview = () => {
               <FontAwesomeIcon icon={faRocket} className="text-danger me-2" /> Upgrade to Pro
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
 
-        <ButtonGroup>
+        {/* <ButtonGroup>
           <Button variant="outline-primary" size="sm">Share</Button>
           <Button variant="outline-primary" size="sm">Export</Button>
-        </ButtonGroup>
-      </div>
+        </ButtonGroup> */}
+      {/* </div> */}
 
       <Row className="justify-content-md-center">
-        <Col xs={12} className="mb-4 d-none d-sm-block">
-          {/* <SalesValueWidget
-            title="Sales Value"
-            value="10,567"
-            percentage={10.57}
-          /> */}
+        {/* <Col xs={12} className="mb-4 d-none d-sm-block">
           <WidgetA></WidgetA>
-        </Col>
+        </Col> */}
         <Col xs={12} className="mb-4 d-sm-none">
           <SalesValueWidgetPhone
             title="Sales Value"
@@ -60,9 +55,9 @@ const DashboardOverview = () => {
         </Col>
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Customers"
-            title="345k"
-            period="Feb 1 - Apr 1"
+            category="Accounts"
+            title="0k"
+            period=""
             percentage={18.2}
             icon={faChartLine}
             iconColor="shape-secondary"
@@ -71,20 +66,20 @@ const DashboardOverview = () => {
 
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Revenue"
-            title="$43,594"
-            period="Feb 1 - Apr 1"
+            category="Escrow Volume"
+            title="$0"
+            period=""
             percentage={28.4}
             icon={faCashRegister}
             iconColor="shape-tertiary"
           />
         </Col>
 
-        <Col xs={12} sm={6} xl={4} className="mb-4">
+        {/* <Col xs={12} sm={6} xl={4} className="mb-4">
           <CircleChartWidget
             title="Traffic Share"
             data={trafficShares} />
-        </Col>
+        </Col> */}
       </Row>
 
       <Row>
@@ -92,9 +87,9 @@ const DashboardOverview = () => {
           <Row>
             <Col xs={12} xl={8} className="mb-4">
               <Row>
-                <Col xs={12} className="mb-4">
+                {/* <Col xs={12} className="mb-4">
                   <PageVisitsTable />
-                </Col>
+                </Col> */}
 
                 <Col xs={12} lg={6} className="mb-4">
                   <TeamMembersWidget />
@@ -110,19 +105,19 @@ const DashboardOverview = () => {
               <Row>
                 <Col xs={12} className="mb-4">
                   <BarChartWidget
-                    title="Total orders"
-                    value={452}
+                    title="Total Contracts"
+                    value={0}
                     percentage={18.2}
                     data={totalOrders} />
                 </Col>
 
-                <Col xs={12} className="px-0 mb-4">
+                {/* <Col xs={12} className="px-0 mb-4">
                   <RankingWidget />
                 </Col>
 
                 <Col xs={12} className="px-0">
                   <AcquisitionWidget />
-                </Col>
+                </Col> */}
               </Row>
             </Col>
           </Row>

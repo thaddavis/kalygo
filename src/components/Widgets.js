@@ -85,13 +85,13 @@ export const CounterWidget = (props) => {
               <h5>{category}</h5>
               <h3 className="mb-1">{title}</h3>
             </div>
-            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
-            <div className="small mt-2">
+            {/* <small>{period} <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small> */}
+            {/* <div className="small mt-2">
               <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
               <span className={`${percentageColor} fw-bold`}>
                 {percentage}%
               </span> Since last month
-            </div>
+            </div> */}
           </Col>
         </Row>
       </Card.Body>
@@ -140,24 +140,24 @@ export const BarChartWidget = (props) => {
           <h6 className="fw-normal text-gray mb-2">{title}</h6>
           <h3>{value}</h3>
           <small className="mt-2">
-            <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
-            <span className={`${percentageColor} fw-bold`}>
+            {/* <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} /> */}
+            {/* <span className={`${percentageColor} fw-bold`}>
               {percentage}%
-            </span>
+            </span> */}
           </small>
         </div>
-        <div className="d-block ms-auto">
+        {/* <div className="d-block ms-auto">
           {data.map(d => (
             <div key={`bar-element-${d.id}`} className="d-flex align-items-center text-end mb-2">
               <span className={`shape-xs rounded-circle bg-${d.color} me-2`} />
               <small className="fw-normal">{d.label}</small>
             </div>
           ))}
-        </div>
+        </div> */}
       </Card.Body>
-      <Card.Body className="p-2">
+      {/* <Card.Body className="p-2">
         <BarChart labels={labels} series={series} />
-      </Card.Body>
+      </Card.Body> */}
     </Card>
   );
 };
@@ -186,14 +186,14 @@ export const TeamMembersWidget = () => {
             <h4 className="h6 mb-0">
               <a href="#!">{name}</a>
             </h4>
-            <span className={`text-${statusColor}`}>● </span>
-            <small>{statusLabel}</small>
+            {/* <span className={`text-${statusColor}`}>● </span> */}
+            {/* <small>{statusLabel}</small> */}
           </Col>
-          <Col className="col-auto">
+          {/* <Col className="col-auto">
             <Button variant="tertiary" size="sm">
               <FontAwesomeIcon icon={icon} className="me-1" /> {btnText}
             </Button>
-          </Col>
+          </Col> */}
         </Row>
       </ListGroup.Item>
     );
@@ -202,7 +202,7 @@ export const TeamMembersWidget = () => {
   return (
     <Card border="light" className="shadow-sm">
       <Card.Header className="border-bottom border-light d-flex justify-content-between">
-        <h5 className="mb-0">Team members</h5>
+        <h5 className="mb-0">Arbiters</h5>
         <Button variant="secondary" size="sm">See all</Button>
       </Card.Header>
       <Card.Body>

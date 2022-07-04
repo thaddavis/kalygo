@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCog, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown } from 'react-bootstrap';
 
 import { TransactionsTable } from "../components/Tables";
@@ -8,25 +9,34 @@ import { TransactionsTable } from "../components/Tables";
 export default () => {
   return (
     <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div className="d-block mb-4 mb-md-0">
-          <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
-            <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-            <Breadcrumb.Item>Volt</Breadcrumb.Item>
-            <Breadcrumb.Item active>Transactions</Breadcrumb.Item>
-          </Breadcrumb>
-          <h4>Transactions</h4>
-          <p className="mb-0">Your web analytics dashboard template.</p>
-        </div>
-        <div className="btn-toolbar mb-2 mb-md-0">
-          <ButtonGroup>
-            <Button variant="outline-primary" size="sm">Share</Button>
-            <Button variant="outline-primary" size="sm">Export</Button>
-          </ButtonGroup>
-        </div>
+      <div className="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <h4>Escrow Contracts</h4>
+        
+        <Dropdown className="btn-toolbar">
+          <Dropdown.Toggle as={Button} variant="primary" size="sm" className="me-2">
+            <FontAwesomeIcon icon={faPlus} className="me-2" />New Contract
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
+            <Dropdown.Item className="fw-bold">
+              <FontAwesomeIcon icon={faTasks} className="me-2" /> New Task
+            </Dropdown.Item>
+            <Dropdown.Item className="fw-bold">
+              <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" /> Upload Files
+            </Dropdown.Item>
+            <Dropdown.Item className="fw-bold">
+              <FontAwesomeIcon icon={faUserShield} className="me-2" /> Preview Security
+            </Dropdown.Item>
+
+            <Dropdown.Divider />
+
+            <Dropdown.Item className="fw-bold">
+              <FontAwesomeIcon icon={faRocket} className="text-danger me-2" /> Upgrade to Pro
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
-      <div className="table-settings mb-4">
+      {/* <div className="table-settings mb-4">
         <Row className="justify-content-between align-items-center">
           <Col xs={8} md={6} lg={3} xl={4}>
             <InputGroup>
@@ -38,23 +48,23 @@ export default () => {
           </Col>
           <Col xs={4} md={2} xl={1} className="ps-md-0 text-end">
             <Dropdown as={ButtonGroup}>
-              {/* <Dropdown.Toggle split as={Button} variant="link" className="text-dark m-0 p-0">
+              <Dropdown.Toggle split as={Button} variant="link" className="text-dark m-0 p-0">
                 <span className="icon icon-sm icon-gray">
                   <FontAwesomeIcon icon={faCog} />
                 </span>
-              </Dropdown.Toggle> */}
-              {/* <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right">
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right">
                 <Dropdown.Item className="fw-bold text-dark">Show</Dropdown.Item>
                 <Dropdown.Item className="d-flex fw-bold">
                   10 <span className="icon icon-small ms-auto"><FontAwesomeIcon icon={faCheck} /></span>
                 </Dropdown.Item>
                 <Dropdown.Item className="fw-bold">20</Dropdown.Item>
                 <Dropdown.Item className="fw-bold">30</Dropdown.Item>
-              </Dropdown.Menu> */}
+              </Dropdown.Menu>
             </Dropdown>
           </Col>
         </Row>
-      </div>
+      </div> */}
 
       <TransactionsTable />
     </>
