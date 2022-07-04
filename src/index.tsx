@@ -1,29 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
-// import './index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
 import "./scss/volt.scss";
 import "react-datetime/css/react-datetime.css";
 
 import { HashRouter } from "react-router-dom";
 
-import HomePage from "./pages/HomePage";
+import { store } from "./store/store";
+import { Provider } from "react-redux";
+
 import ScrollToTop from "./components/ScrollToTop";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
+import Router from "./pages/Wrapper";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
     <HashRouter>
       <ScrollToTop />
-      <HomePage />
+      <Router />
     </HashRouter>
-  </React.StrictMode>
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

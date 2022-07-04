@@ -3,8 +3,8 @@ export const RoutesData = {
     // pages
     Presentation: { path: "/" },
     DashboardOverview: { path: "/dashboard/overview" },
-    Transactions: { path: "/transactions" },
-    Settings: { path: "/settings" },
+    Transactions: { path: "/dashboard/transactions" },
+    Settings: { path: "/dashboard/settings" },
     Upgrade: { path: "/upgrade" },
     BootstrapTables: { path: "/tables/bootstrap-tables" },
     Billing: { path: "/examples/billing" },
