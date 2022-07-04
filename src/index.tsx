@@ -1,7 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+
+// import './index.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+import "./scss/volt.scss";
+import "react-datetime/css/react-datetime.css";
+
+import { HashRouter } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import ScrollToTop from "./components/ScrollToTop";
+
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +19,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <HashRouter>
+      <ScrollToTop />
+      <HomePage />
+    </HashRouter>
   </React.StrictMode>
 );
 
