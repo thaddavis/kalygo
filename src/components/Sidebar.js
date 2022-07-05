@@ -150,7 +150,7 @@ const Sidebar = (props = {}) => {
           className={`collapse ${showClass} sidebar d-md-block bg-primary text-white`}
         >
           <div className="sidebar-inner px-4 pt-3">
-            <div className="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+            {/* <div className="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
               <div className="d-flex align-items-center">
                 <div className="user-avatar lg-avatar me-4">
                   <Image
@@ -178,7 +178,7 @@ const Sidebar = (props = {}) => {
               >
                 <FontAwesomeIcon icon={faTimes} />
               </Nav.Link>
-            </div>
+            </div> */}
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem
                 title="KALYGO"

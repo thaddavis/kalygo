@@ -1,9 +1,5 @@
-import React, { ChangeEventHandler, useEffect, useState } from "react";
-import moment from "moment-timezone";
-import Datetime from "react-datetime";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Card, Form, Button, InputGroup } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Col, Row, Card, Form, Button } from "react-bootstrap";
 
 import { useForm } from "react-hook-form";
 
@@ -35,23 +31,14 @@ export const SettingsForm = (props: P) => {
   });
 
   useEffect(() => {
-    // setValue("selectedAccount", settings.selectedAccount);
-
-    console.log("___");
-
     const accountIndex = settings.accounts.findIndex(
       (item) => item.address === settings.selectedAccount
     );
 
-    console.log("accountIndex", accountIndex);
-
     const selectedAccount =
       accountIndex > -1 ? settings.accounts[accountIndex] : "";
 
-    console.log("selectedAccount", selectedAccount);
-
     setValue("selectedAccount", selectedAccount.address);
-    // setValue("selectedNetwork", settings.selectedNetwork);
   }, [settings.accounts]);
 
   const onSubmit = (data: any) => {
@@ -143,6 +130,7 @@ export const SettingsForm = (props: P) => {
               </Form.Group>
             </Col>
           </Row>
+
           <div className="mt-3">
             <Button variant="primary" type="submit">
               Save

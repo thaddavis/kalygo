@@ -242,7 +242,7 @@ const Presentation = () => {
                 Peer-2-Peer with arbitration fallback
               </h2>
               <p className="lead mb-4 me-lg-6">
-                In the case of a dispute, Kalygo smart contracts offer a
+                In the case of a dispute, Kalygo smart contracts offer
                 arbitration fallback.
               </p>
             </Col>

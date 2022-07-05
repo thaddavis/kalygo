@@ -1,0 +1,251 @@
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEllipsisH,
+  faExternalLinkAlt,
+  faEye,
+  faTrashAlt,
+  faCopy,
+  faTruckLoading,
+} from "@fortawesome/free-solid-svg-icons";
+
+import {
+  Card,
+  Image,
+  Button,
+  Table,
+  Dropdown,
+  ProgressBar,
+  Pagination,
+  ButtonGroup,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+import { RoutesData } from "../../routes";
+import { Buffer } from "buffer";
+
+import { Algod } from "../../services/algod";
+import { useAppSelector } from "../../store/hooks";
+import { RootState } from "../../store/store";
+
+export const CreatedAppsTable = () => {
+  const settings = useAppSelector((state: RootState) => state.settings);
+
+  let navigate = useNavigate();
+
+  const [accountTxns, setAccountTxns] = useState<any>({
+    transactions: [],
+  });
+
+  useEffect(() => {
+    async function fetch() {
+      try {
+        const accountTxnsResponse = await Algod.getIndexer()
+          .lookupAccountTransactions(settings.selectedAccount)
+          .limit(101)
+          .do();
+
+        console.log("accountTxnsResponse", accountTxnsResponse);
+        setAccountTxns(accountTxnsResponse);
+      } catch (e) {}
+    }
+
+    fetch();
+  }, []);
+
+  const totalTransactions = accountTxns?.transactions?.length || 0;
+
+  interface TR {
+    id: string;
+    "tx-type": string;
+    "round-time": number;
+    "confirmed-round": number;
+    meta: string;
+    "application-transaction"?: {
+      "application-id": number;
+      "application-args": string[];
+      "on-completion"?: string;
+    };
+    note: string;
+    "created-application-index"?: number;
+    "payment-transaction"?: {
+      amount: number;
+    };
+  }
+
+  const TableRow = (props: TR) => {
+    const {
+      id,
+      "application-transaction": applicationTransaction,
+      "payment-transaction": paymentTransaction,
+      "tx-type": txType,
+      "round-time": roundTime,
+      "confirmed-round": confirmedRound,
+      note,
+      "created-application-index": createdApplicationIndex,
+    } = props;
+
+    let meta;
+    let arg;
+
+    switch (txType) {
+      case "appl":
+        meta = `app-id: ${applicationTransaction!["application-id"]}`;
+
+        if (
+          applicationTransaction!["application-args"] &&
+          applicationTransaction!["application-args"][0] &&
+          [
+            "signal_pull_out",
+            "signal_arbitration",
+            "buyer_withdraw_funds",
+            "seller_withdraw_funds",
+            "arbiter_withdraw_funds",
+            "fund_contract",
+            "fund_minimum_balance",
+          ].includes(
+            Buffer.from(
+              applicationTransaction!["application-args"][0],
+              "base64"
+            ).toString()
+          )
+        ) {
+          arg = `${Buffer.from(
+            applicationTransaction!["application-args"][0],
+            "base64"
+          ).toString()}`;
+        } else if (applicationTransaction!["on-completion"] === "update") {
+          arg = `UPDATE contract`;
+        } else if (
+          createdApplicationIndex &&
+          applicationTransaction!["application-id"] === 0
+        ) {
+          arg = `CREATE contract`;
+        } else {
+          arg = ``;
+        }
+
+        break;
+      case "pay":
+        meta = `${paymentTransaction!["amount"]} mAlgos`;
+
+        if (
+          note &&
+          Buffer.from(note, "base64").toString() &&
+          ["Fund Contract Minimum 100,000 mAlgos"].includes(
+            Buffer.from(note, "base64").toString()
+          )
+        ) {
+          arg = Buffer.from(note, "base64").toString();
+        } else {
+          arg = ``;
+        }
+
+        break;
+      default:
+        meta = "";
+    }
+
+    return (
+      <tr>
+        <td>
+          {id.substring(0, 8)}
+          &nbsp;
+          <FontAwesomeIcon
+            color="black"
+            icon={faCopy}
+            onClick={() => {
+              navigator.clipboard.writeText(id);
+            }}
+          />
+        </td>
+        <td>
+          <span className="fw-normal">{txType}</span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {new Date(roundTime * 1000).toISOString()}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">{confirmedRound}</span>
+        </td>
+        <td>
+          <span className="fw-normal">{meta}</span>
+        </td>
+        <td>
+          <span className="fw-normal">{arg}</span>
+        </td>
+        <td>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle
+              as={Button}
+              split
+              variant="link"
+              className="text-dark m-0 p-0"
+            >
+              <span className="icon icon-sm">
+                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  navigate(`/dashboard/transactions/detail/${id}`);
+                }}
+              >
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
+      </tr>
+    );
+  };
+
+  return totalTransactions > 0 ? (
+    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Body className="pt-0">
+        <Table hover className="user-table align-items-center">
+          <thead>
+            <tr>
+              <th className="border-bottom">Id</th>
+              <th className="border-bottom">Type</th>
+              <th className="border-bottom">Time</th>
+              <th className="border-bottom">Round</th>
+              <th className="border-bottom">Meta</th>
+              <th className="border-bottom">Arg</th>
+              <th className="border-bottom">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {accountTxns?.transactions.map((t: any) => {
+              return <TableRow key={`transaction-${t.id}`} {...t} />;
+            })}
+          </tbody>
+        </Table>
+        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+          {/* <Nav>
+            <Pagination className="mb-2 mb-lg-0">
+              <Pagination.Prev>Previous</Pagination.Prev>
+              <Pagination.Item active>1</Pagination.Item>
+              <Pagination.Item>2</Pagination.Item>
+              <Pagination.Next>Next</Pagination.Next>
+            </Pagination>
+          </Nav> */}
+          <small className="fw-bold">
+            Showing <b>{totalTransactions}</b> out of <b>{totalTransactions}</b>{" "}
+            entries
+          </small>
+        </Card.Footer>
+      </Card.Body>
+    </Card>
+  ) : (
+    <FontAwesomeIcon
+      className="d-block mx-auto"
+      color="black"
+      icon={faTruckLoading}
+    />
+  );
+};

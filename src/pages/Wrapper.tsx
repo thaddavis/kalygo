@@ -7,6 +7,7 @@ import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Settings from "./Settings";
+import NewContract from "./NewContract";
 import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
 import Signup from "./examples/Signup";
@@ -52,8 +53,9 @@ import { RootState } from "../store/store";
 import { updateState } from "../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import EscrowOverview from "./EscrowOverview";
+import TransactionDetail from "./TransactionDetail";
 
-const RouteWithLoader = ({ Component, ...rest }: any) => {
+const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -63,10 +65,8 @@ const RouteWithLoader = ({ Component, ...rest }: any) => {
 
   return (
     <>
-      {" "}
       <Preloader show={loaded ? false : true} />
       <Outlet />
-      {/* <Component {...rest} />{" "} */}
     </>
   );
 };
@@ -121,20 +121,14 @@ const RouteWithSidebar = (props: any) => {
   };
 
   return (
-    // <Route {...rest} render={props => (
     <>
       <Preloader show={loaded ? false : true} />
       <Sidebar />
-
       <main className="content">
         <Navbar />
-        {/* <Component {...rest} /> */}
         <Outlet />
-        <Footer toggleSettings={toggleSettings} showSettings={showSettings} />
       </main>
     </>
-    // )}
-    // />
   );
 };
 
@@ -176,6 +170,8 @@ const Router = () => (
     <Route path="/dashboard/" element={<RouteWithSidebar />}>
       <Route path={"overview"} element={<DashboardOverview />} />
       <Route path={"transactions"} element={<EscrowOverview />} />
+      <Route path={"transactions/detail/:id"} element={<TransactionDetail />} />
+      <Route path={"new-contract"} element={<NewContract />} />
       <Route path={"settings"} element={<Settings />} />
     </Route>
     {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />

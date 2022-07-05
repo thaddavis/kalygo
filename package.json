@@ -169,5 +169,8 @@
   },
   "overrides": {
     "autoprefixer": "10.4.5"
+  },
+  "devDependencies": {
+    "@types/react-copy-to-clipboard": "^5.0.3"
   }
 }

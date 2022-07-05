@@ -18,33 +18,19 @@ import { SettingsForm } from "../components/Forms/SettingsForm";
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { WidgetB } from "../components/Widgets/WidgetB";
+import { NewContractForm } from "../components/Forms/NewContractForm";
 
-const Settings = () => {
+const NewContract = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
 
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        {/* <Button
-          onClick={() => {
-            console.log("onClick");
-            dispatch(increment());
-          }}
-        >
-          Click
-        </Button> */}
+        <h1>New Contract</h1>
       </div>
 
       <Row>
-        <Col xs={12}>{}</Col>
-      </Row>
-
-      <Row>
-        <Col xs={12} xl={8}>
-          <SettingsForm accounts={settings.accounts} />
-        </Col>
-
         <Col xs={12} xl={4}>
           <Row>
             <Col xs={12}>
@@ -52,9 +38,13 @@ const Settings = () => {
             </Col>
           </Row>
         </Col>
+
+        <Col xs={12} xl={8}>
+          <NewContractForm accounts={settings.accounts} />
+        </Col>
       </Row>
     </>
   );
 };
 
-export default Settings;
+export default NewContract;

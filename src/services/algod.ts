@@ -5,30 +5,63 @@
 
 import algosdk from "algosdk";
 
-const token =
+const algodToken =
   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-const server = "http://localhost";
-const port = 4001;
+const algodServer = "http://localhost";
+const algodPort = 4001;
+
+const indexerToken =
+  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+const indexerServer = "http://localhost";
+const indexerPort = 8980;
 
 export class Algod {
-  static instance: any;
+  static algodInstance: any;
+  static indexerInstance: any;
 
-  static async connect() {
+  static async connectAlgod() {
     try {
-      const algodClient = new algosdk.Algodv2(token, server, port);
+      const algodClient = new algosdk.Algodv2(
+        algodToken,
+        algodServer,
+        algodPort
+      );
 
-      Algod.instance = algodClient;
+      Algod.algodInstance = algodClient;
     } catch (err: any) {
       console.log(err.stack);
     }
   }
 
-  static getAlgod() {
-    if (Algod.instance) {
-      return Algod.instance;
+  static async connectIndexer() {
+    try {
+      const indexerClient = new algosdk.Indexer(
+        indexerToken,
+        indexerServer,
+        indexerPort
+      );
+
+      Algod.indexerInstance = indexerClient;
+    } catch (err: any) {
+      console.log(err.stack);
+    }
+  }
+
+  static getAlgod(): algosdk.Algodv2 {
+    if (Algod.algodInstance) {
+      return Algod.algodInstance;
     } else {
-      Algod.connect();
-      return Algod.instance;
+      Algod.connectAlgod();
+      return Algod.algodInstance;
+    }
+  }
+
+  static getIndexer(): algosdk.Indexer {
+    if (Algod.indexerInstance) {
+      return Algod.indexerInstance;
+    } else {
+      Algod.connectIndexer();
+      return Algod.indexerInstance;
     }
   }
 }
