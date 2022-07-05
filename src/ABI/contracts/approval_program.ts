@@ -1,5 +1,4 @@
-export const approval_program = `
-#pragma version 5
+export const approval_program = `#pragma version 5
 txn ApplicationID
 int 0
 ==

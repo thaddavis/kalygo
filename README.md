@@ -46,3 +46,5 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 https://algorand.github.io/js-algorand-sdk/classes/Algodv2.html#compile
+
+https://algorand.github.io/js-algorand-sdk/modules.html#waitForConfirmation

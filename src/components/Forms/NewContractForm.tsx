@@ -36,14 +36,14 @@ export const NewContractForm = (props: P) => {
   } = useForm({
     defaultValues: {
       escrowAmount1: 500000,
-      escrowAmount2: 500000,
-      escrowTotal: 1000000,
+      escrowAmount2: 600000,
+      escrowTotal: 1100000,
       inspectionPeriodStart: moment().toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
       closingDate: moment().add("4", "m").toString(),
-      buyer: "A",
-      seller: "B",
-      arbiter: "C",
+      buyer: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
+      seller: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
+      arbiter: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
     },
@@ -51,8 +51,6 @@ export const NewContractForm = (props: P) => {
 
   const onSubmit = async (data: any) => {
     console.log("data", data);
-    // console.log(moment(data.inspectionPeriodStart));
-    // console.log(moment(data.inspectionPeriodStart).unix());
 
     let params = await Algod.getAlgod().getTransactionParams().do();
 
@@ -65,15 +63,12 @@ export const NewContractForm = (props: P) => {
     let c_prog = await compileProgram(Algod.getAlgod(), clear_state_program);
 
     console.log("a_prog", a_prog);
-
     console.log("c_prog", c_prog);
 
     const appCreateTxn = algosdk.makeApplicationCreateTxn(
       settings.selectedAccount,
       params,
       onComplete,
-      // await compileProgram(Algod.getAlgod(), approval_program),
-      // await compileProgram(Algod.getAlgod(), clear_state_program),
       a_prog,
       c_prog,
       0,
@@ -81,20 +76,25 @@ export const NewContractForm = (props: P) => {
       12,
       5,
       [
-        new Uint8Array(
-          Buffer.from(moment(data.inspectionPeriodStart).unix().toString())
-        ),
-        new Uint8Array(
-          Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
-        ),
-        new Uint8Array(
-          Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
-        ), // inspectionExtension
-        new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDate
-        new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDateExtension
-        new Uint8Array(Buffer.from("500000")), // # sale_price
-        new Uint8Array(Buffer.from("500000")), // # 1st_escrow_amount
-        new Uint8Array(Buffer.from("1000000")), // # 2nd_escrow_amount
+        // new Uint8Array(
+        //   Buffer.from(moment(data.inspectionPeriodStart).unix().toString())
+        // ),
+        // new Uint8Array(
+        //   Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
+        // ),
+        // new Uint8Array(
+        //   Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
+        // ), // inspectionExtension
+        // new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDate
+        // new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDateExtension
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(1100000), // # sale_price
+        algosdk.encodeUint64(500000), // # 1st_escrow_amount
+        algosdk.encodeUint64(600000), // # 2nd_escrow_amount
         new Uint8Array(Buffer.from(data.buyer)), // # buyer
         new Uint8Array(Buffer.from(data.seller)), // # seller
         new Uint8Array(Buffer.from(data.arbiter)), // # arbiter
@@ -141,17 +141,40 @@ export const NewContractForm = (props: P) => {
     console.log("signedTxn", signedTxn);
 
     try {
-      console.log("1");
+      console.log("1", signedTxn);
 
-      let res = await (window as any).AlgoSigner.send({
-        ledger: settings.selectedNetwork,
-        tx: signedTxn.blob,
+      let tmp = signedTxn.map((tx: any) => {
+        if (tx)
+          return {
+            txID: tx.txID,
+            blob: (window as any).AlgoSigner.encoding.base64ToMsgpack(tx.blob),
+          };
+        return {};
       });
+
+      console.log("tmp", tmp);
+
+      const res = await Algod.getAlgod().sendRawTransaction(tmp[0].blob).do();
+
+      // let res = await (window as any).AlgoSigner.send({
+      //   ledger: settings.selectedNetwork,
+      //   tx: signedTxn.blob,
+      // });
 
       console.log("2");
 
       console.log("res", res);
+
+      const waiting = await algosdk.waitForConfirmation(
+        Algod.getAlgod(),
+        res.txId,
+        32
+      );
+
+      console.log("waiting", waiting);
     } catch (e) {
+      debugger;
+
       console.error(e);
     }
 
