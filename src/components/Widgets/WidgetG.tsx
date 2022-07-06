@@ -41,6 +41,14 @@ import teamMembers from "../../data/teamMembers";
 import { RootState } from "../../store/store";
 import { useAppSelector } from "../../store/hooks";
 import { fundInitialAmount } from "../../contractActions/fundInitialAmount";
+import { firstEscrowAmount } from "../../contractActions/1stEscrowAmount";
+import { secondEscrowAmount } from "../../contractActions/2ndEscrowAmount";
+import { signalPullOut } from "../../contractActions/signalPullOut";
+import { signalArbitration } from "../../contractActions/signalArbitration";
+import { buyerWithdrawEscrow } from "../../contractActions/buyerWithdrawEscrow";
+import { deleteApp } from "../../contractActions/deleteApp";
+import { sendHoldingsToBuyer } from "../../contractActions/sendHoldingsToBuyer";
+import { sendHoldingsToSeller } from "../../contractActions/sendHoldingsToSeller";
 
 interface P {
   buyer: string;
@@ -50,11 +58,22 @@ interface P {
   operator: string;
   contractAddress: string;
   appId: number;
+  firstEscrowAmount: number;
+  secondEscrowAmount: number;
 }
 
 export const ActionsWidget = (props: P) => {
-  const { buyer, seller, creator, arbiter, operator, contractAddress, appId } =
-    props;
+  const {
+    buyer,
+    seller,
+    creator,
+    arbiter,
+    operator,
+    contractAddress,
+    appId,
+    firstEscrowAmount: escrowAmount1,
+    secondEscrowAmount: escrowAmount2,
+  } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
@@ -62,10 +81,29 @@ export const ActionsWidget = (props: P) => {
     <Card border="light" className="text-center p-0 mb-4">
       <Card.Body className="pb-0 mb-4">
         <Card.Title>
-          {operator === buyer && "Buyer"}
-          {operator === seller && "Seller"}
-          {operator === arbiter && "Arbiter"}
-          {operator === creator && "Creator"}
+          {operator === buyer && (
+            <>
+              <span>Buyer</span>
+              <br />
+            </>
+          )}
+          {operator === seller && (
+            <>
+              <span>Seller</span>
+            </>
+          )}
+          {operator === arbiter && (
+            <>
+              <span>Arbiter</span>
+            </>
+          )}
+          <br />
+          {operator === creator && (
+            <>
+              <span>Creator</span>
+              <br />
+            </>
+          )}
         </Card.Title>
         <Card.Subtitle className="fw-normal">Actions</Card.Subtitle>
 
@@ -76,8 +114,6 @@ export const ActionsWidget = (props: P) => {
               size="sm"
               className="m-1"
               onClick={() => {
-                console.log(props);
-
                 fundInitialAmount(
                   settings.selectedAccount,
                   contractAddress,
@@ -88,19 +124,89 @@ export const ActionsWidget = (props: P) => {
             >
               Fund Initial Amount
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("___ Send 1st Escrow ___");
+
+                firstEscrowAmount(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork,
+                  escrowAmount1
+                );
+              }}
+            >
               Send 1st Escrow
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("___ Send 1st Escrow ___");
+
+                secondEscrowAmount(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork,
+                  escrowAmount2
+                );
+              }}
+            >
               Send 2nd Escrow
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="warning"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("(_)___(_)");
+
+                signalArbitration(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
               Signal Arbitration
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="warning"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("_)_(_");
+
+                signalPullOut(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
               Signal Pull Out
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                buyerWithdrawEscrow(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
               Buyer Withdraw Escrow
             </Button>
           </>
@@ -116,7 +222,19 @@ export const ActionsWidget = (props: P) => {
 
         {operator === creator && (
           <>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="danger"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                deleteApp(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
               Delete App
             </Button>
           </>
@@ -124,10 +242,38 @@ export const ActionsWidget = (props: P) => {
 
         {operator === arbiter && (
           <>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="info"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("___");
+
+                sendHoldingsToBuyer(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork,
+                  buyer
+                );
+              }}
+            >
               Send Holdings to Buyer
             </Button>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="info"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                sendHoldingsToSeller(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork,
+                  seller
+                );
+              }}
+            >
               Send Holdings to Seller
             </Button>
           </>

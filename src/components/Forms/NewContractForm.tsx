@@ -76,52 +76,24 @@ export const NewContractForm = (props: P) => {
       12,
       5,
       [
-        // new Uint8Array(
-        //   Buffer.from(moment(data.inspectionPeriodStart).unix().toString())
-        // ),
-        // new Uint8Array(
-        //   Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
-        // ),
-        // new Uint8Array(
-        //   Buffer.from(moment(data.inspectionPeriodEnd).unix().toString())
-        // ), // inspectionExtension
-        // new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDate
-        // new Uint8Array(Buffer.from(moment(data.closingDate).unix().toString())), // closingDateExtension
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()),
+        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()), // IP begin
+        algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
+        algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
+        algosdk.encodeUint64(moment(data.closingDate).unix()), //
+        algosdk.encodeUint64(moment(data.closingDate).unix()), //
         algosdk.encodeUint64(1100000), // # sale_price
         algosdk.encodeUint64(500000), // # 1st_escrow_amount
         algosdk.encodeUint64(600000), // # 2nd_escrow_amount
-        new Uint8Array(Buffer.from(data.buyer)), // # buyer
-        new Uint8Array(Buffer.from(data.seller)), // # seller
-        new Uint8Array(Buffer.from(data.arbiter)), // # arbiter
+        new Uint8Array(
+          Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
+        ), // # buyer
+        new Uint8Array(
+          Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
+        ), // # seller
+        new Uint8Array(
+          Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
+        ), // # arbiter
         // --- --- --- --- ---
-        // moment(data.inspectionPeriodStart).unix(),
-        // moment(data.inspectionPeriodEnd).unix(),
-        // moment(data.inspectionPeriodEnd).unix(), // inspectionExtension
-        // moment(data.closingDate).unix(), // closingDate
-        // moment(data.closingDate).unix(), // closingDateExtension
-        // data.escrowTotal, // # sale_price
-        // data.escrowAmount1, // # 1st_escrow_amount
-        // data.escrowAmount2, // # 2nd_escrow_amount
-        // new Uint8Array(Buffer.from(data.buyer)), // # buyer
-        // new Uint8Array(Buffer.from(data.seller)), // # seller
-        // new Uint8Array(Buffer.from(data.arbiter)), // # arbiter
-        // --- --- --- --- ---
-        // moment(data.inspectionPeriodStart).unix(),
-        // moment(data.inspectionPeriodEnd).unix(),
-        // moment(data.inspectionPeriodEnd).unix(), // inspectionExtension
-        // moment(data.closingDate), // closingDate
-        // moment(data.closingDate), // closingDateExtension
-        // data.escrowTotal, // # sale_price
-        // data.escrowAmount1, // # 1st_escrow_amount
-        // data.escrowAmount2, // # 2nd_escrow_amount
-        // new Uint8Array(Buffer.from(data.buyer)), // # buyer
-        // new Uint8Array(Buffer.from(data.seller)), // # seller
-        // new Uint8Array(Buffer.from(data.arbiter)), // # arbiter
       ]
     );
 

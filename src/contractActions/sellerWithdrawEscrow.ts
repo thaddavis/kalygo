@@ -1,7 +1,8 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
+import { Buffer } from "buffer";
 
-export async function buyerWithdrawEscrow(
+export async function sellerWithdrawEscrow(
   sender: string,
   contractAddress: string,
   appId: number,
@@ -14,9 +15,9 @@ export async function buyerWithdrawEscrow(
     params.fee = 1000;
 
     const noOpTxn = algosdk.makeApplicationNoOpTxn(
-      "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
+      sender,
       params,
-      388,
+      appId,
       [new Uint8Array(Buffer.from("seller_withdraw_funds"))],
       undefined,
       undefined,
@@ -36,7 +37,7 @@ export async function buyerWithdrawEscrow(
     ]);
 
     let sentTx = await (window as any).AlgoSigner.send({
-      ledger: "localhost",
+      ledger: network,
       tx: signedTxs[0].blob,
     });
 

@@ -1,5 +1,6 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
+import { Buffer } from "buffer";
 
 export async function firstEscrowAmount(
   sender: string,
@@ -9,26 +10,30 @@ export async function firstEscrowAmount(
   escrowAmount: number
 ) {
   try {
-    let params = await Algod.algodInstance().getTransactionParams().do();
+    console.log("!!!");
+
+    let params = await Algod.getAlgod().getTransactionParams().do();
 
     params.flatFee = true;
     params.fee = 1000;
 
-    let sender = "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM";
+    console.log("!!!");
 
     const payTxn = algosdk.makePaymentTxnWithSuggestedParams(
       sender,
-      "YCVBXXTZUOBIN3REFOVFTM5LSABA4G32S3J7YBLXJVASE25OCUQCNUSBDE",
+      contractAddress,
       escrowAmount,
       undefined,
       new Uint8Array(Buffer.from("1st Escrow Amount")),
       params
     );
 
+    console.log("!!!");
+
     const noOpTxn = algosdk.makeApplicationNoOpTxn(
       sender,
       params,
-      388,
+      appId,
       [new Uint8Array(Buffer.from("fund_contract"))],
       undefined,
       undefined,
@@ -71,11 +76,13 @@ export async function firstEscrowAmount(
       window as any
     ).AlgoSigner.encoding.msgpackToBase64(combinedBinaryTxns);
 
-    // console.log("combinedBase64Txns", combinedBase64Txns);
+    console.log("combinedBase64Txns", combinedBase64Txns);
 
-    await (window as any).AlgoSigner.send({
-      ledger: "localhost",
+    let sentTxn = await (window as any).AlgoSigner.send({
+      ledger: network,
       tx: combinedBase64Txns,
     });
+
+    console.log("sentTxn", sentTxn);
   } catch (e) {}
 }

@@ -66,6 +66,46 @@ function AppDetail() {
   }, []);
 
   useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const appResponse = await Algod.getIndexer()
+          .lookupApplications(Number.parseInt(id!))
+          .do();
+
+        setApp({
+          val: parseGlobalState(
+            appResponse?.application?.params &&
+              appResponse.application.params["global-state"]
+          ),
+          loading: false,
+          error: null,
+        });
+
+        const appAddress = await algosdk.getApplicationAddress(
+          Number.parseInt(id!)
+        );
+
+        const accountResponse = await Algod.getAlgod()
+          .accountInformation(appAddress)
+          .do();
+
+        setAccount({
+          val: accountResponse,
+          loading: false,
+          error: null,
+        });
+      } catch (e) {
+        setApp({
+          val: null,
+          loading: false,
+          error: e,
+        });
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     async function fetch() {
       try {
         const appResponse = await Algod.getIndexer()
@@ -157,9 +197,6 @@ function AppDetail() {
       <Row>
         <Col xs={12} xl={8} className="mb-4">
           <Row>
-            <Col xs={12} className="mb-4">
-              <EscrowContractTimelineWidget events={timelineEvents} />
-            </Col>
             <Col xs={12} lg={6} className="mb-4">
               <EscrowContractRolesWidgetC
                 buyer={get(app.val, "buyer", "Not Found")}
@@ -196,6 +233,9 @@ function AppDetail() {
                 ).toLocaleString("en-US")} mAlgos`}
               />
             </Col>
+            <Col xs={12} className="mb-4">
+              <EscrowContractTimelineWidget events={timelineEvents} />
+            </Col>
             <Col xs={12} lg={6} className="mb-4">
               <EscrowContractFlagsWidget
                 signalPullOut={`${get(app.val, "signal_pull_out", -1)}`}
@@ -214,6 +254,8 @@ function AppDetail() {
             operator={settings.selectedAccount}
             contractAddress={`${get(account.val, "address", "Not Found")}`}
             appId={Number.parseInt(id!)}
+            firstEscrowAmount={get(app.val, "1st_escrow_amount", -1)}
+            secondEscrowAmount={get(app.val, "2nd_escrow_amount", -1)}
           />
         </Col>
       </Row>
@@ -227,11 +269,11 @@ function AppDetail() {
           )}
         </Col>
         */}
-        {account.val && !account.error && !account.loading && (
+        {/* {account.val && !account.error && !account.loading && (
           <Col xs={12} md={8} xl={8}>
             <pre>{JSON.stringify(account.val, undefined, 2)}</pre>
           </Col>
-        )}
+        )} */}
       </Row>
     </ErrorBoundary>
   );

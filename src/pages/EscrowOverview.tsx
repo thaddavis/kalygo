@@ -1,21 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faCog,
-  faHome,
-  faSearch,
-  faTruckLoading,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCashRegister,
-  faChartLine,
-  faCloudUploadAlt,
-  faPlus,
-  faRocket,
-  faTasks,
-  faUserShield,
-} from "@fortawesome/free-solid-svg-icons";
+
+import { faPlus, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Button, Dropdown } from "react-bootstrap";
 
 import { CreatedAppsTable } from "../components/Widgets/TableA";
@@ -46,10 +32,6 @@ const EscrowOverview = () => {
             >
               <FontAwesomeIcon icon={faTasks} className="me-2" /> New Contract
             </Dropdown.Item>
-            {/* <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />{" "}
-              Reload
-            </Dropdown.Item> */}
           </Dropdown.Menu>
         </Dropdown>
       </div>

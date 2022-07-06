@@ -118,6 +118,8 @@ export const CreatedAppsTable = () => {
           ).toString()}`;
         } else if (applicationTransaction!["on-completion"] === "update") {
           arg = `UPDATE contract`;
+        } else if (applicationTransaction!["on-completion"] === "delete") {
+          arg = `DELETE contract`;
         } else if (
           createdApplicationIndex &&
           applicationTransaction!["application-id"] === 0

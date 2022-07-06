@@ -111,7 +111,7 @@ main_l25:
 int 1
 return
 main_l26:
-int 0
+int 1
 return
 main_l27:
 byte "creator"
@@ -349,7 +349,7 @@ global MinTxnFee
 itxn_field Amount
 global CurrentApplicationAddress
 itxn_field Sender
-txna Accounts 0
+txna Accounts 1
 itxn_field Receiver
 global MinTxnFee
 itxn_field Fee

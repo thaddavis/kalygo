@@ -1,5 +1,6 @@
-import algosdk from "algosdk";
 import { Algod } from "../services/algod";
+import algosdk from "algosdk";
+import { Buffer } from "buffer";
 
 export async function fundInitialAmount(
   sender: string,
@@ -8,26 +9,39 @@ export async function fundInitialAmount(
   network: string
 ) {
   try {
-    console.log("fundInitialAmount");
+    console.log("fundInitialAmount", {
+      sender,
+      contractAddress,
+      appId,
+      network,
+    });
+
+    console.log("!!!@#!!!");
 
     let params = await Algod.getAlgod().getTransactionParams().do();
+
+    console.log(params);
 
     params.flatFee = true;
     params.fee = 1000;
 
+    console.log("___ ___ ___", algosdk);
+
     const payTxn = algosdk.makePaymentTxnWithSuggestedParams(
       sender,
-      "YCVBXXTZUOBIN3REFOVFTM5LSABA4G32S3J7YBLXJVASE25OCUQCNUSBDE",
+      contractAddress,
       100000, // minimum amount
       undefined,
       new Uint8Array(Buffer.from("Fund Contract Collateral")),
       params
     );
 
+    console.log("!", payTxn);
+
     const noOpTxn = algosdk.makeApplicationNoOpTxn(
       sender,
       params,
-      388,
+      appId,
       [new Uint8Array(Buffer.from("fund_minimum_balance"))],
       undefined,
       undefined,
@@ -70,9 +84,15 @@ export async function fundInitialAmount(
       window as any
     ).AlgoSigner.encoding.msgpackToBase64(combinedBinaryTxns);
 
-    await (window as any).AlgoSigner.send({
-      ledger: "localhost",
+    console.log("!", combinedBase64Txns);
+
+    const sentTxn = await (window as any).AlgoSigner.send({
+      ledger: network,
       tx: combinedBase64Txns,
     });
-  } catch (e) {}
+
+    console.log("---> sentTxn <---", sentTxn);
+  } catch (e) {
+    console.error(e);
+  }
 }

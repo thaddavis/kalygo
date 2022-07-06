@@ -1,5 +1,6 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
+import { Buffer } from "buffer";
 
 export async function signalPullOut(
   sender: string,
@@ -14,9 +15,9 @@ export async function signalPullOut(
     params.fee = 1000;
 
     const noOpTxn = algosdk.makeApplicationNoOpTxn(
-      "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
+      sender,
       params,
-      388,
+      appId,
       [new Uint8Array(Buffer.from("signal_pull_out"))],
       undefined,
       undefined,
@@ -36,7 +37,7 @@ export async function signalPullOut(
     ]);
 
     let sentTx = await (window as any).AlgoSigner.send({
-      ledger: "localhost",
+      ledger: network,
       tx: signedTxs[0].blob,
     });
 
