@@ -18,12 +18,23 @@ import { EscrowContractTimelineWidget } from "../components/Widgets/WidgetD";
 import { EscrowContractAmountsWidget } from "../components/Widgets/WidgetE";
 import { EscrowContractFlagsWidget } from "../components/Widgets/WidgetF";
 
+import algosdk from "algosdk";
+import { ActionsWidget } from "../components/Widgets/WidgetG";
+
 function AppDetail() {
   const [app, setApp] = useState<any>({
     val: undefined,
     loading: false,
     error: undefined,
   });
+
+  const [account, setAccount] = useState<any>({
+    val: undefined,
+    loading: false,
+    error: undefined,
+  });
+
+  const settings = useAppSelector((state: RootState) => state.settings);
 
   let { id } = useParams();
 
@@ -54,6 +65,47 @@ function AppDetail() {
     fetch();
   }, []);
 
+  useEffect(() => {
+    async function fetch() {
+      try {
+        const appResponse = await Algod.getIndexer()
+          .lookupApplications(Number.parseInt(id!))
+          .do();
+
+        setApp({
+          val: parseGlobalState(
+            appResponse?.application?.params &&
+              appResponse.application.params["global-state"]
+          ),
+          loading: false,
+          error: null,
+        });
+
+        const appAddress = await algosdk.getApplicationAddress(
+          Number.parseInt(id!)
+        );
+
+        const accountResponse = await Algod.getAlgod()
+          .accountInformation(appAddress)
+          .do();
+
+        setAccount({
+          val: accountResponse,
+          loading: false,
+          error: null,
+        });
+      } catch (e) {
+        setApp({
+          val: null,
+          loading: false,
+          error: e,
+        });
+      }
+    }
+
+    fetch();
+  }, []);
+
   const ParsedAppGlobalState = () => {
     try {
       return <pre>{JSON.stringify(app.val, undefined, 2)}</pre>;
@@ -68,10 +120,11 @@ function AppDetail() {
       time: new Date().getTime(),
       color: "purple",
     },
+
     {
-      title: "Inspection Begins",
-      time: new Date(get(app, "val.inspection_begin", 0) * 1000).getTime(),
-      color: "red",
+      title: "Closing Date",
+      time: new Date(get(app, "val.closing_date", 0) * 1000).getTime(),
+      color: "green",
     },
     {
       title: "Inspection Ends",
@@ -79,9 +132,9 @@ function AppDetail() {
       color: "orange",
     },
     {
-      title: "Closing Date",
-      time: new Date(get(app, "val.closing_date", 0) * 1000).getTime(),
-      color: "green",
+      title: "Inspection Begins",
+      time: new Date(get(app, "val.inspection_begin", 0) * 1000).getTime(),
+      color: "red",
     },
   ];
 
@@ -95,11 +148,7 @@ function AppDetail() {
     return 0;
   }
 
-  debugger;
-
   timelineEvents.sort(compare);
-
-  debugger;
 
   return (
     <ErrorBoundary>
@@ -120,6 +169,12 @@ function AppDetail() {
             </Col>
             <Col xs={12} lg={6} className="mb-4">
               <EscrowContractAmountsWidget
+                minBalance={`${get(
+                  account.val,
+                  "min-balance",
+                  "Not Found"
+                ).toLocaleString("en-US")} mAlgos`}
+                balance={`${get(account.val, "amount", "Not Found")} mAlgos`}
                 escrowAmount1={`${get(
                   app.val,
                   "1st_escrow_amount",
@@ -147,9 +202,16 @@ function AppDetail() {
         </Col>
         <Col xs={12} xl={4}>
           <WidgetB />
+          <ActionsWidget
+            buyer={get(app.val, "buyer", "Not Found")}
+            seller={get(app.val, "seller", "Not Found")}
+            arbiter={get(app.val, "arbiter", "Not Found")}
+            creator={get(app.val, "creator", "Not Found")}
+            operator={settings.selectedAccount}
+          />
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col xs={12} md={8} xl={8}>
           {app.val && (
             <ErrorBoundary>
@@ -157,7 +219,13 @@ function AppDetail() {
             </ErrorBoundary>
           )}
         </Col>
-      </Row>
+
+        {account.val && !account.error && !account.loading && (
+          <Col xs={12} md={8} xl={8}>
+            <pre>{JSON.stringify(account.val, undefined, 2)}</pre>
+          </Col>
+        )}
+      </Row> */}
     </ErrorBoundary>
   );
 }

@@ -52,18 +52,6 @@ export const EscrowContractTimelineWidget = (props: P) => {
               </div>
             );
           })}
-
-          {/* <div className="box box-top">
-            <div className="date"></div>
-          </div>
-
-          <div className="box box-top">
-            <div className="date"></div>
-          </div>
-
-          <div className="box box-top">
-            <div className="date"></div>
-          </div>  */}
         </section>
       </Card.Body>
       <Table responsive className="align-items-center table-flush">
@@ -71,33 +59,21 @@ export const EscrowContractTimelineWidget = (props: P) => {
           <tr>
             <th scope="col">Milestone</th>
             <th scope="col">Color</th>
+            <th scope="col">Date</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Now</td>
-            <td style={{ color: "purple" }}>
-              <FontAwesomeIcon icon={faCircle} className="me-1" />
-            </td>
-          </tr>
-          <tr>
-            <td>Inspection Begin</td>
-            <td style={{ color: "red" }}>
-              <FontAwesomeIcon icon={faCircle} className="me-1" />
-            </td>
-          </tr>
-          <tr>
-            <td>Inspection End</td>
-            <td style={{ color: "orange" }}>
-              <FontAwesomeIcon icon={faCircle} className="me-1" />
-            </td>
-          </tr>
-          <tr>
-            <td>Closing Date</td>
-            <td style={{ color: "green" }}>
-              <FontAwesomeIcon icon={faCircle} className="me-1" />
-            </td>
-          </tr>
+          {events.map((i: any, idx: number) => {
+            return (
+              <tr key={idx}>
+                <td>{i.title}</td>
+                <td style={{ color: i.color }}>
+                  <FontAwesomeIcon icon={faCircle} className="me-1" />
+                </td>
+                <td>{new Date(i.time).toISOString()}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </Card>
