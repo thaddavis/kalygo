@@ -8,12 +8,12 @@ export async function fundInitialAmount(
   network: string
 ) {
   try {
+    console.log("fundInitialAmount");
+
     let params = await Algod.getAlgod().getTransactionParams().do();
 
     params.flatFee = true;
     params.fee = 1000;
-
-    sender = "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM";
 
     const payTxn = algosdk.makePaymentTxnWithSuggestedParams(
       sender,

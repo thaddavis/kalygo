@@ -40,6 +40,7 @@ import ProfileCover from "../../assets/img/profile-cover.jpg";
 import teamMembers from "../../data/teamMembers";
 import { RootState } from "../../store/store";
 import { useAppSelector } from "../../store/hooks";
+import { fundInitialAmount } from "../../contractActions/fundInitialAmount";
 
 interface P {
   buyer: string;
@@ -47,10 +48,13 @@ interface P {
   creator: string;
   arbiter: string;
   operator: string;
+  contractAddress: string;
+  appId: number;
 }
 
 export const ActionsWidget = (props: P) => {
-  const { buyer, seller, creator, arbiter, operator } = props;
+  const { buyer, seller, creator, arbiter, operator, contractAddress, appId } =
+    props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
@@ -67,7 +71,21 @@ export const ActionsWidget = (props: P) => {
 
         {operator === buyer && (
           <>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log(props);
+
+                fundInitialAmount(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
               Fund Initial Amount
             </Button>
             <Button variant="secondary" size="sm" className="m-1">

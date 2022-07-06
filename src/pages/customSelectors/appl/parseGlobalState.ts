@@ -7,8 +7,6 @@ export function parseGlobalState(arg: any) {
       return Symbol.iterator in Object(value);
     };
 
-    console.log("isIterable", isIterable(arg));
-
     if (isIterable(arg)) {
       const r: any = {};
 

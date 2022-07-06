@@ -174,7 +174,11 @@ function AppDetail() {
                   "min-balance",
                   "Not Found"
                 ).toLocaleString("en-US")} mAlgos`}
-                balance={`${get(account.val, "amount", "Not Found")} mAlgos`}
+                balance={`${get(
+                  account.val,
+                  "amount",
+                  "Not Found"
+                ).toLocaleString("en-US")} mAlgos`}
                 escrowAmount1={`${get(
                   app.val,
                   "1st_escrow_amount",
@@ -208,10 +212,13 @@ function AppDetail() {
             arbiter={get(app.val, "arbiter", "Not Found")}
             creator={get(app.val, "creator", "Not Found")}
             operator={settings.selectedAccount}
+            contractAddress={`${get(account.val, "address", "Not Found")}`}
+            appId={Number.parseInt(id!)}
           />
         </Col>
       </Row>
-      {/* <Row>
+      <Row>
+        {/* 
         <Col xs={12} md={8} xl={8}>
           {app.val && (
             <ErrorBoundary>
@@ -219,13 +226,13 @@ function AppDetail() {
             </ErrorBoundary>
           )}
         </Col>
-
+        */}
         {account.val && !account.error && !account.loading && (
           <Col xs={12} md={8} xl={8}>
             <pre>{JSON.stringify(account.val, undefined, 2)}</pre>
           </Col>
         )}
-      </Row> */}
+      </Row>
     </ErrorBoundary>
   );
 }
