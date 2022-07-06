@@ -54,6 +54,7 @@ import { updateState } from "../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import EscrowOverview from "./EscrowOverview";
 import TransactionDetail from "./TransactionDetail";
+import AppDetail from "./AppDetail";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -170,6 +171,7 @@ const Router = () => (
     <Route path="/dashboard/" element={<RouteWithSidebar />}>
       <Route path={"overview"} element={<DashboardOverview />} />
       <Route path={"transactions"} element={<EscrowOverview />} />
+      <Route path={"transactions/app/:id"} element={<AppDetail />} />
       <Route path={"transactions/detail/:id"} element={<TransactionDetail />} />
       <Route path={"new-contract"} element={<NewContract />} />
       <Route path={"settings"} element={<Settings />} />

@@ -43,7 +43,7 @@ export const CreatedAppsTable = () => {
       try {
         const accountTxnsResponse = await Algod.getIndexer()
           .lookupAccountTransactions(settings.selectedAccount)
-          .limit(101)
+          .limit(21)
           .do();
 
         console.log("accountTxnsResponse", accountTxnsResponse);
@@ -96,6 +96,7 @@ export const CreatedAppsTable = () => {
         if (
           applicationTransaction!["application-args"] &&
           applicationTransaction!["application-args"][0] &&
+          applicationTransaction!["application-id"] > 0 &&
           [
             "signal_pull_out",
             "signal_arbitration",
@@ -190,12 +191,29 @@ export const CreatedAppsTable = () => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
+              {txType === "appl" &&
+                (applicationTransaction!["application-id"] ||
+                  createdApplicationIndex) && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      navigate(
+                        `/dashboard/transactions/app/${
+                          applicationTransaction!["application-id"] ||
+                          createdApplicationIndex
+                        }`
+                      );
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEye} className="me-2" /> View
+                    Contract
+                  </Dropdown.Item>
+                )}
               <Dropdown.Item
                 onClick={() => {
                   navigate(`/dashboard/transactions/detail/${id}`);
                 }}
               >
-                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Txn
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
