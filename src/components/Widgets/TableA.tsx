@@ -41,7 +41,9 @@ export const CreatedAppsTable = () => {
   useEffect(() => {
     async function fetch() {
       try {
-        const accountTxnsResponse = await Algod.getIndexer()
+        const accountTxnsResponse = await Algod.getIndexer(
+          settings.selectedNetwork
+        )
           .lookupAccountTransactions(settings.selectedAccount)
           .limit(21)
           .do();
@@ -62,23 +64,37 @@ export const CreatedAppsTable = () => {
     "round-time": number;
     "confirmed-round": number;
     meta: string;
-    "application-transaction"?: {
-      "application-id": number;
-      "application-args": string[];
-      "on-completion"?: string;
-    };
     note: string;
     "created-application-index"?: number;
     "payment-transaction"?: {
       amount: number;
     };
+    "application-transaction"?: {
+      "application-id": number;
+      "application-args": string[];
+      "on-completion"?: string;
+    };
+    "asset-transfer-transaction"?: {
+      amount: number;
+      "asset-id": number;
+    };
+    "asset-config-transaction"?: {
+      "asset-id": number;
+      params?: {
+        name: string;
+      };
+    };
   }
 
   const TableRow = (props: TR) => {
+    // console.log("---", props);
+
     const {
       id,
       "application-transaction": applicationTransaction,
       "payment-transaction": paymentTransaction,
+      "asset-transfer-transaction": assetTransferTransaction,
+      "asset-config-transaction": assetConfigTransaction,
       "tx-type": txType,
       "round-time": roundTime,
       "confirmed-round": confirmedRound,
@@ -141,6 +157,26 @@ export const CreatedAppsTable = () => {
           )
         ) {
           arg = Buffer.from(note, "base64").toString();
+        } else {
+          arg = ``;
+        }
+
+        break;
+      case "axfer":
+        meta = `${Buffer.from(note, "base64").toString()}`;
+
+        if (assetTransferTransaction!["asset-id"]) {
+          arg = `asset-id: ${assetTransferTransaction!["asset-id"]}`;
+        } else {
+          arg = ``;
+        }
+        break;
+      case "acfg":
+        console.log("*** acfg ***", assetConfigTransaction);
+        meta = `asset-id: ${assetConfigTransaction!["asset-id"]}`;
+
+        if (assetConfigTransaction!.params?.name) {
+          arg = `asset-id: ${assetConfigTransaction!.params?.name}`;
         } else {
           arg = ``;
         }

@@ -9,6 +9,7 @@ import {
   updateState,
 } from "../../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { Algod } from "../../services/algod";
 
 interface P {
   accounts: string[];
@@ -43,6 +44,9 @@ export const SettingsForm = (props: P) => {
 
   const onSubmit = (data: any) => {
     dispatch(updateState(data));
+
+    Algod.setAlgod(data.selectedNetwork);
+    Algod.setIndexer(data.selectedNetwork);
   };
 
   return (

@@ -25,16 +25,7 @@ const Settings = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        {/* <Button
-          onClick={() => {
-            console.log("onClick");
-            dispatch(increment());
-          }}
-        >
-          Click
-        </Button> */}
-      </div>
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"></div>
 
       <Row>
         <Col xs={12}>{}</Col>

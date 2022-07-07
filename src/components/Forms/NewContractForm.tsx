@@ -52,15 +52,23 @@ export const NewContractForm = (props: P) => {
   const onSubmit = async (data: any) => {
     console.log("data", data);
 
-    let params = await Algod.getAlgod().getTransactionParams().do();
+    let params = await Algod.getAlgod(settings.selectedNetwork)
+      .getTransactionParams()
+      .do();
 
     params.flatFee = true;
     params.fee = 1000;
 
     let onComplete = algosdk.OnApplicationComplete.NoOpOC;
 
-    let a_prog = await compileProgram(Algod.getAlgod(), approval_program);
-    let c_prog = await compileProgram(Algod.getAlgod(), clear_state_program);
+    let a_prog = await compileProgram(
+      Algod.getAlgod(settings.selectedNetwork),
+      approval_program
+    );
+    let c_prog = await compileProgram(
+      Algod.getAlgod(settings.selectedNetwork),
+      clear_state_program
+    );
 
     console.log("a_prog", a_prog);
     console.log("c_prog", c_prog);
@@ -126,7 +134,9 @@ export const NewContractForm = (props: P) => {
 
       console.log("tmp", tmp);
 
-      const res = await Algod.getAlgod().sendRawTransaction(tmp[0].blob).do();
+      const res = await Algod.getAlgod(settings.selectedNetwork)
+        .sendRawTransaction(tmp[0].blob)
+        .do();
 
       // let res = await (window as any).AlgoSigner.send({
       //   ledger: settings.selectedNetwork,
@@ -138,20 +148,15 @@ export const NewContractForm = (props: P) => {
       console.log("res", res);
 
       const waiting = await algosdk.waitForConfirmation(
-        Algod.getAlgod(),
+        Algod.getAlgod(settings.selectedNetwork),
         res.txId,
         32
       );
 
       console.log("waiting", waiting);
     } catch (e) {
-      debugger;
-
       console.error(e);
     }
-
-    // Algod.getAlgod().compile()
-    // dispatch(updateState(data));
   };
 
   return (

@@ -18,7 +18,7 @@ export async function fundInitialAmount(
 
     console.log("!!!@#!!!");
 
-    let params = await Algod.getAlgod().getTransactionParams().do();
+    let params = await Algod.getAlgod(network).getTransactionParams().do();
 
     console.log(params);
 

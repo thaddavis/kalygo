@@ -10,7 +10,7 @@ export async function sendHoldingsToSeller(
   to: string
 ) {
   try {
-    let params = await Algod.getAlgod().getTransactionParams().do();
+    let params = await Algod.getAlgod(network).getTransactionParams().do();
 
     params.flatFee = true;
     params.fee = 1000;

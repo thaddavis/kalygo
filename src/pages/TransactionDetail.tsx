@@ -26,12 +26,14 @@ function TransactionDetail() {
     transactions: [],
   });
 
+  const settings = useAppSelector((state: RootState) => state.settings);
+
   let { id } = useParams();
 
   useEffect(() => {
     async function fetch() {
       try {
-        const txnResponse = await Algod.getIndexer()
+        const txnResponse = await Algod.getIndexer(settings.selectedNetwork)
           .lookupTransactionByID(id!)
           .do();
 

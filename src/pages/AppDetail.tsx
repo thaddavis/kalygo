@@ -41,7 +41,7 @@ function AppDetail() {
   useEffect(() => {
     async function fetch() {
       try {
-        const appResponse = await Algod.getIndexer()
+        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -68,7 +68,7 @@ function AppDetail() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const appResponse = await Algod.getIndexer()
+        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -85,7 +85,7 @@ function AppDetail() {
           Number.parseInt(id!)
         );
 
-        const accountResponse = await Algod.getAlgod()
+        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
           .accountInformation(appAddress)
           .do();
 
@@ -108,7 +108,7 @@ function AppDetail() {
   useEffect(() => {
     async function fetch() {
       try {
-        const appResponse = await Algod.getIndexer()
+        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -125,7 +125,7 @@ function AppDetail() {
           Number.parseInt(id!)
         );
 
-        const accountResponse = await Algod.getAlgod()
+        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
           .accountInformation(appAddress)
           .do();
 

@@ -11,7 +11,7 @@ export async function signalArbitration(
   try {
     console.log("_-_ _-_");
 
-    let params = await Algod.getAlgod().getTransactionParams().do();
+    let params = await Algod.getAlgod(network).getTransactionParams().do();
 
     params.flatFee = true;
     params.fee = 1000;
