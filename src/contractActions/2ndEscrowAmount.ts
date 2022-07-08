@@ -84,5 +84,7 @@ export async function secondEscrowAmount(
     });
 
     console.log("sentTxn", sentTxn);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }

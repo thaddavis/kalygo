@@ -40,7 +40,7 @@ import ProfileCover from "../../assets/img/profile-cover.jpg";
 import teamMembers from "../../data/teamMembers";
 import { RootState } from "../../store/store";
 import { useAppSelector } from "../../store/hooks";
-import { fundInitialAmount } from "../../contractActions/fundInitialAmount";
+import { fundMinimumBalance } from "../../contractActions/fundMinimumBalance";
 import { firstEscrowAmount } from "../../contractActions/1stEscrowAmount";
 import { secondEscrowAmount } from "../../contractActions/2ndEscrowAmount";
 import { signalPullOut } from "../../contractActions/signalPullOut";
@@ -49,6 +49,7 @@ import { buyerWithdrawEscrow } from "../../contractActions/buyerWithdrawEscrow";
 import { deleteApp } from "../../contractActions/deleteApp";
 import { sendHoldingsToBuyer } from "../../contractActions/sendHoldingsToBuyer";
 import { sendHoldingsToSeller } from "../../contractActions/sendHoldingsToSeller";
+import { closeOutContract } from "../../contractActions/closeOutContract";
 
 interface P {
   buyer: string;
@@ -114,7 +115,7 @@ export const ActionsWidget = (props: P) => {
               size="sm"
               className="m-1"
               onClick={() => {
-                fundInitialAmount(
+                fundMinimumBalance(
                   settings.selectedAccount,
                   contractAddress,
                   appId,
@@ -122,7 +123,7 @@ export const ActionsWidget = (props: P) => {
                 );
               }}
             >
-              Fund Initial Amount
+              Fund Minimum Balance
             </Button>
             <Button
               variant="secondary"
@@ -236,6 +237,21 @@ export const ActionsWidget = (props: P) => {
               }}
             >
               Delete App
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                closeOutContract(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
+              Close Out Balance
             </Button>
           </>
         )}

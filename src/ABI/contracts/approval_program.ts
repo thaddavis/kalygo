@@ -79,7 +79,7 @@ byte "fund_minimum_balance"
 bnz main_l15
 err
 main_l15:
-callsub sub6
+callsub sub7
 main_l16:
 int 0
 return
@@ -111,7 +111,8 @@ main_l25:
 int 1
 return
 main_l26:
-int 1
+callsub sub6
+int 0
 return
 main_l27:
 byte "creator"
@@ -185,6 +186,10 @@ app_global_put
 byte "signal_arbitration"
 int 0
 app_global_put
+byte "enable_time_checks"
+txna ApplicationArgs 11
+btoi
+app_global_put
 int 1
 return
 main_l30:
@@ -196,6 +201,16 @@ txn Sender
 byte "buyer"
 app_global_get
 ==
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "inspection_end"
+app_global_get
+<
+&&
+&&
 bnz sub0_l2
 int 0
 return
@@ -220,6 +235,16 @@ txn Sender
 byte "buyer"
 app_global_get
 ==
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "closing_date_extension"
+app_global_get
+<
+&&
+&&
 bnz sub1_l2
 int 0
 return
@@ -246,6 +271,16 @@ byte "signal_arbitration"
 app_global_get
 int 0
 ==
+&&
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "closing_date"
+app_global_get
+>
+&&
 &&
 bnz sub2_l2
 int 0
@@ -275,6 +310,16 @@ txn Sender
 byte "buyer"
 app_global_get
 ==
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "inspection_end"
+app_global_get
+<
+&&
+&&
 byte "signal_pull_out"
 app_global_get
 int 0
@@ -322,6 +367,16 @@ byte "signal_arbitration"
 app_global_get
 int 0
 >
+&&
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "closing_date"
+app_global_get
+>
+&&
 &&
 byte "seller"
 app_global_get
@@ -389,15 +444,50 @@ balance
 app_global_put
 int 1
 return
-sub6: // fund_minimum_balance
+sub6: // delete_app
+itxn_begin
+int pay
+itxn_field TypeEnum
+global CurrentApplicationAddress
+balance
+global MinTxnFee
+-
+itxn_field Amount
+global CurrentApplicationAddress
+itxn_field Sender
+byte "creator"
+app_global_get
+itxn_field Receiver
+global MinTxnFee
+itxn_field Fee
+txn Sender
+itxn_field CloseRemainderTo
+itxn_submit
+int 1
+return
+sub7: // fund_minimum_balance
 gtxn 0 Sender
 byte "buyer"
 app_global_get
 ==
-bnz sub6_l2
+gtxn 0 Sender
+byte "creator"
+app_global_get
+==
+||
+gtxn 0 Sender
+byte "seller"
+app_global_get
+==
+||
+gtxn 0 Sender
+byte "arbiter"
+app_global_get
+==
+||
+bnz sub7_l2
 int 0
 return
-sub6_l2:
+sub7_l2:
 int 1
-return
-`;
+return`;

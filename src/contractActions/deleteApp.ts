@@ -14,7 +14,7 @@ export async function deleteApp(
     params.flatFee = true;
     params.fee = 1000;
 
-    const noOpTxn = algosdk.makeApplicationDeleteTxn(
+    const deleteAppTxn = algosdk.makeApplicationDeleteTxn(
       sender,
       params,
       appId,
@@ -25,7 +25,7 @@ export async function deleteApp(
       new Uint8Array(Buffer.from("Delete App"))
     );
 
-    let binaryTx = noOpTxn.toByte();
+    let binaryTx = deleteAppTxn.toByte();
     let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
       binaryTx
     );
@@ -42,5 +42,7 @@ export async function deleteApp(
     });
 
     console.log("sentTxn", sentTxn);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }

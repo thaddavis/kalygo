@@ -100,6 +100,12 @@ function AppDetail() {
           loading: false,
           error: e,
         });
+
+        setAccount({
+          val: null,
+          loading: false,
+          error: e,
+        });
       }
     }, 5000);
     return () => clearInterval(interval);
@@ -260,7 +266,6 @@ function AppDetail() {
         </Col>
       </Row>
       <Row>
-        {/* 
         <Col xs={12} md={8} xl={8}>
           {app.val && (
             <ErrorBoundary>
@@ -268,7 +273,7 @@ function AppDetail() {
             </ErrorBoundary>
           )}
         </Col>
-        */}
+
         {/* {account.val && !account.error && !account.loading && (
           <Col xs={12} md={8} xl={8}>
             <pre>{JSON.stringify(account.val, undefined, 2)}</pre>

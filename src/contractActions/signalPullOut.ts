@@ -42,5 +42,7 @@ export async function signalPullOut(
     });
 
     console.log("sentTx", sentTx);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }

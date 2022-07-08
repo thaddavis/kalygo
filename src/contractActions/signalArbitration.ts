@@ -48,5 +48,7 @@ export async function signalArbitration(
     });
 
     console.log("sentTx", sentTx);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }

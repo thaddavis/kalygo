@@ -2,7 +2,7 @@ import { Algod } from "../services/algod";
 import algosdk from "algosdk";
 import { Buffer } from "buffer";
 
-export async function fundInitialAmount(
+export async function fundMinimumBalance(
   sender: string,
   contractAddress: string,
   appId: number,

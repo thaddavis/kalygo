@@ -38,19 +38,19 @@ export const NewContractForm = (props: P) => {
       escrowAmount1: 500000,
       escrowAmount2: 600000,
       escrowTotal: 1100000,
-      inspectionPeriodStart: moment().toString(),
-      inspectionPeriodEnd: moment().add("2", "m").toString(),
-      closingDate: moment().add("4", "m").toString(),
-      buyer: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
-      seller: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
-      arbiter: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
+      inspectionPeriodStart: moment().add("1", "m").toString(),
+      inspectionPeriodEnd: moment().add("4", "m").toString(),
+      closingDate: moment().add("7", "m").toString(),
+      buyer: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
+      arbiter: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
     },
   });
 
   const onSubmit = async (data: any) => {
-    console.log("data", data);
+    console.log("-> data <-", data);
 
     let params = await Algod.getAlgod(settings.selectedNetwork)
       .getTransactionParams()
@@ -101,6 +101,7 @@ export const NewContractForm = (props: P) => {
         new Uint8Array(
           Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
         ), // # arbiter
+        algosdk.encodeUint64(1), // # enable_time_checks
         // --- --- --- --- ---
       ]
     );

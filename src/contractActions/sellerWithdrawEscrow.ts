@@ -42,5 +42,7 @@ export async function sellerWithdrawEscrow(
     });
 
     console.log("sentTx", sentTx);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }
