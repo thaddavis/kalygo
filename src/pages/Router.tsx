@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { RoutesData } from "../routes";
 
+import { ToastContainer, toast } from "react-toastify";
+
 // pages
 import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
@@ -134,11 +136,12 @@ const RouteWithSidebar = (props: any) => {
 };
 
 const Router = () => (
-  <Routes>
-    <Route path="/" element={<RouteWithLoader />}>
-      <Route path={""} element={<Presentation />} />
-    </Route>
-    {/* <Route
+  <>
+    <Routes>
+      <Route path="/" element={<RouteWithLoader />}>
+        <Route path={""} element={<Presentation />} />
+      </Route>
+      {/* <Route
       path={RoutesData.Signin.path}
       element={<RouteWithLoader component={Signin} />}
     />
@@ -167,23 +170,26 @@ const Router = () => (
       element={<RouteWithLoader component={ServerError} />}
     /> */}
 
-    {/* pages */}
-    <Route path="/dashboard/" element={<RouteWithSidebar />}>
-      <Route path={"overview"} element={<DashboardOverview />} />
-      <Route path={"transactions"} element={<EscrowOverview />} />
-      <Route path={"transactions/app/:id"} element={<AppDetail />} />
-      <Route path={"transactions/detail/:id"} element={<TransactionDetail />} />
-      <Route path={"new-contract"} element={<NewContract />} />
-      <Route path={"settings"} element={<Settings />} />
-    </Route>
-    {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />
+      {/* pages */}
+      <Route path="/dashboard/" element={<RouteWithSidebar />}>
+        <Route path={"overview"} element={<DashboardOverview />} />
+        <Route path={"transactions"} element={<EscrowOverview />} />
+        <Route path={"transactions/app/:id"} element={<AppDetail />} />
+        <Route
+          path={"transactions/detail/:id"}
+          element={<TransactionDetail />}
+        />
+        <Route path={"new-contract"} element={<NewContract />} />
+        <Route path={"settings"} element={<Settings />} />
+      </Route>
+      {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />
     <Route exact path={RoutesData.Upgrade.path} element={<RouteWithSidebar component={Upgrade} />} />
     <Route exact path={RoutesData.Transactions.path} element={<RouteWithSidebar component={Transactions} />} />
     <Route exact path={RoutesData.Settings.path} element={<RouteWithSidebar component={Settings} />} />
     <Route exact path={RoutesData.BootstrapTables.path} element={<RouteWithSidebar component={BootstrapTables} />} /> */}
 
-    {/* components */}
-    {/* <RouteWithSidebar exact path={RoutesData.Accordions.path} component={Accordion} />
+      {/* components */}
+      {/* <RouteWithSidebar exact path={RoutesData.Accordions.path} component={Accordion} />
     <RouteWithSidebar exact path={RoutesData.Alerts.path} component={Alerts} />
     <RouteWithSidebar exact path={RoutesData.Badges.path} component={Badges} />
     <RouteWithSidebar exact path={RoutesData.Breadcrumbs.path} component={Breadcrumbs} />
@@ -200,8 +206,8 @@ const Router = () => (
     <RouteWithSidebar exact path={RoutesData.Tooltips.path} component={Tooltips} />
     <RouteWithSidebar exact path={RoutesData.Toasts.path} component={Toasts} /> */}
 
-    {/* documentation */}
-    {/* <RouteWithSidebar exact path={RoutesData.DocsOverview.path} component={DocsOverview} />
+      {/* documentation */}
+      {/* <RouteWithSidebar exact path={RoutesData.DocsOverview.path} component={DocsOverview} />
     <RouteWithSidebar exact path={RoutesData.DocsDownload.path} component={DocsDownload} />
     <RouteWithSidebar exact path={RoutesData.DocsQuickStart.path} component={DocsQuickStart} />
     <RouteWithSidebar exact path={RoutesData.DocsLicense.path} component={DocsLicense} />
@@ -209,8 +215,10 @@ const Router = () => (
     <RouteWithSidebar exact path={RoutesData.DocsBuild.path} component={DocsBuild} />
     <RouteWithSidebar exact path={RoutesData.DocsChangelog.path} component={DocsChangelog} /> */}
 
-    {/* <Navigate to={RoutesData.NotFound.path} /> */}
-  </Routes>
+      {/* <Navigate to={RoutesData.NotFound.path} /> */}
+    </Routes>
+    <ToastContainer />
+  </>
 );
 
 export default Router;

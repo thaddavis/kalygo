@@ -421,6 +421,16 @@ byte "1st_escrow_amount"
 app_global_get
 ==
 &&
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "inspection_end"
+app_global_get
+<
+&&
+&&
 gtxn 0 Sender
 byte "buyer"
 app_global_get
@@ -429,6 +439,16 @@ gtxn 0 Amount
 byte "2nd_escrow_amount"
 app_global_get
 ==
+&&
+byte "enable_time_checks"
+app_global_get
+int 1
+==
+global LatestTimestamp
+byte "inspection_end"
+app_global_get
+<
+&&
 &&
 ||
 bnz sub5_l2

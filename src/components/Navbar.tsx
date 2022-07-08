@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 import { Nav, Navbar, Dropdown, Container, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/hooks";
@@ -13,6 +14,7 @@ const NavbarComponent = (props: P) => {
   const network = useAppSelector(
     (state: RootState) => state.settings.selectedNetwork
   );
+  const navigate = useNavigate();
 
   return (
     <Navbar variant="dark" expanded className="ps-0 pe-2 pb-0">
@@ -66,24 +68,14 @@ const NavbarComponent = (props: P) => {
                   <FontAwesomeIcon icon={faUserCircle} className="me-2" />{" "}
                   Connect Wallet
                 </Dropdown.Item>
-                <Dropdown.Item className="fw-bold">
+                <Dropdown.Item
+                  className="fw-bold"
+                  onClick={() => {
+                    navigate(`/dashboard/settings`);
+                  }}
+                >
                   <FontAwesomeIcon icon={faCog} className="me-2" /> Settings
                 </Dropdown.Item>
-
-                {/* <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faUserShield} className="me-2" />{" "}
-                  Support
-                </Dropdown.Item> */}
-
-                {/* <Dropdown.Divider /> */}
-
-                {/* <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon
-                    icon={faSignOutAlt}
-                    className="text-danger me-2"
-                  />{" "}
-                  Disconnect
-                </Dropdown.Item> */}
               </Dropdown.Menu>
             </Dropdown>
           </Nav>

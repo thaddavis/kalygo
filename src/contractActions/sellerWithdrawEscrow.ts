@@ -1,6 +1,8 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
+import { showSuccessToast } from "../utility/successToast";
+import { showErrorToast } from "../utility/errorToast";
 
 export async function sellerWithdrawEscrow(
   sender: string,
@@ -42,7 +44,10 @@ export async function sellerWithdrawEscrow(
     });
 
     console.log("sentTx", sentTx);
+
+    showSuccessToast("Withdraw escrow request sent to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending withdraw escrow request");
     console.error(e);
   }
 }

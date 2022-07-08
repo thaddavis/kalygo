@@ -2,6 +2,9 @@ import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
 
+import { showErrorToast } from "../utility/errorToast";
+import { showSuccessToast } from "../utility/successToast";
+
 export async function firstEscrowAmount(
   sender: string,
   contractAddress: string,
@@ -17,8 +20,6 @@ export async function firstEscrowAmount(
     params.flatFee = true;
     params.fee = 1000;
 
-    console.log("!!!");
-
     const payTxn = algosdk.makePaymentTxnWithSuggestedParams(
       sender,
       contractAddress,
@@ -27,8 +28,6 @@ export async function firstEscrowAmount(
       new Uint8Array(Buffer.from("1st Escrow Amount")),
       params
     );
-
-    console.log("!!!");
 
     const noOpTxn = algosdk.makeApplicationNoOpTxn(
       sender,
@@ -84,7 +83,10 @@ export async function firstEscrowAmount(
     });
 
     console.log("sentTxn", sentTxn);
+
+    showSuccessToast("Sent 1st escrow payment request to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending 1st escrow payment");
     console.error(e);
   }
 }

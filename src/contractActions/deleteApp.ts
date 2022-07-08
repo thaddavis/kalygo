@@ -1,6 +1,8 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
+import { showSuccessToast } from "../utility/successToast";
+import { showErrorToast } from "../utility/errorToast";
 
 export async function deleteApp(
   sender: string,
@@ -42,7 +44,10 @@ export async function deleteApp(
     });
 
     console.log("sentTxn", sentTxn);
+
+    showSuccessToast("Request to delete smart contract sent to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending delete contract request");
     console.error(e);
   }
 }

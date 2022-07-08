@@ -2,6 +2,9 @@ import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
 
+import { showErrorToast } from "../utility/errorToast";
+import { showSuccessToast } from "../utility/successToast";
+
 export async function secondEscrowAmount(
   sender: string,
   contractAddress: string,
@@ -84,7 +87,9 @@ export async function secondEscrowAmount(
     });
 
     console.log("sentTxn", sentTxn);
+    showSuccessToast("Sent 2nd escrow payment request to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending 2nd escrow payment");
     console.error(e);
   }
 }

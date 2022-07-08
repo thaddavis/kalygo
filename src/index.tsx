@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import "./scss/volt.scss";
 import "react-datetime/css/react-datetime.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { HashRouter } from "react-router-dom";
 
@@ -12,7 +13,7 @@ import { Provider } from "react-redux";
 import ScrollToTop from "./components/ScrollToTop";
 
 import reportWebVitals from "./reportWebVitals";
-import Router from "./pages/Wrapper";
+import Router from "./pages/Router";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

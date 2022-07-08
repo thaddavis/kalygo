@@ -1,6 +1,8 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
+import { showSuccessToast } from "../utility/successToast";
+import { showErrorToast } from "../utility/errorToast";
 
 export async function signalArbitration(
   sender: string,
@@ -48,7 +50,10 @@ export async function signalArbitration(
     });
 
     console.log("sentTx", sentTx);
+
+    showSuccessToast("Request to signal arbitration sent to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending signal arbitration request");
     console.error(e);
   }
 }

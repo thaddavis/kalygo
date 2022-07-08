@@ -3,19 +3,12 @@ import { faCashRegister, faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row } from "react-bootstrap";
 import algosdk from "algosdk";
 import { totalOrders } from "../../data/charts";
-import {
-  CounterWidget,
-  BarChartWidget,
-  TeamMembersWidget,
-  ProgressTrackWidget,
-  RankingWidget,
-  SalesValueWidget,
-  SalesValueWidgetPhone,
-  AcquisitionWidget,
-} from "../../components/Widgets";
+import { CounterWidget } from "../../components/Widgets";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { Algod } from "../../services/algod";
 import { RootState } from "../../store/store";
+
+import { showErrorToast } from "../../utility/errorToast";
 
 const DashboardOverview = () => {
   const [status, setStatus] = useState<any>({
@@ -41,8 +34,6 @@ const DashboardOverview = () => {
           .status()
           .do();
 
-        console.log("response", response);
-
         setStatus({
           val: response,
           loading: false,
@@ -50,6 +41,8 @@ const DashboardOverview = () => {
         });
       } catch (e) {
         console.error("e", e);
+
+        showErrorToast("Error occurred while fetching network status");
 
         setStatus({
           val: null,

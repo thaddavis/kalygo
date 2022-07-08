@@ -1,17 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBoxOpen,
-  faCartArrowDown,
-  faChartPie,
-  faChevronDown,
-  faClipboard,
-  faCommentDots,
-  faFileAlt,
-  faPlus,
-  faRocket,
-  faStore,
-} from "@fortawesome/free-solid-svg-icons";
+
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
 import { SettingsForm } from "../components/Forms/SettingsForm";
 

@@ -29,6 +29,8 @@ import { Algod } from "../../services/algod";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 
+import { showErrorToast } from "../../utility/errorToast";
+
 export const CreatedAppsTable = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
 
@@ -50,7 +52,10 @@ export const CreatedAppsTable = () => {
 
         console.log("accountTxnsResponse", accountTxnsResponse);
         setAccountTxns(accountTxnsResponse);
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+        showErrorToast("Error occurred while fetching transaction history");
+      }
     }
 
     fetch();

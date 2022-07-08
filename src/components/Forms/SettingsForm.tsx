@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Col, Row, Card, Form, Button } from "react-bootstrap";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate } from "@fortawesome/free-solid-svg-icons";
+
 import { useForm } from "react-hook-form";
 
 import { RootState } from "../../store/store";
@@ -22,6 +25,8 @@ export const SettingsForm = (props: P) => {
   const {
     register,
     handleSubmit,
+    watch,
+    getValues,
     formState: { errors },
     setValue,
   } = useForm({
@@ -30,6 +35,8 @@ export const SettingsForm = (props: P) => {
       selectedAccount: settings.selectedAccount,
     },
   });
+
+  watch("selectedNetwork");
 
   useEffect(() => {
     const accountIndex = settings.accounts.findIndex(
@@ -100,6 +107,17 @@ export const SettingsForm = (props: P) => {
                   {errors.selectedAccount && (
                     <span style={{ color: "red" }}>*required</span>
                   )}
+                  <FontAwesomeIcon
+                    color="black"
+                    icon={faRotate}
+                    onClick={() => {
+                      dispatch(
+                        fetchAlgoSignerNetworkAccounts(
+                          getValues("selectedNetwork")
+                        )
+                      );
+                    }}
+                  />
                 </Form.Label>
                 <Form.Select
                   {...register("selectedAccount", { required: true })}

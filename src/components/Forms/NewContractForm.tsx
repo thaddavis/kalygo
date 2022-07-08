@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Form, Button, InputGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import moment from "moment-timezone";
-
 import { Buffer } from "buffer";
-
 import Datetime from "react-datetime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
@@ -13,11 +12,12 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Algod } from "../../services/algod";
-
 import algosdk from "algosdk";
 import { clear_state_program } from "../../ABI/contracts/clear_state_program";
 import { approval_program } from "../../ABI/contracts/approval_program";
 import { compileProgram } from "../../ABI/utility/compileProgram";
+import { showErrorToast } from "../../utility/errorToast";
+import { showSuccessToast } from "../../utility/successToast";
 
 interface P {
   accounts: string[];
@@ -26,6 +26,7 @@ interface P {
 export const NewContractForm = (props: P) => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -46,83 +47,82 @@ export const NewContractForm = (props: P) => {
       arbiter: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
+      enableTimeChecks: true,
     },
   });
 
   const onSubmit = async (data: any) => {
-    console.log("-> data <-", data);
-
-    let params = await Algod.getAlgod(settings.selectedNetwork)
-      .getTransactionParams()
-      .do();
-
-    params.flatFee = true;
-    params.fee = 1000;
-
-    let onComplete = algosdk.OnApplicationComplete.NoOpOC;
-
-    let a_prog = await compileProgram(
-      Algod.getAlgod(settings.selectedNetwork),
-      approval_program
-    );
-    let c_prog = await compileProgram(
-      Algod.getAlgod(settings.selectedNetwork),
-      clear_state_program
-    );
-
-    console.log("a_prog", a_prog);
-    console.log("c_prog", c_prog);
-
-    const appCreateTxn = algosdk.makeApplicationCreateTxn(
-      settings.selectedAccount,
-      params,
-      onComplete,
-      a_prog,
-      c_prog,
-      0,
-      0,
-      12,
-      5,
-      [
-        algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()), // IP begin
-        algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
-        algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
-        algosdk.encodeUint64(moment(data.closingDate).unix()), //
-        algosdk.encodeUint64(moment(data.closingDate).unix()), //
-        algosdk.encodeUint64(1100000), // # sale_price
-        algosdk.encodeUint64(500000), // # 1st_escrow_amount
-        algosdk.encodeUint64(600000), // # 2nd_escrow_amount
-        new Uint8Array(
-          Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
-        ), // # buyer
-        new Uint8Array(
-          Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
-        ), // # seller
-        new Uint8Array(
-          Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
-        ), // # arbiter
-        algosdk.encodeUint64(1), // # enable_time_checks
-        // --- --- --- --- ---
-      ]
-    );
-
-    let binaryTx = appCreateTxn.toByte();
-    let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
-      binaryTx
-    );
-
-    console.log(base64Tx);
-
-    let signedTxn = await (window as any).AlgoSigner.signTxn([
-      {
-        txn: base64Tx,
-      },
-    ]);
-
-    console.log("signedTxn", signedTxn);
-
     try {
-      console.log("1", signedTxn);
+      console.log("-> data <-", data);
+
+      let params = await Algod.getAlgod(settings.selectedNetwork)
+        .getTransactionParams()
+        .do();
+
+      params.flatFee = true;
+      params.fee = 1000;
+
+      let onComplete = algosdk.OnApplicationComplete.NoOpOC;
+
+      let a_prog = await compileProgram(
+        Algod.getAlgod(settings.selectedNetwork),
+        approval_program
+      );
+      let c_prog = await compileProgram(
+        Algod.getAlgod(settings.selectedNetwork),
+        clear_state_program
+      );
+
+      console.log("a_prog", a_prog);
+      console.log("c_prog", c_prog);
+
+      const appCreateTxn = algosdk.makeApplicationCreateTxn(
+        settings.selectedAccount,
+        params,
+        onComplete,
+        a_prog,
+        c_prog,
+        0,
+        0,
+        12,
+        5,
+        [
+          algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()), // IP begin
+          algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
+          algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
+          algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          algosdk.encodeUint64(1100000), // # sale_price
+          algosdk.encodeUint64(500000), // # 1st_escrow_amount
+          algosdk.encodeUint64(600000), // # 2nd_escrow_amount
+          new Uint8Array(
+            Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
+          ), // # buyer
+          new Uint8Array(
+            Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
+          ), // # seller
+          new Uint8Array(
+            Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
+          ), // # arbiter
+          algosdk.encodeUint64(data.enableTimeChecks ? 1 : 0), // # enable_time_checks
+          // --- --- --- --- ---
+        ]
+      );
+
+      let binaryTx = appCreateTxn.toByte();
+      let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
+        binaryTx
+      );
+
+      console.log(base64Tx);
+
+      let signedTxn = await (window as any).AlgoSigner.signTxn([
+        {
+          txn: base64Tx,
+        },
+      ]);
+
+      console.log("signedTxn", signedTxn);
 
       let tmp = signedTxn.map((tx: any) => {
         if (tx)
@@ -133,20 +133,15 @@ export const NewContractForm = (props: P) => {
         return {};
       });
 
-      console.log("tmp", tmp);
-
       const res = await Algod.getAlgod(settings.selectedNetwork)
         .sendRawTransaction(tmp[0].blob)
         .do();
 
-      // let res = await (window as any).AlgoSigner.send({
-      //   ledger: settings.selectedNetwork,
-      //   tx: signedTxn.blob,
-      // });
-
-      console.log("2");
-
       console.log("res", res);
+
+      showSuccessToast("Contract creation request sent to network!");
+
+      showSuccessToast("Awaiting block confirmation...");
 
       const waiting = await algosdk.waitForConfirmation(
         Algod.getAlgod(settings.selectedNetwork),
@@ -154,8 +149,11 @@ export const NewContractForm = (props: P) => {
         32
       );
 
-      console.log("waiting", waiting);
+      console.log(waiting);
+
+      navigate(`/dashboard/transactions`);
     } catch (e) {
+      showErrorToast("Something unexpected happened");
       console.error(e);
     }
   };
@@ -168,7 +166,10 @@ export const NewContractForm = (props: P) => {
           <Row>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-1">
-                <Form.Label>Escrow Amount 1 (mAlgos)</Form.Label>
+                <Form.Label>
+                  Escrow Amount 1<br />
+                  <small>(mAlgos)</small>
+                </Form.Label>
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
                   type="number"
@@ -178,7 +179,10 @@ export const NewContractForm = (props: P) => {
             </Col>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-2">
-                <Form.Label>Escrow Amount 2 (mAlgos)</Form.Label>
+                <Form.Label>
+                  Escrow Amount 2<br />
+                  <small>(mAlgos)</small>
+                </Form.Label>
                 <Form.Control
                   {...register("escrowAmount2", { required: true })}
                   type="number"
@@ -188,7 +192,11 @@ export const NewContractForm = (props: P) => {
             </Col>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-total">
-                <Form.Label>Total (mAlgos)</Form.Label>
+                <Form.Label>
+                  Total
+                  <br />
+                  <small>(mAlgos)</small>
+                </Form.Label>
                 <Form.Control
                   {...register("escrowTotal", { required: true })}
                   type="number"
@@ -363,6 +371,16 @@ export const NewContractForm = (props: P) => {
                   type="text"
                   placeholder="Enter Property Name"
                 />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <h5 className="my-4">Customization</h5>
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="enableTimeChecks">
+                <Form.Label>Enable Time Checks</Form.Label>
+                <Form.Check {...register("enableTimeChecks", {})} />
               </Form.Group>
             </Col>
           </Row>

@@ -1,6 +1,8 @@
 import algosdk from "algosdk";
 import { Algod } from "../services/algod";
 import { Buffer } from "buffer";
+import { showSuccessToast } from "../utility/successToast";
+import { showErrorToast } from "../utility/errorToast";
 
 export async function sendHoldingsToSeller(
   sender: string,
@@ -49,7 +51,10 @@ export async function sendHoldingsToSeller(
     });
 
     console.log("sentTx", sentTx);
+
+    showSuccessToast("Request to send holdings to buyer sent to network");
   } catch (e) {
+    showErrorToast("Error occurred when sending holding to receiver");
     console.error(e);
   }
 }

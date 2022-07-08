@@ -49,7 +49,6 @@ import { buyerWithdrawEscrow } from "../../contractActions/buyerWithdrawEscrow";
 import { deleteApp } from "../../contractActions/deleteApp";
 import { sendHoldingsToBuyer } from "../../contractActions/sendHoldingsToBuyer";
 import { sendHoldingsToSeller } from "../../contractActions/sendHoldingsToSeller";
-import { closeOutContract } from "../../contractActions/closeOutContract";
 
 interface P {
   buyer: string;
@@ -237,21 +236,6 @@ export const ActionsWidget = (props: P) => {
               }}
             >
               Delete App
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="m-1"
-              onClick={() => {
-                closeOutContract(
-                  settings.selectedAccount,
-                  contractAddress,
-                  appId,
-                  settings.selectedNetwork
-                );
-              }}
-            >
-              Close Out Balance
             </Button>
           </>
         )}

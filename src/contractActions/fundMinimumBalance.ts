@@ -1,6 +1,8 @@
 import { Algod } from "../services/algod";
 import algosdk from "algosdk";
 import { Buffer } from "buffer";
+import { showSuccessToast } from "../utility/successToast";
+import { showErrorToast } from "../utility/errorToast";
 
 export async function fundMinimumBalance(
   sender: string,
@@ -92,7 +94,14 @@ export async function fundMinimumBalance(
     });
 
     console.log("---> sentTxn <---", sentTxn);
+
+    showSuccessToast(
+      "Request to fund minimum contract balance sent to network"
+    );
   } catch (e) {
+    showErrorToast(
+      "Error occurred when sending fund minimum contract balance request"
+    );
     console.error(e);
   }
 }
