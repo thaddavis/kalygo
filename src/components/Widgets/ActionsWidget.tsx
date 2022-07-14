@@ -1,24 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleDown,
-  faAngleUp,
-  faChartArea,
-  faChartBar,
-  faChartLine,
-  faFlagUsa,
-  faFolderOpen,
-  faGlobeEurope,
-  faPaperclip,
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faAngular,
-  faBootstrap,
-  faReact,
-  faVuejs,
-} from "@fortawesome/free-brands-svg-icons";
-import {
   Col,
   Row,
   Card,
@@ -56,6 +38,11 @@ interface P {
   creator: string;
   arbiter: string;
   operator: string;
+  lender: string;
+  buyerRealtor: string;
+  sellerRealtor: string;
+  titleCompany: string;
+  jurisdiction: string;
   contractAddress: string;
   appId: number;
   firstEscrowAmount: number;
@@ -69,6 +56,11 @@ export const ActionsWidget = (props: P) => {
     creator,
     arbiter,
     operator,
+    lender,
+    buyerRealtor,
+    sellerRealtor,
+    titleCompany,
+    jurisdiction,
     contractAddress,
     appId,
     firstEscrowAmount: escrowAmount1,
@@ -101,6 +93,41 @@ export const ActionsWidget = (props: P) => {
           {operator === creator && (
             <>
               <span>Creator</span>
+              <br />
+            </>
+          )}
+
+          {operator === lender && (
+            <>
+              <span>Lender</span>
+              <br />
+            </>
+          )}
+
+          {operator === buyerRealtor && (
+            <>
+              <span>Buyer Realtor</span>
+              <br />
+            </>
+          )}
+
+          {operator === sellerRealtor && (
+            <>
+              <span>Seller Realtor</span>
+              <br />
+            </>
+          )}
+
+          {operator === titleCompany && (
+            <>
+              <span>Title Company</span>
+              <br />
+            </>
+          )}
+
+          {operator === jurisdiction && (
+            <>
+              <span>Jurisdiction</span>
               <br />
             </>
           )}
@@ -275,6 +302,82 @@ export const ActionsWidget = (props: P) => {
               }}
             >
               Send Holdings to Seller
+            </Button>
+          </>
+        )}
+
+        {operator === lender && (
+          <>
+            <Button
+              variant="success"
+              size="sm"
+              disabled
+              className="m-1"
+              onClick={() => {
+                console.log("___");
+              }}
+            >
+              Signal Lender Approval
+            </Button>
+            <Button
+              variant="success"
+              size="sm"
+              disabled
+              className="m-1"
+              onClick={() => {
+                console.log("___");
+              }}
+            >
+              Finance Purchase
+            </Button>
+            <Button
+              variant="success"
+              disabled
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                console.log("___");
+              }}
+            >
+              Change Down Payment
+            </Button>
+          </>
+        )}
+
+        {operator === jurisdiction && (
+          <>
+            <Button
+              variant="light"
+              disabled
+              size="sm"
+              className="m-1"
+              onClick={() => {}}
+            >
+              Change Taxes
+            </Button>
+          </>
+        )}
+
+        {operator === jurisdiction && (
+          <>
+            <Button
+              variant="light"
+              disabled
+              size="sm"
+              className="m-1"
+              onClick={() => {}}
+            >
+              Change Title Company Fee
+            </Button>
+
+            <Button
+              variant="light"
+              disabled
+              size="sm"
+              className="m-1"
+              onClick={() => {}}
+            >
+              Change Outstanding Balance
             </Button>
           </>
         )}

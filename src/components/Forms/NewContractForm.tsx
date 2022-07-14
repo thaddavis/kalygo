@@ -36,17 +36,35 @@ export const NewContractForm = (props: P) => {
     setValue,
   } = useForm({
     defaultValues: {
-      escrowAmount1: 500000,
-      escrowAmount2: 600000,
-      escrowTotal: 1100000,
-      inspectionPeriodStart: moment().add("1", "m").toString(),
-      inspectionPeriodEnd: moment().add("4", "m").toString(),
-      closingDate: moment().add("7", "m").toString(),
+      escrowAmount1: 100000,
+      escrowAmount2: 100000,
+      escrowTotal: 1000000,
+      // inspectionPeriodStart: moment().add("2", "m").toString(),
+      // inspectionPeriodEnd: moment().add("4", "m").toString(),
+      inspectionPeriodStart: moment().add("1", "m").add("30", "s").toString(),
+      inspectionPeriodEnd: moment().add("3", "m").toString(),
+      closingDate: moment().add("5", "m").toString(),
       buyer: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
       seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
       arbiter: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      propertyAddress: "3717 Royal Palm Ave.",
-      propertyName: "Yellow House On Mid Miami Beach",
+      buyerRealtorAddress:
+        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      buyerRealtorCommission: 3,
+      sellerRealtorAddress:
+        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      sellerRealtorCommission: 3,
+      titleCompanyAddress:
+        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      titleCompanyMinCommission: 3,
+      titleCompanyMaxCommission: 6,
+      jurisdictionAddress:
+        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      jurisdictionMinFee: 3,
+      jurisdictionMaxFee: 6,
+      lenderAddress:
+        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      // propertyAddress: "3717 Royal Palm Ave.",
+      // propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
     },
   });
@@ -84,32 +102,69 @@ export const NewContractForm = (props: P) => {
         c_prog,
         0,
         0,
-        12,
-        5,
+        14, // ints
+        11, // byte_slices
         [
-          algosdk.encodeUint64(moment(data.inspectionPeriodStart).unix()), // IP begin
-          algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
-          algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
-          algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          algosdk.encodeUint64(1100000), // # sale_price
-          algosdk.encodeUint64(500000), // # 1st_escrow_amount
-          algosdk.encodeUint64(600000), // # 2nd_escrow_amount
-          new Uint8Array(
+          /* 0 */ algosdk.encodeUint64(
+            moment(data.inspectionPeriodStart).unix()
+          ), // IP begin
+          /* 1 */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
+          // /* */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
+          /* 2 */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          // /* */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          /*  3 */ algosdk.encodeUint64(1100000), // # sale_price
+          /* 4 */ algosdk.encodeUint64(500000), // # 1st_escrow_amount
+          /* 5 */ algosdk.encodeUint64(600000), // # 2nd_escrow_amount
+          /* 6 */ new Uint8Array(
             Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
           ), // # buyer
-          new Uint8Array(
+          /* 7 */ new Uint8Array(
             Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
           ), // # seller
-          new Uint8Array(
+          /* 8 */ new Uint8Array(
             Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
           ), // # arbiter
-          algosdk.encodeUint64(data.enableTimeChecks ? 1 : 0), // # enable_time_checks
+
+          new Uint8Array(
+            Buffer.from(
+              algosdk.decodeAddress(data.buyerRealtorAddress).publicKey
+            )
+          ), // 9 # byte_slice - buyer realtor address
+          // algosdk.encodeUint64(data.buyerRealtorCommission), // # int - buyer realtor commision
+          new Uint8Array(
+            Buffer.from(
+              algosdk.decodeAddress(data.sellerRealtorAddress).publicKey
+            )
+          ), // 10 # byte_slice - seller realtor address
+          // algosdk.encodeUint64(data.sellerRealtorCommission), // # int - seller realtor commision
+          new Uint8Array(
+            Buffer.from(
+              algosdk.decodeAddress(data.titleCompanyAddress).publicKey
+            )
+          ), // 11 # byte_slice - title company address
+          // algosdk.encodeUint64(data.titleCompanyMinCommission), // # int - title company min fee
+
+          algosdk.encodeUint64(data.titleCompanyMaxCommission), // 12 # int - title company max fee
+          new Uint8Array(
+            Buffer.from(
+              algosdk.decodeAddress(data.jurisdictionAddress).publicKey
+            )
+          ), // 13 # byte_slice - jurisdiction address
+
+          // algosdk.encodeUint64(data.jurisdictionMinFee), // # int - jurisdiction min fee
+
+          algosdk.encodeUint64(data.jurisdictionMaxFee), // 14 # int - jurisdiction max fee
+          new Uint8Array(
+            Buffer.from(algosdk.decodeAddress(data.lenderAddress).publicKey)
+          ), // 15 # byte_slice - lender address
+
+          // algosdk.encodeUint64(data.enableTimeChecks ? 1 : 0), // # int - enable_time_checks
           // --- --- --- --- ---
         ]
       );
 
       let binaryTx = appCreateTxn.toByte();
+
       let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
         binaryTx
       );
@@ -193,7 +248,7 @@ export const NewContractForm = (props: P) => {
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-total">
                 <Form.Label>
-                  Total
+                  Total Price
                   <br />
                   <small>(mAlgos)</small>
                 </Form.Label>
@@ -347,29 +402,178 @@ export const NewContractForm = (props: P) => {
             </Col>
           </Row>
 
-          <h5 className="my-4">Property</h5>
+          <h5 className="my-4">Realtors</h5>
           <Row>
-            <Col sm={6} className="mb-3">
-              <Form.Group id="propertyAddress">
-                <Form.Label>Address</Form.Label>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="buyer-realtor">
+                <Form.Label>Buyer Realtor</Form.Label>
                 <Form.Control
-                  {...register("propertyAddress", {
+                  {...register("buyerRealtorAddress", {
                     required: true,
                   })}
                   type="text"
-                  placeholder="Enter Property Address"
+                  placeholder="Buyer Realtor Address"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={4} className="mb-3">
+              <Form.Group id="buyer-realtor-commision">
+                <Form.Label>
+                  Commission
+                  <br />
+                  <small>(3%)</small>
+                </Form.Label>
+                <Form.Control
+                  {...register("buyerRealtorCommission", { required: true })}
+                  type="number"
+                  step="0.01"
+                  placeholder="Commision"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="seller-realtor">
+                <Form.Label>Seller Realtor</Form.Label>
+                <Form.Control
+                  {...register("sellerRealtorAddress", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="Seller Realtor Address"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={4} className="mb-3">
+              <Form.Group id="seller-realtor-commision">
+                <Form.Label>
+                  Commission
+                  <br />
+                  <small>(3%)</small>
+                </Form.Label>
+                <Form.Control
+                  {...register("sellerRealtorCommission", { required: true })}
+                  type="number"
+                  step="0.01"
+                  placeholder="Commision"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <h5 className="my-4">Title Company</h5>
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="title-company-address">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  {...register("titleCompanyAddress", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="Title Company Address"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={6} className="mb-3">
+              <Form.Group id="title-company-min-commission">
+                <Form.Label>
+                  Min. Fee
+                  <br />
+                  <small>(%)</small>
+                </Form.Label>
+                <Form.Control
+                  {...register("titleCompanyMinCommission", { required: true })}
+                  type="number"
+                  placeholder="Commision"
                 />
               </Form.Group>
             </Col>
             <Col sm={6} className="mb-3">
-              <Form.Group id="propertyName">
-                <Form.Label>Name</Form.Label>
+              <Form.Group id="title-company-max-commission">
+                <Form.Label>
+                  Max. Fee
+                  <br />
+                  <small>(%)</small>
+                </Form.Label>
                 <Form.Control
-                  {...register("propertyName", {
+                  {...register("titleCompanyMaxCommission", { required: true })}
+                  type="number"
+                  placeholder="Commision"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <h5 className="my-4">Jurisdiction</h5>
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="title-company-address">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  {...register("jurisdictionAddress", {
                     required: true,
                   })}
                   type="text"
-                  placeholder="Enter Property Name"
+                  placeholder="Local Jurisdiction Address"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={6} className="mb-3">
+              <Form.Group id="jurisdiction-min-fee">
+                <Form.Label>
+                  Min. Fee
+                  <br />
+                  <small>(%)</small>
+                </Form.Label>
+                <Form.Control
+                  {...register("jurisdictionMinFee", { required: true })}
+                  type="number"
+                  placeholder="Commision"
+                />
+              </Form.Group>
+            </Col>
+            <Col sm={6} className="mb-3">
+              <Form.Group id="jurisdiction-max-fee">
+                <Form.Label>
+                  Max. Fee
+                  <br />
+                  <small>(%)</small>
+                </Form.Label>
+                <Form.Control
+                  {...register("jurisdictionMaxFee", { required: true })}
+                  type="number"
+                  placeholder="Commision"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <h5 className="my-4">Lender</h5>
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="lender-address">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  {...register("lenderAddress", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="lenderAddress"
                 />
               </Form.Group>
             </Col>

@@ -13,13 +13,13 @@ import { Algod } from "../services/algod";
 import { useParams } from "react-router-dom";
 import { parseGlobalState } from "./customSelectors/appl/parseGlobalState";
 import { ErrorBoundary } from "../components/ErrorBoundary";
-import { EscrowContractRolesWidgetC } from "../components/Widgets/WidgetC";
-import { EscrowContractTimelineWidget } from "../components/Widgets/WidgetD";
-import { EscrowContractAmountsWidget } from "../components/Widgets/WidgetE";
-import { EscrowContractFlagsWidget } from "../components/Widgets/WidgetF";
+import { RolesWidget } from "../components/Widgets/RolesWidget";
+import { EscrowContractTimelineWidget } from "../components/Widgets/ContractTimelineWidget";
+import { EscrowWidget } from "../components/Widgets/EscrowWidget";
+import { FlagsWidget } from "../components/Widgets/FlagsWidget";
 
 import algosdk from "algosdk";
-import { ActionsWidget } from "../components/Widgets/WidgetG";
+import { ActionsWidget } from "../components/Widgets/ActionsWidget";
 
 function AppDetail() {
   const [app, setApp] = useState<any>({
@@ -204,14 +204,19 @@ function AppDetail() {
         <Col xs={12} xl={8} className="mb-4">
           <Row>
             <Col xs={12} lg={6} className="mb-4">
-              <EscrowContractRolesWidgetC
+              <RolesWidget
                 buyer={get(app.val, "buyer", "Not Found")}
                 seller={get(app.val, "seller", "Not Found")}
                 arbiter={get(app.val, "arbiter", "Not Found")}
+                buyerRealtor={get(app.val, "buyer_realtor", "Not Found")}
+                sellerRealtor={get(app.val, "seller_realtor", "Not Found")}
+                lender={get(app.val, "lender", "Not Found")}
+                titleCompany={get(app.val, "title_company", "Not Found")}
+                jurisdiction={get(app.val, "jurisdiction", "Not Found")}
               />
             </Col>
             <Col xs={12} lg={6} className="mb-4">
-              <EscrowContractAmountsWidget
+              <EscrowWidget
                 minBalance={`${get(
                   account.val,
                   "min-balance",
@@ -237,15 +242,33 @@ function AppDetail() {
                   "sale_price",
                   "Not Found"
                 ).toLocaleString("en-US")} mAlgos`}
+                downPayment={`${get(
+                  app.val,
+                  "down_payment",
+                  "Not Found"
+                ).toLocaleString("en-US")}`}
+                titleCompanyFee={`${get(
+                  app.val,
+                  "title_company_fee",
+                  "Not Found"
+                ).toLocaleString("en-US")}`}
+                jurisdictionFee={`${get(
+                  app.val,
+                  "jurisdiction_fee",
+                  "Not Found"
+                ).toLocaleString("en-US")}`}
+                buyerRealtorCommision={"3"}
+                sellerRealtorCommision={"3"}
               />
             </Col>
             <Col xs={12} className="mb-4">
               <EscrowContractTimelineWidget events={timelineEvents} />
             </Col>
             <Col xs={12} lg={6} className="mb-4">
-              <EscrowContractFlagsWidget
+              <FlagsWidget
                 signalPullOut={`${get(app.val, "signal_pull_out", -1)}`}
                 signalArbitration={`${get(app.val, "signal_arbitration", -1)}`}
+                lenderApproves={`${get(app.val, "lender_approves", -1)}`}
               />
             </Col>
           </Row>
@@ -257,6 +280,11 @@ function AppDetail() {
             seller={get(app.val, "seller", "Not Found")}
             arbiter={get(app.val, "arbiter", "Not Found")}
             creator={get(app.val, "creator", "Not Found")}
+            lender={get(app.val, "lender", "Not Found")}
+            titleCompany={get(app.val, "title_company", "Not Found")}
+            buyerRealtor={get(app.val, "buyer_realtor", "Not Found")}
+            sellerRealtor={get(app.val, "seller_realtor", "Not Found")}
+            jurisdiction={get(app.val, "jurisdiction", "Not Found")}
             operator={settings.selectedAccount}
             contractAddress={`${get(account.val, "address", "Not Found")}`}
             appId={Number.parseInt(id!)}

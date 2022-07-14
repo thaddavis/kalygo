@@ -70,7 +70,7 @@ export const EscrowContractTimelineWidget = (props: P) => {
                 <td style={{ color: i.color }}>
                   <FontAwesomeIcon icon={faCircle} className="me-1" />
                 </td>
-                <td>{new Date(i.time).toISOString()}</td>
+                <td>{new Date(i.time).toLocaleString()}</td>
               </tr>
             );
           })}

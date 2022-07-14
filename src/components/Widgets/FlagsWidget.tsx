@@ -5,10 +5,11 @@ import { BsCircle, BsFillCheckCircleFill } from "react-icons/bs";
 interface P {
   signalArbitration: string;
   signalPullOut: string;
+  lenderApproves: string;
 }
 
-export const EscrowContractFlagsWidget = (props: P) => {
-  const { signalArbitration, signalPullOut } = props;
+export const FlagsWidget = (props: P) => {
+  const { signalArbitration, signalPullOut, lenderApproves } = props;
 
   let arbitrationUI;
   if (Number.parseInt(signalArbitration) === -1) {
@@ -26,6 +27,15 @@ export const EscrowContractFlagsWidget = (props: P) => {
     pullOutUI = <BsCircle />;
   } else {
     pullOutUI = <BsFillCheckCircleFill />;
+  }
+
+  let lenderApprovesUI;
+  if (Number.parseInt(lenderApproves) === -1) {
+    lenderApprovesUI = <BsCircle />;
+  } else if (Number.parseInt(lenderApproves) === 0) {
+    lenderApprovesUI = <BsCircle />;
+  } else {
+    lenderApprovesUI = <BsFillCheckCircleFill />;
   }
 
   return (
@@ -52,6 +62,17 @@ export const EscrowContractFlagsWidget = (props: P) => {
               </Col>
               <Col className="col-auto">
                 <h6 className="h6 mb-0">{arbitrationUI}</h6>
+              </Col>
+            </Row>
+          </ListGroup.Item>
+
+          <ListGroup.Item className="px-0">
+            <Row className="align-items-center">
+              <Col className="col-auto">
+                <h5 className="h5 mb-0">Lender Approves</h5>
+              </Col>
+              <Col className="col-auto">
+                <h6 className="h6 mb-0">{lenderApprovesUI}</h6>
               </Col>
             </Row>
           </ListGroup.Item>

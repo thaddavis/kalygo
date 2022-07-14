@@ -14,10 +14,24 @@ interface P {
   buyer: string;
   seller: string;
   arbiter: string;
+  buyerRealtor: string;
+  sellerRealtor: string;
+  lender: string;
+  titleCompany: string;
+  jurisdiction: string;
 }
 
-export const EscrowContractRolesWidgetC = (props: P) => {
-  const { buyer, seller, arbiter } = props;
+export const RolesWidget = (props: P) => {
+  const {
+    buyer,
+    seller,
+    arbiter,
+    buyerRealtor,
+    sellerRealtor,
+    lender,
+    titleCompany,
+    jurisdiction,
+  } = props;
 
   const TeamMember = (props: any) => {
     const {
@@ -38,7 +52,8 @@ export const EscrowContractRolesWidgetC = (props: P) => {
             <h5 className="h5 mb-0">{role}</h5>
           </Col>
           <Col className="ms--2">
-            <h6 className="h6 mb-0">{address}</h6>
+            {/* <h6 className="h6 mb-0">{address}</h6> */}
+            <small className="mb-0">{address}</small>
           </Col>
         </Row>
       </ListGroup.Item>
@@ -55,6 +70,11 @@ export const EscrowContractRolesWidgetC = (props: P) => {
           <TeamMember role={"Buyer"} address={buyer} />
           <TeamMember role={"Seller"} address={seller} />
           <TeamMember role={"Arbiter"} address={arbiter} />
+          <TeamMember role={"Buyer's Realtor"} address={buyerRealtor} />
+          <TeamMember role={"Seller's Realtor"} address={sellerRealtor} />
+          <TeamMember role={"Title Company"} address={titleCompany} />
+          <TeamMember role={"Lender"} address={lender} />
+          <TeamMember role={"Jurisdiction"} address={jurisdiction} />
         </ListGroup>
       </Card.Body>
     </Card>

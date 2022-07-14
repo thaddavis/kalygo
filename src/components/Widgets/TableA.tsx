@@ -209,7 +209,7 @@ export const CreatedAppsTable = () => {
         </td>
         <td>
           <span className="fw-normal">
-            {new Date(roundTime * 1000).toISOString()}
+            {new Date(roundTime * 1000).toLocaleString()}
           </span>
         </td>
         <td>

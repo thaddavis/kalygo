@@ -6,11 +6,26 @@ interface P {
   totalValue: string;
   balance: number | string;
   minBalance: number | string;
+  downPayment: number | string;
+  titleCompanyFee: number | string;
+  jurisdictionFee: number | string;
+  buyerRealtorCommision: number | string;
+  sellerRealtorCommision: number | string;
 }
 
-export const EscrowContractAmountsWidget = (props: P) => {
-  const { balance, escrowAmount1, escrowAmount2, totalValue, minBalance } =
-    props;
+export const EscrowWidget = (props: P) => {
+  const {
+    balance,
+    escrowAmount1,
+    escrowAmount2,
+    totalValue,
+    minBalance,
+    downPayment,
+    titleCompanyFee,
+    jurisdictionFee,
+    buyerRealtorCommision,
+    sellerRealtorCommision,
+  } = props;
 
   const CustomRow = (props: any) => {
     const {
@@ -46,7 +61,25 @@ export const EscrowContractAmountsWidget = (props: P) => {
           <CustomRow theKey={"Minimum Balance"} value={minBalance} />
           <CustomRow theKey={"Escrow Amount 1"} value={escrowAmount1} />
           <CustomRow theKey={"Escrow Amount 2"} value={escrowAmount2} />
-          <CustomRow theKey={"Total Value"} value={totalValue} />
+          <CustomRow theKey={"Sale Price"} value={totalValue} />
+          <CustomRow theKey={"Down Payment (in %)"} value={downPayment} />
+
+          <CustomRow
+            theKey={"Title Company Fee (in %)"}
+            value={titleCompanyFee}
+          />
+          <CustomRow
+            theKey={"Jurisdiction Fee (in %)"}
+            value={jurisdictionFee}
+          />
+          <CustomRow
+            theKey={"Buyer Realtor Commision (in %)"}
+            value={buyerRealtorCommision}
+          />
+          <CustomRow
+            theKey={"Seller Realtor Commision (in %)"}
+            value={sellerRealtorCommision}
+          />
         </ListGroup>
       </Card.Body>
     </Card>

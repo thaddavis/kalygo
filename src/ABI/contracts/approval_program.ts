@@ -126,34 +126,17 @@ byte "inspection_end"
 txna ApplicationArgs 1
 btoi
 app_global_put
-byte "inspection_extension"
+byte "closing_date"
 txna ApplicationArgs 2
 btoi
 app_global_put
-byte "closing_date"
-txna ApplicationArgs 3
-btoi
-app_global_put
-byte "closing_date_extension"
+byte "sale_price"
 txna ApplicationArgs 4
 btoi
-app_global_put
-byte "sale_price"
 txna ApplicationArgs 5
-btoi
-txna ApplicationArgs 6
-btoi
-txna ApplicationArgs 7
-btoi
-+
-==
-txna ApplicationArgs 6
-btoi
-txna ApplicationArgs 7
 btoi
 <
-&&
-txna ApplicationArgs 5
+txna ApplicationArgs 3
 btoi
 int 100000
 >
@@ -164,21 +147,50 @@ return
 main_l29:
 app_global_put
 byte "1st_escrow_amount"
-txna ApplicationArgs 6
+txna ApplicationArgs 4
 btoi
 app_global_put
 byte "2nd_escrow_amount"
-txna ApplicationArgs 7
+txna ApplicationArgs 5
 btoi
 app_global_put
 byte "buyer"
-txna ApplicationArgs 8
+txna ApplicationArgs 6
 app_global_put
 byte "seller"
-txna ApplicationArgs 9
+txna ApplicationArgs 7
 app_global_put
 byte "arbiter"
 txn Sender
+app_global_put
+byte "buyer_realtor"
+txna ApplicationArgs 9
+app_global_put
+byte "seller_realtor"
+txna ApplicationArgs 10
+app_global_put
+byte "title_company"
+txna ApplicationArgs 11
+app_global_put
+byte "title_company_fee"
+txna ApplicationArgs 12
+btoi
+app_global_put
+byte "jurisdiction"
+txna ApplicationArgs 13
+app_global_put
+byte "jurisdiction_fee"
+txna ApplicationArgs 14
+btoi
+app_global_put
+byte "lender"
+txna ApplicationArgs 15
+app_global_put
+byte "lender_approves"
+int 0
+app_global_put
+byte "down_payment"
+int 20
 app_global_put
 byte "signal_pull_out"
 int 0
@@ -187,13 +199,12 @@ byte "signal_arbitration"
 int 0
 app_global_put
 byte "enable_time_checks"
-txna ApplicationArgs 11
-btoi
+int 1
 app_global_put
 int 1
 return
 main_l30:
-txna ApplicationArgs 5
+txna ApplicationArgs 3
 btoi
 b main_l29
 sub0: // signal_pull_out
