@@ -197,6 +197,11 @@ const Sidebar = (props = {}) => {
                 link={RoutesData.Transactions.path}
               />
               <NavItem
+                title="Contracts"
+                icon={faBank}
+                link={RoutesData.ContractOptions.path}
+              />
+              <NavItem
                 title="Settings"
                 icon={faCog}
                 link={RoutesData.Settings.path}

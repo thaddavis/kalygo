@@ -6,6 +6,7 @@ import { Col, Row, Form, Button, Dropdown } from "react-bootstrap";
 
 import { CreatedAppsTable } from "../components/Widgets/TableA";
 import { useNavigate } from "react-router-dom";
+import { RoutesData } from "../routes";
 
 const EscrowOverview = () => {
   let navigate = useNavigate();
@@ -27,7 +28,7 @@ const EscrowOverview = () => {
             <Dropdown.Item
               className="fw-bold"
               onClick={() => {
-                navigate(`/dashboard/new-contract`);
+                navigate(RoutesData.NewFinanceDealContract.path);
               }}
             >
               <FontAwesomeIcon icon={faTasks} className="me-2" /> New Contract

@@ -9,7 +9,7 @@ import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Settings from "./Settings";
-import NewContract from "./NewContract";
+import FinanceDealContract from "./contracts/FinanceDealContract";
 import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
 import Signup from "./examples/Signup";
@@ -57,6 +57,9 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import EscrowOverview from "./EscrowOverview";
 import TransactionDetail from "./TransactionDetail";
 import AppDetail from "./AppDetail";
+import ContractOptions from "./ContractOptions";
+import { BsFillNutFill } from "react-icons/bs";
+import PropertyNFTContract from "./contracts/PropertyNFTContract";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -175,11 +178,19 @@ const Router = () => (
         <Route path={"overview"} element={<DashboardOverview />} />
         <Route path={"transactions"} element={<EscrowOverview />} />
         <Route path={"transactions/app/:id"} element={<AppDetail />} />
+        <Route path={"contract-options"} element={<ContractOptions />} />
         <Route
           path={"transactions/detail/:id"}
           element={<TransactionDetail />}
         />
-        <Route path={"new-contract"} element={<NewContract />} />
+        <Route
+          path={"new-finance-deal-contract"}
+          element={<FinanceDealContract />}
+        />
+        <Route
+          path={"new-property-nft-contract"}
+          element={<PropertyNFTContract />}
+        />
         <Route path={"settings"} element={<Settings />} />
       </Route>
       {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />
