@@ -331,6 +331,45 @@ const Presentation = () => {
               </div>
             </Col>
           </Row>
+          <Row>
+            <Col className="mb-md-2">
+              <br />
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.open("https://github.com/thaddavis/kalygo", "_blank");
+                }}
+              >
+                Frontend -&nbsp;
+                <FontAwesomeIcon
+                  style={{ height: 32, width: 32 }}
+                  icon={faGithub}
+                />
+              </div>
+              <br />
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.open(
+                    "https://github.com/thaddavis/kalygo_contracts",
+                    "_blank"
+                  );
+                }}
+              >
+                Contracts -&nbsp;
+                <FontAwesomeIcon
+                  style={{ height: 32, width: 32 }}
+                  icon={faGithub}
+                />
+              </div>
+            </Col>
+          </Row>
         </Container>
       </footer>
     </>
