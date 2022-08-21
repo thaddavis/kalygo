@@ -19,13 +19,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 `npm start`
+
 `npm test`
+
 `npm run build`
+
 `npm run eject`
+
 `npm run deploy`
 
 ## Miscellaneous reference material
 https://algorand.github.io/js-algorand-sdk/classes/Algodv2.html#compile
+
 https://algorand.github.io/js-algorand-sdk/modules.html#waitForConfirmation
 
 ##
