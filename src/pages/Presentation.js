@@ -269,8 +269,8 @@ const Presentation = () => {
                   <span className="ms-2 brand-text">Kalygo</span>
                 </Navbar.Brand> */}
                 <p>
-                  Kalygo is a free and open source smart contract template for
-                  peer-to-peer escrow with arbitration fallbacks running on
+                  Kalygo is a free and open source platform for peer-to-peer
+                  real estate contracts with arbitration fallbacks running on a
                   blockchain.
                 </p>
               </div>
