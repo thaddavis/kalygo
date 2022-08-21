@@ -15,16 +15,19 @@ export default function ContractOptions() {
             title: "Financed Deal",
             desc: "Buyer purchases property via lender financing",
             pathTo: RoutesData.NewFinanceDealContract.path,
+            disabled: false,
           },
           {
             title: "PropertyNFT",
             desc: "Vehicle for decentralized equity stakes in properties and/or communities. NFT holders paid out monthly as per the terms for property management.",
             pathTo: RoutesData.NewPropertyNFT.path,
+            disabled: true,
           },
           {
             title: "Cash Buyer",
             desc: "Buyer purchases property with 100% 'cash'",
             pathTo: "",
+            disabled: true,
           },
         ].map((i, idx) => {
           return (
@@ -34,6 +37,7 @@ export default function ContractOptions() {
                   <Card.Title>{i.title}</Card.Title>
                   <Card.Text>{i.desc}</Card.Text>
                   <Button
+                    disabled={i.disabled}
                     variant="primary"
                     onClick={() => {
                       i.pathTo && navigate(i.pathTo);
