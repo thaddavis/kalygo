@@ -335,7 +335,7 @@ const Presentation = () => {
             <Col className="mb-md-2">
               <br />
               <div
-                className="d-flex text-center justify-content-center align-items-center"
+                className="d-flex text-center justify-content-center align-items-center py-2"
                 style={{
                   cursor: "pointer",
                 }}
@@ -349,9 +349,8 @@ const Presentation = () => {
                   icon={faGithub}
                 />
               </div>
-              <br />
               <div
-                className="d-flex text-center justify-content-center align-items-center"
+                className="d-flex text-center justify-content-center align-items-center  py-2"
                 style={{
                   cursor: "pointer",
                 }}
