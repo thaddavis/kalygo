@@ -13,3 +13,5 @@ https://algorand.github.io/js-algorand-sdk/classes/Algodv2.html#compile
 https://algorand.github.io/js-algorand-sdk/modules.html#waitForConfirmation
 
 ##
+
+test
