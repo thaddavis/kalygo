@@ -1,3 +1,5 @@
+<img src="public/project_banner_photo.png" width="665" height="570"/>
+
 # Kalygo.io
 This is the front end for the kalygo.io website. The concept of this site is it is the front end for a website that allows visitors to implement common real estate transactions on a blockchain.
 
