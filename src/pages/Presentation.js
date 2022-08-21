@@ -173,7 +173,9 @@ const Presentation = () => {
                 <span className="fab fa-react"></span>
               </div>
               <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
-              <p className="text-muted fw-light mb-2 h5">Peer-to-Peer Escrow</p>
+              <p className="text-muted fw-light mb-2 h5">
+                Peer-to-Peer Real Estate
+              </p>
               <div className="d-flex align-items-center justify-content-center mb-4">
                 <Button
                   variant="secondary"
