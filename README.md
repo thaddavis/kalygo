@@ -1,5 +1,4 @@
 # Kalygo.io
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -13,5 +12,3 @@ https://algorand.github.io/js-algorand-sdk/classes/Algodv2.html#compile
 https://algorand.github.io/js-algorand-sdk/modules.html#waitForConfirmation
 
 ##
-
-test
