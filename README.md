@@ -9,7 +9,7 @@ The website has three common Real Estate contracts (or financial vehicles):
 
 contract code here: https://github.com/thaddavis/kalygo_contracts/blob/main/contracts/real_estate_escrow/contract.py
 
-2) REIT
+2) REIT (v1 implemented)
 
 implemented with a fungible ASA
 
