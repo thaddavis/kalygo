@@ -7,9 +7,13 @@ The website has three common Real Estate contracts (or financial vehicles):
 
 1) Purchase with Financing (v1 implemented)
 
-2) Cash purchase (in development)
+contract code here: https://github.com/thaddavis/kalygo_contracts/blob/main/contracts/real_estate_escrow/contract.py
 
-3) REIT (in development)
+2) REIT
+
+implemented with a fungible ASA
+
+3) Cash purchase (in development)
 
 ## Greenhouse Hackathon Related Information
 I began working on this concept after the `Miami for Everyone` hackathon that was sponsored by ALGORAND in Miami on the dates of JUNE 17-19, 2022. I did most of the work for this app in the first 2 weeks of July and as I was interacting with the ALGORAND discord during development I found out about the Greenhouse hackathon.
