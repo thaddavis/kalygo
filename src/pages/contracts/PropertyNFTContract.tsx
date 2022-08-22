@@ -28,7 +28,7 @@ const PropertyNFTContract = () => {
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <h1>New PropertyNFT Contract</h1>
+        <h1>New REIT Vehicle</h1>
       </div>
 
       <Row>

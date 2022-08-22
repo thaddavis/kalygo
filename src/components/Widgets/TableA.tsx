@@ -71,6 +71,7 @@ export const CreatedAppsTable = () => {
     meta: string;
     note: string;
     "created-application-index"?: number;
+    "created-asset-index"?: number;
     "payment-transaction"?: {
       amount: number;
     };
@@ -105,6 +106,7 @@ export const CreatedAppsTable = () => {
       "confirmed-round": confirmedRound,
       note,
       "created-application-index": createdApplicationIndex,
+      "created-asset-index": createdAssetIndex,
     } = props;
 
     let meta;
@@ -178,7 +180,7 @@ export const CreatedAppsTable = () => {
         break;
       case "acfg":
         console.log("*** acfg ***", assetConfigTransaction);
-        meta = `asset-id: ${assetConfigTransaction!["asset-id"]}`;
+        meta = `asset-id: ${createdAssetIndex}`;
 
         if (assetConfigTransaction!.params?.name) {
           arg = `asset-id: ${assetConfigTransaction!.params?.name}`;
@@ -251,6 +253,17 @@ export const CreatedAppsTable = () => {
                     Contract
                   </Dropdown.Item>
                 )}
+              {txType === "acfg" && assetConfigTransaction && (
+                <Dropdown.Item
+                  onClick={() => {
+                    navigate(
+                      `/dashboard/transactions/asset/${createdAssetIndex}`
+                    );
+                  }}
+                >
+                  <FontAwesomeIcon icon={faEye} className="me-2" /> View holders
+                </Dropdown.Item>
+              )}
               <Dropdown.Item
                 onClick={() => {
                   navigate(`/dashboard/transactions/detail/${id}`);

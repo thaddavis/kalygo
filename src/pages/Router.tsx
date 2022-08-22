@@ -57,6 +57,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import EscrowOverview from "./EscrowOverview";
 import TransactionDetail from "./TransactionDetail";
 import AppDetail from "./AppDetail";
+import AssetDetail from "./AssetDetail";
 import ContractOptions from "./ContractOptions";
 import { BsFillNutFill } from "react-icons/bs";
 import PropertyNFTContract from "./contracts/PropertyNFTContract";
@@ -178,6 +179,7 @@ const Router = () => (
         <Route path={"overview"} element={<DashboardOverview />} />
         <Route path={"transactions"} element={<EscrowOverview />} />
         <Route path={"transactions/app/:id"} element={<AppDetail />} />
+        <Route path={"transactions/asset/:id"} element={<AssetDetail />} />
         <Route path={"contract-options"} element={<ContractOptions />} />
         <Route
           path={"transactions/detail/:id"}

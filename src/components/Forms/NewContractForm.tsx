@@ -208,7 +208,9 @@ export const NewContractForm = (props: P) => {
 
       navigate(`/dashboard/transactions`);
     } catch (e) {
-      showErrorToast("Something unexpected happened");
+      showErrorToast(
+        "Something unexpected happened. Make sure your wallet is connected."
+      );
       console.error(e);
     }
   };

@@ -37,44 +37,178 @@ export const NewPropertyNFTForm = (props: P) => {
     watch,
   } = useForm({
     defaultValues: {
-      name: "Albanian Villa",
+      assetName: "Albanian Villa",
       equityDivisions: 100000,
       enableClawback: true,
+      unitName: "ALB",
+      url: "https://albanianvillas.com",
     },
   });
 
   watch("equityDivisions");
 
+  async function createAsset(
+    algodClient: any,
+    account: {
+      sk: Uint8Array;
+      addr: string;
+    }
+  ) {
+    const feePerByte = 10;
+    const firstValidRound = 22289903;
+    const lastValidRound = 22290903;
+    const genesisHash = "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=";
+
+    const total = 1000000000000000; // how many of this asset there will be
+    const decimals = 6; // units of this asset are whole-integer amounts
+    const assetName = "Mialgo";
+    const unitName = "MIALGO";
+    const url = "mialgo.io";
+
+    const defaultFrozen = false; // whether accounts should be frozen by default
+
+    const suggestedParams = {
+      flatFee: false,
+      fee: feePerByte,
+      firstRound: firstValidRound,
+      lastRound: lastValidRound,
+      genesisHash,
+      genesisID: "testnet-v1.0",
+    };
+
+    const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
+      from: account.addr,
+      total,
+      decimals,
+      assetName,
+      unitName,
+      assetURL: url,
+      assetMetadataHash: "",
+      defaultFrozen,
+
+      freeze: account.addr,
+      manager: account.addr,
+      clawback: account.addr,
+      reserve: account.addr,
+
+      suggestedParams,
+    });
+
+    // sign the transaction
+    const signedTxn = txn.signTxn(account.sk);
+
+    let sendTx = await algodClient.sendRawTransaction(signedTxn).do();
+
+    let assetID = null;
+    // wait for transaction to be confirmed
+    const ptx = await algosdk.waitForConfirmation(algodClient, sendTx.txId, 4);
+    // Get the new asset's information from the creator account
+    assetID = ptx["asset-index"];
+    //Get the completed Transaction
+    console.log(
+      "Transaction " +
+        sendTx.txId +
+        " confirmed in round " +
+        ptx["confirmed-round"]
+    );
+
+    return {
+      assetID,
+    };
+  }
+
   const onSubmit = async (data: any) => {
     try {
       console.log("-> data <-", data);
 
-      // let params = await Algod.getAlgod(settings.selectedNetwork)
-      //   .getTransactionParams()
-      //   .do();
+      let params = await Algod.getAlgod(settings.selectedNetwork)
+        .getTransactionParams()
+        .do();
 
-      // params.flatFee = true;
-      // params.fee = 1000;
+      params.flatFee = true;
+      params.fee = 1000;
 
-      // let onComplete = algosdk.OnApplicationComplete.NoOpOC;
+      const account = {
+        addr: `STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU`,
+        sk: "secretKey.sk",
+      };
 
-      // let a_prog = await compileProgram(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   approval_program
-      // );
-      // let c_prog = await compileProgram(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   clear_state_program
-      // );
+      const total = data.equityDivisions; // how many of this asset there will be
+      const decimals = 0; // units of this asset are whole-integer amounts
+      const assetName = data.assetName;
+      const unitName = data.unitName;
+      const url = data.url;
 
-      // console.log("a_prog", a_prog);
-      // console.log("c_prog", c_prog);
+      const defaultFrozen = false; // whether accounts should be frozen by default
 
-      // showSuccessToast("Contract creation request sent to network!");
+      const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
+        from: account.addr,
+        total,
+        decimals,
+        assetName,
+        unitName,
+        assetURL: url,
+        assetMetadataHash: "",
+        defaultFrozen,
+
+        freeze: account.addr,
+        manager: account.addr,
+        clawback: account.addr,
+        reserve: account.addr,
+
+        suggestedParams: params,
+      });
+
+      console.log(txn);
+
+      let binaryTx = txn.toByte();
+
+      let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
+        binaryTx
+      );
+
+      console.log("base64Tx", base64Tx);
+
+      let signedTxn = await (window as any).AlgoSigner.signTxn([
+        {
+          txn: base64Tx,
+        },
+      ]);
+
+      console.log("signedTxn", signedTxn);
+
+      let tmp = signedTxn.map((tx: any) => {
+        if (tx)
+          return {
+            txID: tx.txID,
+            blob: (window as any).AlgoSigner.encoding.base64ToMsgpack(tx.blob),
+          };
+        return {};
+      });
+
+      const res = await Algod.getAlgod(settings.selectedNetwork)
+        .sendRawTransaction(tmp[0].blob)
+        .do();
+
+      console.log("res", res);
+
+      showSuccessToast("Contract creation request sent to network!");
+
+      showSuccessToast("Awaiting block confirmation...");
+
+      const waiting = await algosdk.waitForConfirmation(
+        Algod.getAlgod(settings.selectedNetwork),
+        res.txId,
+        32
+      );
+
+      console.log(waiting);
 
       showErrorToast("Create ASA...");
     } catch (e) {
-      showErrorToast("Something unexpected happened");
+      showErrorToast(
+        "Something unexpected happened. Make sure your wallet is connected."
+      );
       console.error(e);
     }
   };
@@ -86,10 +220,10 @@ export const NewPropertyNFTForm = (props: P) => {
           <h5 className="my-4">Fields</h5>
           <Row>
             <Col sm={12} className="mb-3">
-              <Form.Group id="name">
+              <Form.Group id="assetName">
                 <Form.Label>Name of Property</Form.Label>
                 <Form.Control
-                  {...register("name", {
+                  {...register("assetName", {
                     required: true,
                   })}
                   type="text"
@@ -99,7 +233,7 @@ export const NewPropertyNFTForm = (props: P) => {
             </Col>
 
             <Col sm={12} className="mb-3">
-              <Form.Group id="escrow-amount-1">
+              <Form.Group id="equity-divisions">
                 <Form.Label>Equity Divisions</Form.Label>
                 <Form.Control
                   {...register("equityDivisions", { required: true })}
@@ -111,6 +245,34 @@ export const NewPropertyNFTForm = (props: P) => {
                   One unit of this NFT would represent a{" "}
                   {100 / getValues("equityDivisions")}% stake
                 </p>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="unit-name">
+                <Form.Label>Unit Name</Form.Label>
+                <Form.Control
+                  {...register("unitName", { required: true })}
+                  type="string"
+                  placeholder="Unit Name"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="url">
+                <Form.Label>URL</Form.Label>
+                <Form.Control
+                  {...register("url", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="URL"
+                />
               </Form.Group>
             </Col>
           </Row>

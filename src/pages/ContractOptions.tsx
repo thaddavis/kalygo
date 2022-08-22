@@ -18,10 +18,10 @@ export default function ContractOptions() {
             disabled: false,
           },
           {
-            title: "PropertyNFT",
-            desc: "Vehicle for decentralized equity stakes in properties and/or communities. NFT holders paid out monthly as per the terms for property management.",
+            title: "REIT",
+            desc: "Vehicle for decentralized equity stakes in properties and/or communities. NFT holders paid out monthly as per the terms of the property management company.",
             pathTo: RoutesData.NewPropertyNFT.path,
-            disabled: true,
+            disabled: false,
           },
           {
             title: "Cash Buyer",
@@ -31,7 +31,7 @@ export default function ContractOptions() {
           },
         ].map((i, idx) => {
           return (
-            <Col xs={12} sm={6} xl={4} className="mb-4">
+            <Col key={i.title} xs={12} sm={6} xl={4} className="mb-4">
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>{i.title}</Card.Title>
