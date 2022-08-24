@@ -1,4 +1,4 @@
-<img src="public/project_banner_photo.png" width="665" height="570"/>
+<img src="public/project_banner_photo.png" width="330" height="285"/>
 
 https://kalygo.io
 
