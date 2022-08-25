@@ -204,7 +204,7 @@ export const NewPropertyNFTForm = (props: P) => {
 
       console.log(waiting);
 
-      showErrorToast("Create ASA...");
+      showSuccessToast("Create ASA...");
     } catch (e) {
       showErrorToast(
         "Something unexpected happened. Make sure your wallet is connected."
