@@ -1,6 +1,8 @@
 <img src="public/project_banner_photo.png" width="330" height="285"/>
 
-https://kalygo.io
+LIVE SITE: https://kalygo.io
+
+YOUTUBE DEMO: https://www.youtube.com/watch?v=VpdbEolYOVo
 
 # Kalygo.io
 This is the front end for the kalygo.io website. The concept of this site is it is the front end for a website that allows visitors to implement common real estate transactions on a blockchain.
