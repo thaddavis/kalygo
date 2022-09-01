@@ -170,7 +170,7 @@ export const CreatedAppsTable = () => {
 
         break;
       case "axfer":
-        meta = `${Buffer.from(note, "base64").toString()}`;
+        // meta = `${Buffer.from(note, "base64").toString()}`;
 
         if (assetTransferTransaction!["asset-id"]) {
           arg = `asset-id: ${assetTransferTransaction!["asset-id"]}`;
