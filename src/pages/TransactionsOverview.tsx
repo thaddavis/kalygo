@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Button, Dropdown } from "react-bootstrap";
 
-import { TransactionsTable } from "../components/Widgets/TransactionsTable";
+import { TransactionsTable } from "../components/Widgets/TransactionsTable/TransactionsTable";
 import { useNavigate } from "react-router-dom";
 import { RoutesData } from "../routes";
 

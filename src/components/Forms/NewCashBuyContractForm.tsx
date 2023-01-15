@@ -36,9 +36,9 @@ export const NewCashBuyContractForm = (props: P) => {
     setValue,
   } = useForm({
     defaultValues: {
-      escrowAmount1: 100000,
-      escrowAmount2: 100000,
-      escrowTotal: 1000000,
+      escrowAmount1: 100000.2,
+      escrowAmount2: 100000.0,
+      escrowTotal: 200000.0,
       asaAddress: "USDCa",
       inspectionPeriodStart: moment().add("1", "m").add("30", "s").toString(),
       inspectionPeriodEnd: moment().add("3", "m").toString(),
@@ -209,6 +209,7 @@ export const NewCashBuyContractForm = (props: P) => {
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
                   type="number"
+                  step="0.01"
                   placeholder="Amount 1"
                 />
               </Form.Group>
