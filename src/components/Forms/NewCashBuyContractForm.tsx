@@ -100,64 +100,43 @@ export const NewCashBuyContractForm = (props: P) => {
         onComplete,
         a_prog,
         c_prog,
-        0,
-        0,
-        14, // ints
-        11, // byte_slices
+        0, // local ints
+        0, // local byte_slices
+        10, // global ints
+        3, // global byte_slices
         [
-          /* 0 */ algosdk.encodeUint64(
-            moment(data.inspectionPeriodStart).unix()
-          ), // IP begin
-          /* 1 */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
-          // /* */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
-          /* 2 */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          // /* */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          /*  3 */ algosdk.encodeUint64(1100000), // # sale_price
-          /* 4 */ algosdk.encodeUint64(500000), // # 1st_escrow_amount
-          /* 5 */ algosdk.encodeUint64(600000), // # 2nd_escrow_amount
-          /* 6 */ new Uint8Array(
-            Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
-          ), // # buyer
-          /* 7 */ new Uint8Array(
-            Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
-          ), // # seller
-          /* 8 */ new Uint8Array(
-            Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
-          ), // # arbiter
-
-          new Uint8Array(
-            Buffer.from(
-              algosdk.decodeAddress(data.buyerRealtorAddress).publicKey
-            )
-          ), // 9 # byte_slice - buyer realtor address
-          // algosdk.encodeUint64(data.buyerRealtorCommission), // # int - buyer realtor commision
-          new Uint8Array(
-            Buffer.from(
-              algosdk.decodeAddress(data.sellerRealtorAddress).publicKey
-            )
-          ), // 10 # byte_slice - seller realtor address
-          // algosdk.encodeUint64(data.sellerRealtorCommission), // # int - seller realtor commision
-          new Uint8Array(
-            Buffer.from(
-              algosdk.decodeAddress(data.titleCompanyAddress).publicKey
-            )
-          ), // 11 # byte_slice - title company address
-          // algosdk.encodeUint64(data.titleCompanyMinCommission), // # int - title company min fee
-
-          algosdk.encodeUint64(data.titleCompanyMaxCommission), // 12 # int - title company max fee
-          new Uint8Array(
-            Buffer.from(
-              algosdk.decodeAddress(data.jurisdictionAddress).publicKey
-            )
-          ), // 13 # byte_slice - jurisdiction address
-
-          // algosdk.encodeUint64(data.jurisdictionMinFee), // # int - jurisdiction min fee
-
-          algosdk.encodeUint64(data.jurisdictionMaxFee), // 14 # int - jurisdiction max fee
-          new Uint8Array(
-            Buffer.from(algosdk.decodeAddress(data.lenderAddress).publicKey)
-          ), // 15 # byte_slice - lender address
-
+          // --- --- ---
+          // 0 buyer
+          // 1 seller
+          // 2 1st_escrow_payment
+          // 3 2nd_escrow_payment
+          // 4 total escrow
+          // 5 GLOBAL_INSPECTION_START_DATE
+          // 6 GLOBAL_INSPECTION_END_DATE
+          // 7 GLOBAL_MOVING_DATE
+          // 8 GLOBAL_CLOSING_DATE
+          // 9 GLOBAL_FREE_FUNDS_DATE
+          // 10 GLOBAL_TIME_CHECK_ENABLED
+          // --- --- ---
+          // /* 0 */ algosdk.encodeUint64(
+          //   moment(data.inspectionPeriodStart).unix()
+          // ), // IP begin
+          // /* 1 */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
+          // // /* */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
+          // /* 2 */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          // // /* */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
+          // /*  3 */ algosdk.encodeUint64(1100000), // # sale_price
+          // /* 4 */ algosdk.encodeUint64(500000), // # 1st_escrow_amount
+          // /* 5 */ algosdk.encodeUint64(600000), // # 2nd_escrow_amount
+          // /* 6 */ new Uint8Array(
+          //   Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
+          // ), // # buyer
+          // /* 7 */ new Uint8Array(
+          //   Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
+          // ), // # seller
+          // /* 8 */ new Uint8Array(
+          //   Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
+          // ), // # arbiter
           // algosdk.encodeUint64(data.enableTimeChecks ? 1 : 0), // # int - enable_time_checks
           // --- --- --- --- ---
         ]
