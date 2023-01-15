@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { faCashRegister, faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row } from "react-bootstrap";
 import algosdk from "algosdk";
-import { totalOrders } from "../../data/charts";
-import { CounterWidget } from "../../components/Widgets";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { Algod } from "../../services/algod";
-import { RootState } from "../../store/store";
+import { totalOrders } from "../data/charts";
+import { CounterWidget } from "../components/Widgets";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { Algod } from "../services/algod";
+import { RootState } from "../store/store";
 
-import { showErrorToast } from "../../utility/errorToast";
+import { showErrorToast } from "../utility/errorToast";
 
-const DashboardOverview = () => {
+const BlockchainOverview = () => {
   const [status, setStatus] = useState<any>({
     val: undefined,
     loading: false,
@@ -58,8 +58,8 @@ const DashboardOverview = () => {
     <>
       <Row className="justify-content-md-center py-4">
         <Col className="mb-4">
-          <h1>Network Status</h1>
-          <h2>{settings.selectedNetwork}</h2>
+          <h1>{settings.selectedBlockchain}</h1>
+          <h3>Network: {settings.selectedNetwork}</h3>
         </Col>
       </Row>
 
@@ -68,7 +68,7 @@ const DashboardOverview = () => {
       <Row className="justify-content-md-center py-4">
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Last Round"
+            category="Last Block"
             title={status?.val && status?.val["last-round"]}
             period=""
             percentage={18.2}
@@ -78,7 +78,7 @@ const DashboardOverview = () => {
         </Col>
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Last Round Time"
+            category="Last Block Time"
             title={
               status?.val && status?.val["time-since-last-round"]
                 ? new Date().toLocaleTimeString()
@@ -103,4 +103,4 @@ const DashboardOverview = () => {
   );
 };
 
-export default DashboardOverview;
+export default BlockchainOverview;

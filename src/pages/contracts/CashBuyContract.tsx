@@ -18,7 +18,7 @@ import { SettingsForm } from "../../components/Forms/SettingsForm";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { OperatorConfig } from "../../components/Widgets/OperatorConfig";
-import { NewCashBuyContractForm } from "../../components/Forms/NewCashBuyContractForm";
+import { CashBuyContractForm } from "../../components/Forms/CashBuyContractForm";
 
 const CashBuyContract = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
@@ -40,7 +40,7 @@ const CashBuyContract = () => {
         </Col>
 
         <Col xs={12} xl={8}>
-          <NewCashBuyContractForm accounts={settings.accounts} />
+          <CashBuyContractForm accounts={settings.accounts} />
         </Col>
       </Row>
     </>

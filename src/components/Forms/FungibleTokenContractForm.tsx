@@ -13,9 +13,6 @@ import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Algod } from "../../services/algod";
 import algosdk from "algosdk";
-import { clear_state_program } from "../../ABI/contracts/financedDeal/clear_state_program";
-import { approval_program } from "../../ABI/contracts/financedDeal/approval_program";
-import { compileProgram } from "../../ABI/utility/compileProgram";
 import { showErrorToast } from "../../utility/errorToast";
 import { showSuccessToast } from "../../utility/successToast";
 
@@ -23,7 +20,7 @@ interface P {
   accounts: string[];
 }
 
-export const NewPropertyNFTForm = (props: P) => {
+export const FungibleTokenContractForm = (props: P) => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -38,84 +35,14 @@ export const NewPropertyNFTForm = (props: P) => {
   } = useForm({
     defaultValues: {
       assetName: "Albanian Villa",
-      equityDivisions: 100000,
+      totalSupply: 100000,
       enableClawback: true,
       unitName: "ALB",
       url: "https://albanianvillas.com",
     },
   });
 
-  watch("equityDivisions");
-
-  async function createAsset(
-    algodClient: any,
-    account: {
-      sk: Uint8Array;
-      addr: string;
-    }
-  ) {
-    const feePerByte = 10;
-    const firstValidRound = 22289903;
-    const lastValidRound = 22290903;
-    const genesisHash = "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=";
-
-    const total = 1000000000000000; // how many of this asset there will be
-    const decimals = 6; // units of this asset are whole-integer amounts
-    const assetName = "Mialgo";
-    const unitName = "MIALGO";
-    const url = "mialgo.io";
-
-    const defaultFrozen = false; // whether accounts should be frozen by default
-
-    const suggestedParams = {
-      flatFee: false,
-      fee: feePerByte,
-      firstRound: firstValidRound,
-      lastRound: lastValidRound,
-      genesisHash,
-      genesisID: "testnet-v1.0",
-    };
-
-    const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
-      from: account.addr,
-      total,
-      decimals,
-      assetName,
-      unitName,
-      assetURL: url,
-      assetMetadataHash: "",
-      defaultFrozen,
-
-      freeze: account.addr,
-      manager: account.addr,
-      clawback: account.addr,
-      reserve: account.addr,
-
-      suggestedParams,
-    });
-
-    // sign the transaction
-    const signedTxn = txn.signTxn(account.sk);
-
-    let sendTx = await algodClient.sendRawTransaction(signedTxn).do();
-
-    let assetID = null;
-    // wait for transaction to be confirmed
-    const ptx = await algosdk.waitForConfirmation(algodClient, sendTx.txId, 4);
-    // Get the new asset's information from the creator account
-    assetID = ptx["asset-index"];
-    //Get the completed Transaction
-    console.log(
-      "Transaction " +
-        sendTx.txId +
-        " confirmed in round " +
-        ptx["confirmed-round"]
-    );
-
-    return {
-      assetID,
-    };
-  }
+  watch("totalSupply");
 
   const onSubmit = async (data: any) => {
     try {
@@ -128,12 +55,13 @@ export const NewPropertyNFTForm = (props: P) => {
       params.flatFee = true;
       params.fee = 1000;
 
+      debugger;
+
       const account = {
-        addr: `STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU`,
-        sk: "secretKey.sk",
+        addr: settings.selectedAccount,
       };
 
-      const total = data.equityDivisions; // how many of this asset there will be
+      const total = data.totalSupply; // how many of this asset there will be
       const decimals = 0; // units of this asset are whole-integer amounts
       const assetName = data.assetName;
       const unitName = data.unitName;
@@ -221,29 +149,29 @@ export const NewPropertyNFTForm = (props: P) => {
           <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="assetName">
-                <Form.Label>Name of Property</Form.Label>
+                <Form.Label>Asset Name</Form.Label>
                 <Form.Control
                   {...register("assetName", {
                     required: true,
                   })}
                   type="text"
-                  placeholder="Name of Property"
+                  placeholder="Asset Name"
                 />
               </Form.Group>
             </Col>
 
             <Col sm={12} className="mb-3">
               <Form.Group id="equity-divisions">
-                <Form.Label>Equity Divisions</Form.Label>
+                <Form.Label>Total Supply</Form.Label>
                 <Form.Control
-                  {...register("equityDivisions", { required: true })}
+                  {...register("totalSupply", { required: true })}
                   type="number"
-                  placeholder="Equity Divisions"
+                  placeholder="Total Supply"
                 />
 
                 <p>
-                  One unit of this NFT would represent a{" "}
-                  {100 / getValues("equityDivisions")}% stake
+                  One unit of this fungible token would represent a{" "}
+                  {1 / getValues("totalSupply")}% stake
                 </p>
               </Form.Group>
             </Col>

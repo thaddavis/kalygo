@@ -18,16 +18,16 @@ import { SettingsForm } from "../../components/Forms/SettingsForm";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { OperatorConfig } from "../../components/Widgets/OperatorConfig";
-import { NewPropertyNFTForm } from "../../components/Forms/NewPropertyNFTForm";
+import { FungibleTokenContractForm } from "../../components/Forms/FungibleTokenContractForm";
 
-const PropertyNFTContract = () => {
+const FungibleTokenContract = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
 
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <h1>New REIT Vehicle</h1>
+        <h1>Fungible Token</h1>
       </div>
 
       <Row>
@@ -40,11 +40,11 @@ const PropertyNFTContract = () => {
         </Col>
 
         <Col xs={12} xl={8}>
-          <NewPropertyNFTForm accounts={settings.accounts} />
+          <FungibleTokenContractForm accounts={settings.accounts} />
         </Col>
       </Row>
     </>
   );
 };
 
-export default PropertyNFTContract;
+export default FungibleTokenContract;

@@ -18,10 +18,10 @@ export default function ContractOptions() {
             disabled: false,
           },
           {
-            title: "REIT",
-            desc: "Vehicle for decentralized equity stakes in properties and/or communities. NFT holders paid out monthly as per the terms of the property management company.",
-            pathTo: RoutesData.NewPropertyNFT.path,
-            disabled: true,
+            title: "Tokenized Asset",
+            desc: "Allows you to create a fungible token",
+            pathTo: RoutesData.FungibleTokenContract.path,
+            disabled: false,
           },
           {
             title: "Cash Buy",

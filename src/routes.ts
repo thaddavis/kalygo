@@ -7,8 +7,8 @@ export const RoutesData = {
   NewFinanceDealContract: {
     path: "/dashboard/new-finance-deal-contract",
   },
-  NewPropertyNFT: {
-    path: "/dashboard/new-property-nft-contract",
+  FungibleTokenContract: {
+    path: "/dashboard/new-fungible-token-contract",
   },
   CashBuy: {
     path: "/dashboard/cash-buy",

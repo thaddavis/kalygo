@@ -31,6 +31,7 @@ export const SettingsForm = (props: P) => {
     setValue,
   } = useForm({
     defaultValues: {
+      selectedBlockchain: settings.selectedBlockchain,
       selectedNetwork: settings.selectedNetwork,
       selectedAccount: settings.selectedAccount,
     },
@@ -61,6 +62,50 @@ export const SettingsForm = (props: P) => {
       <Card.Body>
         <h5 className="mb-4">Settings</h5>
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <Row className="align-items-center">
+            <Col md={6} className="mb-3">
+              <Form.Group id="blockchain">
+                <Form.Label>
+                  Blockchain{" "}
+                  {errors.selectedBlockchain && (
+                    <span style={{ color: "red" }}>*required</span>
+                  )}
+                </Form.Label>
+                <Form.Select
+                  {...register("selectedBlockchain", { required: true })}
+                  onChange={(e: React.FormEvent<EventTarget>) => {
+                    let target = e.target as HTMLSelectElement;
+
+                    console.log("!@#!@#", target.value);
+                    console.warn(
+                      "Need to populate network select with relevant networks for chosen blockchain"
+                    );
+                    // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                  }}
+                  style={{
+                    paddingRight: "32px",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {settings.supportedBlockchains.map((i: any, idx: number) => {
+                    return (
+                      <option
+                        key={i}
+                        disabled={i === "Algorand" ? false : true}
+                        style={{
+                          textOverflow: "ellipsis",
+                        }}
+                        value={i}
+                      >
+                        {i}
+                      </option>
+                    );
+                  })}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
           <Row className="align-items-center">
             <Col md={6} className="mb-3">
               <Form.Group id="network">

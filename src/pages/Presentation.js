@@ -173,9 +173,7 @@ const Presentation = () => {
                 <span className="fab fa-react"></span>
               </div>
               <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
-              <p className="text-muted fw-light mb-2 h5">
-                Peer-to-Peer Real Estate
-              </p>
+              <p className="text-muted fw-light mb-2 h5">Peer-to-Peer Tools</p>
               <div className="d-flex align-items-center justify-content-center mb-4">
                 <Button
                   variant="secondary"
@@ -213,8 +211,8 @@ const Presentation = () => {
               <h2>Powered by Blockchain</h2>
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
               <p className="mb-4">
-                Kalygo escrow is implemented via a smart contract running on the
-                Algorand Blockchain.
+                Kalygo a hub of real-world applicable smarts contracts running
+                on either the Ethereum, Algorand, or Solana Blockchains.
               </p>
             </Col>
           </Row>
@@ -229,8 +227,8 @@ const Presentation = () => {
                 <span className="fw-bold">time for you</span>.
               </h2>
               <p className="lead px-lg-8">
-                Enhance your Real Estate purchasing experience with Kalygo.
-                Peer-to-Peer escrow running on the Algorand blockchain.
+                Enhance your experience with Kalygo. Peer-to-Peer tools running
+                on the world's biggest smart-contract platforms.
               </p>
             </Col>
           </Row>
@@ -272,8 +270,7 @@ const Presentation = () => {
                 </Navbar.Brand> */}
                 <p>
                   Kalygo is a free and open source platform for peer-to-peer
-                  real estate contracts with arbitration fallbacks running on a
-                  blockchain.
+                  contracts with arbitration fallbacks.
                 </p>
               </div>
             </Col>

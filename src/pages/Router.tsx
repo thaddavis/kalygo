@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 // pages
 import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
-import DashboardOverview from "./dashboard/DashboardOverview";
+import BlockchainOverview from "./BlockchainOverview";
 import Settings from "./Settings";
 import FinanceDealContract from "./contracts/FinanceDealContract";
 import CashBuyContract from "./contracts/CashBuyContract";
@@ -61,7 +61,7 @@ import AppDetail from "./AppDetail";
 import AssetDetail from "./AssetDetail";
 import ContractOptions from "./ContractOptions";
 import { BsFillNutFill } from "react-icons/bs";
-import PropertyNFTContract from "./contracts/PropertyNFTContract";
+import FungibleTokenContract from "./contracts/FungibleTokenContract";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -177,7 +177,7 @@ const Router = () => (
 
       {/* pages */}
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
-        <Route path={"overview"} element={<DashboardOverview />} />
+        <Route path={"overview"} element={<BlockchainOverview />} />
         <Route path={"transactions"} element={<TransactionsOverview />} />
         <Route path={"transactions/app/:id"} element={<AppDetail />} />
         <Route path={"transactions/asset/:id"} element={<AssetDetail />} />
@@ -192,8 +192,8 @@ const Router = () => (
         />
         <Route path={"cash-buy"} element={<CashBuyContract />} />
         <Route
-          path={"new-property-nft-contract"}
-          element={<PropertyNFTContract />}
+          path={"new-fungible-token-contract"}
+          element={<FungibleTokenContract />}
         />
         <Route path={"settings"} element={<Settings />} />
       </Route>
