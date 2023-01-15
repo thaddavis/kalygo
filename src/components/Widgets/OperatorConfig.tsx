@@ -41,7 +41,7 @@ import teamMembers from "../../data/teamMembers";
 import { RootState } from "../../store/store";
 import { useAppSelector } from "../../store/hooks";
 
-export const WidgetB = () => {
+export const OperatorConfig = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
 
   return (

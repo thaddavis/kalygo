@@ -21,12 +21,12 @@ interface SettingsStateForSpread {
 // Define the initial state using that type
 const initialState: SettingsState = {
   // selectedNetwork: "localhost",
-  selectedNetwork: "TestNet",
+  selectedNetwork: "localhost",
   supportedNetworks: ["MainNet", "TestNet", "localhost"],
   accounts: [],
   // selectedAccount: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
-  selectedAccount: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  selectedAccount: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
   // selectedAccount: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
   // selectedAccount: "",
 };

@@ -10,6 +10,7 @@ import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Settings from "./Settings";
 import FinanceDealContract from "./contracts/FinanceDealContract";
+import CashBuyContract from "./contracts/CashBuyContract";
 import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
 import Signup from "./examples/Signup";
@@ -54,7 +55,7 @@ import Preloader from "../components/Preloader";
 import { RootState } from "../store/store";
 import { updateState } from "../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import EscrowOverview from "./EscrowOverview";
+import TransactionsOverview from "./TransactionsOverview";
 import TransactionDetail from "./TransactionDetail";
 import AppDetail from "./AppDetail";
 import AssetDetail from "./AssetDetail";
@@ -177,7 +178,7 @@ const Router = () => (
       {/* pages */}
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
         <Route path={"overview"} element={<DashboardOverview />} />
-        <Route path={"transactions"} element={<EscrowOverview />} />
+        <Route path={"transactions"} element={<TransactionsOverview />} />
         <Route path={"transactions/app/:id"} element={<AppDetail />} />
         <Route path={"transactions/asset/:id"} element={<AssetDetail />} />
         <Route path={"contract-options"} element={<ContractOptions />} />
@@ -189,6 +190,7 @@ const Router = () => (
           path={"new-finance-deal-contract"}
           element={<FinanceDealContract />}
         />
+        <Route path={"cash-buy"} element={<CashBuyContract />} />
         <Route
           path={"new-property-nft-contract"}
           element={<PropertyNFTContract />}

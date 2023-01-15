@@ -17,8 +17,7 @@ import { SettingsForm } from "../../components/Forms/SettingsForm";
 
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { WidgetB } from "../../components/Widgets/WidgetB";
-import { NewContractForm } from "../../components/Forms/NewContractForm";
+import { OperatorConfig } from "../../components/Widgets/OperatorConfig";
 import { NewPropertyNFTForm } from "../../components/Forms/NewPropertyNFTForm";
 
 const PropertyNFTContract = () => {
@@ -35,7 +34,7 @@ const PropertyNFTContract = () => {
         <Col xs={12} xl={4}>
           <Row>
             <Col xs={12}>
-              <WidgetB />
+              <OperatorConfig />
             </Col>
           </Row>
         </Col>

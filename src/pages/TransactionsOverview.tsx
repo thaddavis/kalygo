@@ -4,17 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Button, Dropdown } from "react-bootstrap";
 
-import { CreatedAppsTable } from "../components/Widgets/TableA";
+import { TransactionsTable } from "../components/Widgets/TransactionsTable";
 import { useNavigate } from "react-router-dom";
 import { RoutesData } from "../routes";
 
-const EscrowOverview = () => {
+const TransactionsOverview = () => {
   let navigate = useNavigate();
 
   return (
     <>
       <div className="d-flex flex-column justify-content-between flex-wrap flex-md-nowrap py-4">
-        <Dropdown className="btn-toolbar">
+        {/* <Dropdown className="btn-toolbar">
           <Dropdown.Toggle
             as={Button}
             variant="primary"
@@ -34,12 +34,12 @@ const EscrowOverview = () => {
               <FontAwesomeIcon icon={faTasks} className="me-2" /> New Contract
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
       </div>
 
-      <CreatedAppsTable />
+      <TransactionsTable />
     </>
   );
 };
 
-export default EscrowOverview;
+export default TransactionsOverview;

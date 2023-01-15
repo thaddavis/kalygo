@@ -31,7 +31,7 @@ import { RootState } from "../../store/store";
 
 import { showErrorToast } from "../../utility/errorToast";
 
-export const CreatedAppsTable = () => {
+export const TransactionsTable = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
 
   let navigate = useNavigate();
@@ -300,14 +300,14 @@ export const CreatedAppsTable = () => {
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-          {/* <Nav>
-            <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>Previous</Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Next>Next</Pagination.Next>
-            </Pagination>
-          </Nav> */}
+          {/* <Nav> */}
+          {/* <Pagination className="mb-2 mb-lg-0">
+            <Pagination.Prev>Previous</Pagination.Prev>
+            <Pagination.Item active>1</Pagination.Item>
+            <Pagination.Item>2</Pagination.Item>
+            <Pagination.Next>Next</Pagination.Next>
+          </Pagination> */}
+          {/* </Nav> */}
           <small className="fw-bold">
             Showing <b>{totalTransactions}</b> out of <b>{totalTransactions}</b>{" "}
             entries

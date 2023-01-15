@@ -21,13 +21,13 @@ export default function ContractOptions() {
             title: "REIT",
             desc: "Vehicle for decentralized equity stakes in properties and/or communities. NFT holders paid out monthly as per the terms of the property management company.",
             pathTo: RoutesData.NewPropertyNFT.path,
-            disabled: false,
+            disabled: true,
           },
           {
-            title: "Cash Buyer",
+            title: "Cash Buy",
             desc: "Buyer purchases property with 100% 'cash'",
-            pathTo: "",
-            disabled: true,
+            pathTo: RoutesData.CashBuy.path,
+            disabled: false,
           },
         ].map((i, idx) => {
           return (

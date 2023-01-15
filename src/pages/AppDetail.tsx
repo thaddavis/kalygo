@@ -8,7 +8,7 @@ import { SettingsForm } from "../components/Forms/SettingsForm";
 
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { WidgetB } from "../components/Widgets/WidgetB";
+import { OperatorConfig } from "../components/Widgets/OperatorConfig";
 import { Algod } from "../services/algod";
 import { useParams } from "react-router-dom";
 import { parseGlobalState } from "./customSelectors/appl/parseGlobalState";
@@ -274,7 +274,7 @@ function AppDetail() {
           </Row>
         </Col>
         <Col xs={12} xl={4}>
-          <WidgetB />
+          <OperatorConfig />
           <ActionsWidget
             buyer={get(app.val, "buyer", "Not Found")}
             seller={get(app.val, "seller", "Not Found")}

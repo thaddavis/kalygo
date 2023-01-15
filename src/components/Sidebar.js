@@ -192,7 +192,7 @@ const Sidebar = (props = {}) => {
                 icon={faChartPie}
               />
               <NavItem
-                title="Escrow"
+                title="Transactions"
                 icon={faBank}
                 link={RoutesData.Transactions.path}
               />

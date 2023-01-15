@@ -8,7 +8,6 @@ import { SettingsForm } from "../components/Forms/SettingsForm";
 
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { WidgetB } from "../components/Widgets/WidgetB";
 import { Algod } from "../services/algod";
 import { useParams } from "react-router-dom";
 import { parseGlobalState } from "./customSelectors/appl/parseGlobalState";

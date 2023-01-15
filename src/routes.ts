@@ -10,6 +10,9 @@ export const RoutesData = {
   NewPropertyNFT: {
     path: "/dashboard/new-property-nft-contract",
   },
+  CashBuy: {
+    path: "/dashboard/cash-buy",
+  },
   Settings: { path: "/dashboard/settings" },
   Upgrade: { path: "/upgrade" },
   BootstrapTables: { path: "/tables/bootstrap-tables" },
