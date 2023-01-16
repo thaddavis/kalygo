@@ -15,7 +15,7 @@
 }
 
 .box {
-    width: calc(100% / 4);
+    width: calc(100% / 5);
     transform: translateX(calc(50% - 25px));
     position: relative;
     min-height: 300px;
@@ -35,6 +35,8 @@
         &.purple {
             background: purple;
             border: 2px solid black;
+            width: 60px;
+            height: 60px;
         }
 
         &.red {
@@ -49,6 +51,11 @@
 
         &.orange {
             background: orange;
+            opacity: 0.5;
+        }
+
+        &.pink {
+            background: pink;
             opacity: 0.5;
         }
     }

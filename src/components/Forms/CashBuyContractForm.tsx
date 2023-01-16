@@ -18,6 +18,7 @@ import { approval_program } from "../../ABI/contracts/cashBuy/approval_program";
 import { compileProgram } from "../../ABI/utility/compileProgram";
 import { showErrorToast } from "../../utility/errorToast";
 import { showSuccessToast } from "../../utility/successToast";
+import { supportedContracts } from "../../data/supportedContracts";
 
 interface P {
   accounts: string[];
@@ -39,30 +40,14 @@ export const CashBuyContractForm = (props: P) => {
       escrowAmount1: 100000.2,
       escrowAmount2: 100000.0,
       escrowTotal: 200000.0,
-      asaAddress: "USDCa",
-      inspectionPeriodStart: moment().add("1", "m").add("30", "s").toString(),
+      asaId: 1017,
+      inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("3", "m").toString(),
-      movingDate: moment().add("4", "m").toString(),
-      closingDate: moment().add("5", "m").toString(),
-      buyer: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      movingDate: moment().add("5", "m").toString(),
+      closingDate: moment().add("7", "m").toString(),
+      freeFundsDate: moment().add("9", "m").toString(),
+      buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
-      arbiter: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      buyerRealtorAddress:
-        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      buyerRealtorCommission: 3,
-      sellerRealtorAddress:
-        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      sellerRealtorCommission: 3,
-      titleCompanyAddress:
-        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      titleCompanyMinCommission: 3,
-      titleCompanyMaxCommission: 6,
-      jurisdictionAddress:
-        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      jurisdictionMinFee: 3,
-      jurisdictionMaxFee: 6,
-      lenderAddress:
-        "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -72,6 +57,21 @@ export const CashBuyContractForm = (props: P) => {
   const onSubmit = async (data: any) => {
     try {
       console.log("-> data <-", data);
+
+      const {
+        buyer,
+        seller,
+        escrowAmount1,
+        escrowAmount2,
+        escrowTotal,
+        inspectionPeriodStart,
+        inspectionPeriodEnd,
+        movingDate,
+        closingDate,
+        freeFundsDate,
+        enableTimeChecks,
+        asaId,
+      } = data;
 
       let params = await Algod.getAlgod(settings.selectedNetwork)
         .getTransactionParams()
@@ -102,44 +102,28 @@ export const CashBuyContractForm = (props: P) => {
         c_prog,
         0, // local ints
         0, // local byte_slices
-        10, // global ints
+        11, // global ints
         3, // global byte_slices
         [
           // --- --- ---
-          // 0 buyer
-          // 1 seller
-          // 2 1st_escrow_payment
-          // 3 2nd_escrow_payment
-          // 4 total escrow
-          // 5 GLOBAL_INSPECTION_START_DATE
-          // 6 GLOBAL_INSPECTION_END_DATE
-          // 7 GLOBAL_MOVING_DATE
-          // 8 GLOBAL_CLOSING_DATE
-          // 9 GLOBAL_FREE_FUNDS_DATE
-          // 10 GLOBAL_TIME_CHECK_ENABLED
-          // --- --- ---
-          // /* 0 */ algosdk.encodeUint64(
-          //   moment(data.inspectionPeriodStart).unix()
-          // ), // IP begin
-          // /* 1 */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
-          // // /* */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
-          // /* 2 */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          // // /* */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
-          // /*  3 */ algosdk.encodeUint64(1100000), // # sale_price
-          // /* 4 */ algosdk.encodeUint64(500000), // # 1st_escrow_amount
-          // /* 5 */ algosdk.encodeUint64(600000), // # 2nd_escrow_amount
-          // /* 6 */ new Uint8Array(
-          //   Buffer.from(algosdk.decodeAddress(data.buyer).publicKey)
-          // ), // # buyer
-          // /* 7 */ new Uint8Array(
-          //   Buffer.from(algosdk.decodeAddress(data.seller).publicKey)
-          // ), // # seller
-          // /* 8 */ new Uint8Array(
-          //   Buffer.from(algosdk.decodeAddress(data.arbiter).publicKey)
-          // ), // # arbiter
-          // algosdk.encodeUint64(data.enableTimeChecks ? 1 : 0), // # int - enable_time_checks
+          new Uint8Array(Buffer.from(algosdk.decodeAddress(buyer).publicKey)), // 0 buyer
+          new Uint8Array(Buffer.from(algosdk.decodeAddress(seller).publicKey)), // 1 seller
+          algosdk.encodeUint64(Math.floor(escrowAmount1 * 2)), // 2 1st_escrow_payment
+          algosdk.encodeUint64(Math.floor(escrowAmount2 * 2)), // 3 2nd_escrow_payment
+          algosdk.encodeUint64(Math.floor(escrowTotal) * 2), // 4 total escrow
+          algosdk.encodeUint64(moment(inspectionPeriodStart).unix()), // 5 GLOBAL_INSPECTION_START_DATE
+          algosdk.encodeUint64(moment(inspectionPeriodEnd).unix()), // 6 GLOBAL_INSPECTION_END_DATE
+          algosdk.encodeUint64(moment(movingDate).unix()), // 7 GLOBAL_MOVING_DATE
+          algosdk.encodeUint64(moment(closingDate).unix()), // 8 GLOBAL_CLOSING_DATE
+          algosdk.encodeUint64(moment(freeFundsDate).unix()), // 9 GLOBAL_FREE_FUNDS_DATE
+          algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 10 GLOBAL_TIME_CHECK_ENABLED
+          algosdk.encodeUint64(asaId), // 11 GLOBAL_ASA_ID
           // --- --- --- --- ---
-        ]
+        ],
+        [],
+        [],
+        [],
+        new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0))
       );
 
       let binaryTx = appCreateTxn.toByte();
@@ -246,13 +230,13 @@ export const CashBuyContractForm = (props: P) => {
           <Row className="align-items-center">
             <Col sm={12} className="mb-3">
               <Form.Group id="seller">
-                <Form.Label>ASA (ie: USDCa)</Form.Label>
+                <Form.Label>ASA id (ie: USDCa)</Form.Label>
                 <Form.Control
-                  {...register("asaAddress", {
+                  {...register("asaId", {
                     required: true,
                   })}
-                  type="text"
-                  placeholder="ASA Address"
+                  type="number"
+                  placeholder="ASA id"
                 />
               </Form.Group>
             </Col>
@@ -378,6 +362,41 @@ export const CashBuyContractForm = (props: P) => {
                         })}
                         type="text"
                         value={getValues("closingDate")}
+                        placeholder="mm/dd/yyyy"
+                        onFocus={(e: any) => {
+                          openCalendar();
+                        }}
+                        onChange={() => {}}
+                      />
+                    </InputGroup>
+                  )}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={6} className="mb-3">
+              <Form.Group id="closing-date">
+                <Form.Label>Free Funds Date (without Arbitration)</Form.Label>
+                <Datetime
+                  timeFormat={true}
+                  onChange={(e: any) => {
+                    // console.log("e", e.unix());
+
+                    setValue("freeFundsDate", e.toString());
+                  }}
+                  renderInput={(props, openCalendar) => (
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <FontAwesomeIcon icon={faCalendarAlt} />
+                      </InputGroup.Text>
+                      <Form.Control
+                        {...register("freeFundsDate", {
+                          required: true,
+                        })}
+                        type="text"
+                        value={getValues("freeFundsDate")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();

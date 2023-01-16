@@ -62,6 +62,7 @@ import AssetDetail from "./AssetDetail";
 import ContractOptions from "./ContractOptions";
 import { BsFillNutFill } from "react-icons/bs";
 import FungibleTokenContract from "./contracts/FungibleTokenContract";
+import Overview_CashBuy__v1_0_0 from "./AppDetail/Overview_CashBuy__v1_0_0";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -179,7 +180,12 @@ const Router = () => (
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
         <Route path={"overview"} element={<BlockchainOverview />} />
         <Route path={"transactions"} element={<TransactionsOverview />} />
-        <Route path={"transactions/app/:id"} element={<AppDetail />} />
+        <Route path={"app/"} element={<AppDetail />}>
+          <Route
+            path={"cashBuy__v1_0_0/:id"}
+            element={<Overview_CashBuy__v1_0_0 />}
+          />
+        </Route>
         <Route path={"transactions/asset/:id"} element={<AssetDetail />} />
         <Route path={"contract-options"} element={<ContractOptions />} />
         <Route

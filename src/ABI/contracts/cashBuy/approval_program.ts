@@ -146,27 +146,18 @@ retsub
 // guard_optin_to_ASA
 guardoptintoASA_3:
 global GroupSize
-int 2
+int 1
 ==
-gtxn 0 Sender
+txn Sender
 byte "global_buyer"
 app_global_get
 ==
 &&
-gtxn 1 Sender
-byte "global_buyer"
-app_global_get
-==
-&&
-gtxn 0 TypeEnum
-int pay
-==
-&&
-gtxn 1 TypeEnum
+txn TypeEnum
 int appl
 ==
 &&
-gtxna 1 ApplicationArgs 0
+txna ApplicationArgs 0
 byte "optin_contract"
 ==
 &&
@@ -229,6 +220,10 @@ retsub
 initializecontract_7:
 byte "global_enable_time_checks"
 txna ApplicationArgs 10
+btoi
+app_global_put
+byte "global_asa_id"
+txna ApplicationArgs 11
 btoi
 app_global_put
 byte "global_buyer_pullout_flag"
@@ -351,8 +346,8 @@ optintoASA_9:
 itxn_begin
 int axfer
 itxn_field TypeEnum
-gtxna 1 ApplicationArgs 1
-btoi
+byte "global_asa_id"
+app_global_get
 itxn_field XferAsset
 int 0
 itxn_field AssetAmount
@@ -371,8 +366,8 @@ optoutfromASA_10:
 itxn_begin
 int axfer
 itxn_field TypeEnum
-txna ApplicationArgs 1
-btoi
+byte "global_asa_id"
+app_global_get
 itxn_field XferAsset
 global CurrentApplicationAddress
 itxn_field AssetCloseTo
@@ -388,14 +383,19 @@ return
 
 // withdraw_ASA
 withdrawASA_11:
+global CurrentApplicationAddress
+byte "global_asa_id"
+app_global_get
+asset_holding_get AssetBalance
+store 1
+store 0
 itxn_begin
 int axfer
 itxn_field TypeEnum
-txna ApplicationArgs 1
-btoi
+byte "global_asa_id"
+app_global_get
 itxn_field XferAsset
-txna ApplicationArgs 2
-btoi
+load 0
 itxn_field AssetAmount
 global CurrentApplicationAddress
 itxn_field Sender

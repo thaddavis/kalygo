@@ -4,9 +4,9 @@ import { faEllipsisH, faEye, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { Buffer } from "buffer";
 
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
-
+import { supportedContracts } from "../../../data/supportedContracts";
 import { useNavigate } from "react-router-dom";
-
+import { showErrorToast } from "../../../utility/errorToast";
 interface TR {
   id: string;
   "tx-type": string;
@@ -188,12 +188,22 @@ export const TableRow = (props: TR) => {
                 createdApplicationIndex) && (
                 <Dropdown.Item
                   onClick={() => {
-                    navigate(
-                      `/dashboard/transactions/app/${
-                        applicationTransaction!["application-id"] ||
-                        createdApplicationIndex
-                      }`
-                    );
+                    console.log("note", note);
+                    console.log(Buffer.from(note, "base64").toString());
+
+                    const decodedNote = Buffer.from(note, "base64").toString();
+                    switch (decodedNote) {
+                      case supportedContracts.cashBuy__v1_0_0:
+                        navigate(
+                          `/dashboard/app/cashBuy__v1_0_0/${
+                            applicationTransaction!["application-id"] ||
+                            createdApplicationIndex
+                          }`
+                        );
+                        break;
+                      default:
+                        showErrorToast("Unsupported Contract ID");
+                    }
                   }}
                 >
                   <FontAwesomeIcon icon={faEye} className="me-2" /> View
