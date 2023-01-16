@@ -62,7 +62,7 @@ import AssetDetail from "./AssetDetail";
 import ContractOptions from "./ContractOptions";
 import { BsFillNutFill } from "react-icons/bs";
 import FungibleTokenContract from "./contracts/FungibleTokenContract";
-import Overview_CashBuy__v1_0_0 from "./AppDetail/Overview_CashBuy__v1_0_0";
+import Overview_CashBuy__v1_0_0 from "./AppDetail/CashBuy__v1_0_0/Overview_CashBuy__v1_0_0";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);

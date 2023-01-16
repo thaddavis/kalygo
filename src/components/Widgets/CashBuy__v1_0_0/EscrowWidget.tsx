@@ -1,12 +1,15 @@
-import { Col, Row, Card, Image, ListGroup } from "react-bootstrap";
+import { Card, Col, ListGroup, Row } from "react-bootstrap";
 
 interface P {
-  escrowAmount1: string;
-  escrowAmount2: string;
-  totalValue: string;
-  balance: number | string;
+  escrowAmount1: number;
+  escrowAmount2: number;
+  totalValue: number;
+  balance: number;
   fungibleTokenName: string;
-  fungibleTokenBalance: number | string;
+  fungibleTokenBalance: number;
+  now: number;
+  inspectionPeriodEnd: number;
+  closingDate: number;
 }
 
 export const EscrowWidget = (props: P) => {
@@ -17,6 +20,9 @@ export const EscrowWidget = (props: P) => {
     totalValue,
     fungibleTokenName,
     fungibleTokenBalance,
+    now,
+    inspectionPeriodEnd,
+    closingDate,
   } = props;
 
   const CustomRow = (props: any) => {
@@ -46,27 +52,43 @@ export const EscrowWidget = (props: P) => {
 
   const escrowTokenName = fungibleTokenName;
 
+  // debugger;
+
   return (
-    <Card border="light" className="shadow-sm">
+    <Card
+      border={fungibleTokenBalance >= totalValue ? "success" : "light"}
+      className="shadow-sm"
+    >
       <Card.Header className="border-bottom border-light d-flex justify-content-between">
         <h5 className="mb-0">Escrow</h5>
       </Card.Header>
       <Card.Body>
         <ListGroup className="list-group-flush list my--3">
-          <CustomRow theKey={"Escrow Token"} value={escrowTokenName} />
+          {/* <CustomRow theKey={"Escrow Token"} value={escrowTokenName} /> */}
           <CustomRow
             theKey={"Escrow Token Balance"}
-            value={fungibleTokenBalance}
+            value={
+              fungibleTokenBalance < 0
+                ? "Ø"
+                : `${fungibleTokenBalance} ${escrowTokenName}`
+            }
           />
 
-          <CustomRow theKey={"Balance"} value={balance} />
+          <CustomRow
+            theKey={"Min. ALGO Balance (Deposit)"}
+            value={balance < 0 ? "Ø" : `${balance} mAlgos`}
+          />
           <CustomRow
             theKey={"Escrow Amount 1"}
-            value={`${escrowAmount1} ${escrowTokenName}`}
+            value={
+              escrowAmount1 < 0 ? "Ø" : `${escrowAmount1} ${escrowTokenName}`
+            }
           />
           <CustomRow
             theKey={"Escrow Amount 2"}
-            value={`${escrowAmount2} ${escrowTokenName}`}
+            value={
+              escrowAmount2 < 0 ? "Ø" : `${escrowAmount2} ${escrowTokenName}`
+            }
           />
           <CustomRow
             theKey={"Sale Price"}

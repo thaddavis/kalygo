@@ -12,13 +12,8 @@ import { Algod } from "../services/algod";
 import { useParams } from "react-router-dom";
 import { parseGlobalState } from "./customSelectors/appl/parseGlobalState";
 import { ErrorBoundary } from "../components/ErrorBoundary";
-import { RolesWidget } from "../components/Widgets/RolesWidget";
-import { EscrowContractTimelineWidget } from "../components/Widgets/ContractTimelineWidget";
-import { EscrowWidget } from "../components/Widgets/EscrowWidget";
-import { FlagsWidget } from "../components/Widgets/FlagsWidget";
 
 import algosdk from "algosdk";
-import { ActionsWidget } from "../components/Widgets/ActionsWidget";
 
 function AssetDetail() {
   const [asset, setAsset] = useState<any>({

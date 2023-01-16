@@ -17,7 +17,7 @@ import { SettingsForm } from "../components/Forms/SettingsForm";
 
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { OperatorConfig } from "../components/Widgets/OperatorConfig";
+import { OperatorConfig } from "../components/Widgets/Generic/OperatorConfig";
 import { Algod } from "../services/algod";
 import { useParams } from "react-router-dom";
 

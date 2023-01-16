@@ -4,22 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import get from "lodash/get";
 
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../../components/Forms/SettingsForm";
+import { SettingsForm } from "../../../components/Forms/SettingsForm";
 
-import { RootState } from "../../store/store";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { OperatorConfig } from "../../components/Widgets/OperatorConfig";
-import { Algod } from "../../services/algod";
+import { RootState } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { OperatorConfig } from "../../../components/Widgets/Generic/OperatorConfig";
+import { Algod } from "../../../services/algod";
 import { useParams } from "react-router-dom";
-import { parseGlobalState } from "../customSelectors/appl/parseGlobalState";
-import { ErrorBoundary } from "../../components/ErrorBoundary";
-import { RolesWidget } from "../../components/Widgets/RolesWidget";
-import { EscrowContractTimelineWidget } from "../../components/Widgets/ContractTimelineWidget";
-import { FlagsWidget } from "../../components/Widgets/FlagsWidget";
-import { EscrowWidget } from "../../components/Widgets/EscrowWidget";
+import { parseGlobalState } from "../../customSelectors/appl/parseGlobalState";
+import { ErrorBoundary } from "../../../components/ErrorBoundary";
+import { RolesWidget } from "../../../components/Widgets/FinancedDeal__v1_0_0/RolesWidget";
+import { EscrowContractTimelineWidget } from "../../../components/Widgets/FinancedDeal__v1_0_0/ContractTimelineWidget";
+import { FlagsWidget } from "../../../components/Widgets/FinancedDeal__v1_0_0/FlagsWidget";
+import { EscrowWidget } from "../../../components/Widgets/FinancedDeal__v1_0_0/EscrowWidget";
 
 import algosdk from "algosdk";
-import { ActionsWidget } from "../../components/Widgets/ActionsWidget";
+import { ActionsWidget } from "../../../components/Widgets/FinancedDeal__v1_0_0/ActionsWidget";
 
 function AppDetail() {
   const [app, setApp] = useState<any>({

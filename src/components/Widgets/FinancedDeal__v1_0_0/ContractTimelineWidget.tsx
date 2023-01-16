@@ -9,7 +9,7 @@ import {
   Table,
 } from "react-bootstrap";
 
-import { pageVisits, pageTraffic, pageRanking } from "../../data/tables";
+import { pageVisits, pageTraffic, pageRanking } from "../../../data/tables";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

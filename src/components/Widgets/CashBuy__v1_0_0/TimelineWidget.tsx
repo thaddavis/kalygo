@@ -38,12 +38,12 @@ export const TimelineWidget = (props: P) => {
       <Card.Header>
         <Row className="align-items-center">
           <Col>
-            <h5>Timeline</h5>
+            <h5 className="mb-0">Timeline</h5>
           </Col>
         </Row>
       </Card.Header>
-      <Card.Body>
-        <section className="timeline-wrapper">
+      {/* <Card.Body> */}
+      {/* <section className="timeline-wrapper">
           <div className="middle-line"></div>
           {events.map((i: any, idx: number) => {
             return (
@@ -52,16 +52,15 @@ export const TimelineWidget = (props: P) => {
               </div>
             );
           })}
-        </section>
-      </Card.Body>
+        </section> */}
       <Table responsive className="align-items-center table-flush">
-        <thead className="thead-light">
-          <tr>
-            <th scope="col">Milestone</th>
-            <th scope="col">Color</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
+        {/* <thead className="thead-light">
+            <tr>
+              <th scope="col">Milestone</th>
+              <th scope="col">Color</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead> */}
         <tbody>
           {events.map((i: any, idx: number) => {
             return (
@@ -76,6 +75,7 @@ export const TimelineWidget = (props: P) => {
           })}
         </tbody>
       </Table>
+      {/* </Card.Body> */}
     </Card>
   );
 };

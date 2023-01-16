@@ -1,8 +1,8 @@
-import { Algod } from "../services/algod";
+import { Algod } from "../../services/algod";
 import algosdk from "algosdk";
 import { Buffer } from "buffer";
-import { showSuccessToast } from "../utility/successToast";
-import { showErrorToast } from "../utility/errorToast";
+import { showSuccessToast } from "../../utility/successToast";
+import { showErrorToast } from "../../utility/errorToast";
 
 export async function fundMinimumBalance(
   sender: string,

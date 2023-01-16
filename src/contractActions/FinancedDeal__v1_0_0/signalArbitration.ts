@@ -1,8 +1,8 @@
 import algosdk from "algosdk";
-import { Algod } from "../services/algod";
+import { Algod } from "../../services/algod";
 import { Buffer } from "buffer";
-import { showSuccessToast } from "../utility/successToast";
-import { showErrorToast } from "../utility/errorToast";
+import { showSuccessToast } from "../../utility/successToast";
+import { showErrorToast } from "../../utility/errorToast";
 
 export async function signalArbitration(
   sender: string,

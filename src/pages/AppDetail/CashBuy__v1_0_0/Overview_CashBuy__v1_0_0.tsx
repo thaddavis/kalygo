@@ -4,37 +4,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import get from "lodash/get";
 
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../../components/Forms/SettingsForm";
+import { SettingsForm } from "../../../components/Forms/SettingsForm";
 
-import { RootState } from "../../store/store";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { OperatorConfig } from "../../components/Widgets/OperatorConfig";
-import { Algod } from "../../services/algod";
+import { RootState } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { OperatorConfig } from "../../../components/Widgets/Generic/OperatorConfig";
+import { Algod } from "../../../services/algod";
 import { useParams } from "react-router-dom";
-import { parseGlobalState } from "../customSelectors/appl/parseGlobalState";
-import { ErrorBoundary } from "../../components/ErrorBoundary";
-import { RolesWidget } from "../../components/Widgets/OverviewCashBuy__v1_0_0/RolesWidget";
-import { TimelineWidget } from "../../components/Widgets/OverviewCashBuy__v1_0_0/TimelineWidget";
-import { FlagsWidget } from "../../components/Widgets/OverviewCashBuy__v1_0_0/FlagsWidget";
-import { EscrowWidget } from "../../components/Widgets/OverviewCashBuy__v1_0_0/EscrowWidget";
+import { parseGlobalState } from "../../customSelectors/appl/parseGlobalState";
+import { ErrorBoundary } from "../../../components/ErrorBoundary";
+import { RolesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/RolesWidget";
+import { TimelineWidget } from "../../../components/Widgets/CashBuy__v1_0_0/TimelineWidget";
+import { FlagsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/FlagsWidget";
+import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/EscrowWidget";
 
 import algosdk from "algosdk";
-import { ActionsWidget } from "../../components/Widgets/OverviewCashBuy__v1_0_0/ActionsWidget";
-import AlgodClient from "algosdk/dist/types/src/client/v2/algod/algod";
-
-/*
-const printAssetHolding = async function (algodclient, account, assetid) {
-    let accountInfo = await algodclient.accountInformation(account).do();
-    for (idx = 0; idx < accountInfo['assets'].length; idx++) {
-        let scrutinizedAsset = accountInfo['assets'][idx];
-        if (scrutinizedAsset['asset-id'] == assetid) {
-            let myassetholding = JSON.stringify(scrutinizedAsset, undefined, 2);
-            console.log("assetholdinginfo = " + myassetholding);
-            break;
-        }
-    }
-};
-*/
+import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
+import { prepareTimelineEventsArray } from "./helpers/prepareTimelineEventsArray";
 
 function Overview_CashBuy__v1_0_0() {
   const [app, setApp] = useState<any>({
@@ -188,59 +174,14 @@ function Overview_CashBuy__v1_0_0() {
     fetch();
   }, []);
 
-  const ParsedAppGlobalState = () => {
-    try {
-      return <pre>{JSON.stringify(app.val, undefined, 2)}</pre>;
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  let timelineEvents = [
-    {
-      title: "Now",
-      time: new Date().getTime(),
-      color: "purple",
-    },
-    {
-      title: "Closing Date",
-      time: new Date(get(app, "val.global_closing_date", 0) * 1000).getTime(),
-      color: "green",
-    },
-    {
-      title: "Inspection Ends",
-      time: new Date(
-        get(app, "val.global_inspection_end_date", 0) * 1000
-      ).getTime(),
-      color: "orange",
-    },
-    {
-      title: "Inspection Begins",
-      time: new Date(
-        get(app, "val.global_inspection_start_date", 0) * 1000
-      ).getTime(),
-      color: "red",
-    },
-    {
-      title: "Free Funds Date",
-      time: new Date(
-        get(app, "val.global_free_funds_date", 0) * 1000
-      ).getTime(),
-      color: "pink",
-    },
-  ];
-
-  function compare(a: any, b: any) {
-    if (a.time < b.time) {
-      return 1;
-    }
-    if (a.time > b.time) {
-      return -1;
-    }
-    return 0;
-  }
-
-  timelineEvents.sort(compare);
+  let timelineEvents = app
+    ? prepareTimelineEventsArray(app)
+    : {
+        timeline: [],
+        now: new Date().getTime(),
+        inspectionPeriodEnd: new Date().getTime(),
+        closingDate: new Date().getTime(),
+      };
 
   // console.log("app.val", app.val);
   // console.log("asset.val", asset.val);
@@ -249,17 +190,17 @@ function Overview_CashBuy__v1_0_0() {
 
   const escrowTokenName = asset?.val?.assets[0]?.params?.name;
   const escrowTokenId = asset?.val?.assets[0]?.index;
-  let escrowTokenBalance = "-";
+  let escrowTokenBalance = -1;
 
   for (let idx = 0; idx < account?.val?.assets.length; idx++) {
     let scrutinizedAsset = account?.val?.assets[idx];
     if (scrutinizedAsset["asset-id"] === asset?.val?.assets[0]?.index) {
-      // let myassetholding = JSON.stringify(scrutinizedAsset, undefined, 2);
       escrowTokenBalance = scrutinizedAsset?.amount;
-      // console.log("assetholdinginfo = " + myassetholding);
       break;
     }
   }
+
+  console.log("escrowTokenBalance", escrowTokenBalance);
 
   return app.error ? (
     <h1>ERROR</h1>
@@ -270,34 +211,38 @@ function Overview_CashBuy__v1_0_0() {
       </div>
 
       <Row>
+        <Col xs={12} xl={4}>
+          <OperatorConfig />
+          <ActionsWidget
+            now={timelineEvents.now}
+            inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
+            fungibleTokenId={escrowTokenId}
+            fungibleTokenBalance={escrowTokenBalance}
+            balance={get(account.val, "amount", 0)}
+            creator={get(app.val, "global_creator", "Not Found")}
+            buyer={get(app.val, "global_buyer", "Not Found")}
+            seller={get(app.val, "global_seller", "Not Found")}
+            operator={settings.selectedAccount}
+            contractAddress={`${get(account.val, "address", "Not Found")}`}
+            appId={Number.parseInt(id!)}
+            firstEscrowAmount={get(app.val, "global_escrow_payment_1", -1)}
+            secondEscrowAmount={get(app.val, "global_escrow_payment_2", -1)}
+          />
+        </Col>
         <Col xs={12} xl={8} className="mb-4">
           <Row>
             <Col xs={12} lg={6} className="mb-4">
-              <RolesWidget
-                buyer={get(app.val, "global_buyer", "Not Found")}
-                seller={get(app.val, "global_seller", "Not Found")}
-              />
-            </Col>
-            <Col xs={12} lg={6} className="mb-4">
               <EscrowWidget
+                now={timelineEvents.now}
+                inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
+                closingDate={timelineEvents.closingDate}
                 fungibleTokenName={escrowTokenName}
                 fungibleTokenBalance={escrowTokenBalance}
-                balance={`${get(account.val, "amount", "-")} mAlgos`}
-                escrowAmount1={`${get(
-                  app.val,
-                  "global_escrow_payment_1",
-                  "-"
-                )}`}
-                escrowAmount2={`${get(
-                  app.val,
-                  "global_escrow_payment_2",
-                  "-"
-                )}`}
-                totalValue={`${get(app.val, "global_escrow_total", "-")}`}
+                balance={get(account.val, "amount", -1)}
+                escrowAmount1={get(app.val, "global_escrow_payment_1", -1)}
+                escrowAmount2={get(app.val, "global_escrow_payment_2", -1)}
+                totalValue={get(app.val, "global_escrow_total", -1)}
               />
-            </Col>
-            <Col xs={12} className="mb-4">
-              <TimelineWidget events={timelineEvents} />
             </Col>
             <Col xs={12} lg={6} className="mb-4">
               <FlagsWidget
@@ -310,37 +255,17 @@ function Overview_CashBuy__v1_0_0() {
                 lenderApproves={`${get(app.val, "lender_approves", -1)}`}
               />
             </Col>
+            <Col xs={12} className="mb-4">
+              <TimelineWidget events={get(timelineEvents, "timeline", [])} />
+            </Col>
+            <Col xs={12} className="mb-4">
+              <RolesWidget
+                buyer={get(app.val, "global_buyer", "Not Found")}
+                seller={get(app.val, "global_seller", "Not Found")}
+              />
+            </Col>
           </Row>
         </Col>
-        <Col xs={12} xl={4}>
-          <OperatorConfig />
-          <ActionsWidget
-            fungibleTokenId={escrowTokenId}
-            creator={get(app.val, "global_creator", "Not Found")}
-            buyer={get(app.val, "global_buyer", "Not Found")}
-            seller={get(app.val, "global_seller", "Not Found")}
-            operator={settings.selectedAccount}
-            contractAddress={`${get(account.val, "address", "Not Found")}`}
-            appId={Number.parseInt(id!)}
-            firstEscrowAmount={get(app.val, "1st_escrow_amount", -1)}
-            secondEscrowAmount={get(app.val, "2nd_escrow_amount", -1)}
-          />
-        </Col>
-      </Row>
-      <Row>
-        {/* <Col xs={12} md={8} xl={8}>
-          {app.val && (
-            <ErrorBoundary>
-              <ParsedAppGlobalState />
-            </ErrorBoundary>
-          )}
-        </Col> */}
-
-        {/* {account.val && !account.error && !account.loading && (
-          <Col xs={12} md={8} xl={8}>
-            <pre>{JSON.stringify(account.val, undefined, 2)}</pre>
-          </Col>
-        )} */}
       </Row>
     </ErrorBoundary>
   );

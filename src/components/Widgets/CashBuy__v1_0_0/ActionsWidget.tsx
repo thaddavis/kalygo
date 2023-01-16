@@ -1,27 +1,18 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Col,
-  Row,
-  Card,
-  Image,
-  Button,
-  ListGroup,
-  ProgressBar,
-} from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 
 import { RootState } from "../../../store/store";
 import { useAppSelector } from "../../../store/hooks";
-import { optinContractToASA } from "../../../contractActions/Overview_CashBuy__v1_0_0/optinContractToASA";
-import { firstEscrowAmount } from "../../../contractActions/Overview_CashBuy__v1_0_0/1stEscrowAmount";
-import { secondEscrowAmount } from "../../../contractActions/Overview_CashBuy__v1_0_0/2ndEscrowAmount";
-import { buyerPullOut } from "../../../contractActions/Overview_CashBuy__v1_0_0/buyerPullOut";
-import { signalArbitration } from "../../../contractActions/Overview_CashBuy__v1_0_0/signalArbitration";
-import { withdrawEscrow } from "../../../contractActions/Overview_CashBuy__v1_0_0/withdrawEscrow";
-import { withdrawBalance } from "../../../contractActions/Overview_CashBuy__v1_0_0/withdrawBalance";
-import { deleteApp } from "../../../contractActions/Overview_CashBuy__v1_0_0/deleteApp";
-import { fundMinimumBalance } from "../../../contractActions/Overview_CashBuy__v1_0_0/fundMinimumBalance";
-import { optoutContractFromASA } from "../../../contractActions/Overview_CashBuy__v1_0_0/optoutContractFromASA";
+import { optinContractToASA } from "../../../contractActions/CashBuy__v1_0_0/optinContractToASA";
+import { firstEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/1stEscrowAmount";
+import { secondEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/2ndEscrowAmount";
+import { buyerPullOut } from "../../../contractActions/CashBuy__v1_0_0/buyerPullOut";
+import { signalArbitration } from "../../../contractActions/CashBuy__v1_0_0/signalArbitration";
+import { withdrawEscrow } from "../../../contractActions/CashBuy__v1_0_0/withdrawEscrow";
+import { withdrawBalance } from "../../../contractActions/CashBuy__v1_0_0/withdrawBalance";
+import { deleteApp } from "../../../contractActions/CashBuy__v1_0_0/deleteApp";
+import { fundMinimumBalance } from "../../../contractActions/CashBuy__v1_0_0/fundMinimumBalance";
+import { optoutContractFromASA } from "../../../contractActions/CashBuy__v1_0_0/optoutContractFromASA";
 
 interface P {
   creator: string;
@@ -33,6 +24,10 @@ interface P {
   firstEscrowAmount: number;
   secondEscrowAmount: number;
   fungibleTokenId: number;
+  fungibleTokenBalance: number;
+  balance: number;
+  now: number;
+  inspectionPeriodEnd: number;
 }
 
 export const ActionsWidget = (props: P) => {
@@ -46,13 +41,20 @@ export const ActionsWidget = (props: P) => {
     firstEscrowAmount: escrowAmount1,
     secondEscrowAmount: escrowAmount2,
     fungibleTokenId,
+    fungibleTokenBalance,
+    balance,
+    now,
+    inspectionPeriodEnd,
   } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
+  console.log("fungibleTokenBalance ->", fungibleTokenBalance);
+
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <Card.Body className="">
+        <Card.Subtitle className="fw-normal pb-4">Role Actions</Card.Subtitle>
         <Card.Title>
           {operator === creator && (
             <>
@@ -73,8 +75,6 @@ export const ActionsWidget = (props: P) => {
           )}
           <br />
         </Card.Title>
-        {/* <Card.Subtitle className="fw-normal pb-4">Actions</Card.Subtitle> */}
-
         {operator === buyer && (
           <>
             <Button
@@ -89,10 +89,18 @@ export const ActionsWidget = (props: P) => {
             <Button
               variant="secondary"
               size="sm"
+              disabled
               className="m-1"
+              onClick={() => {}}
+            >
+              Send Custom Escrow Token Amount
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              disabled={balance >= 200000 ? true : false}
               onClick={() => {
-                console.log("___ fundMinimumBalance ___");
-
                 fundMinimumBalance(
                   settings.selectedAccount,
                   contractAddress,
@@ -108,14 +116,12 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled
+              disabled={fungibleTokenBalance >= escrowAmount1}
               onClick={() => {
-                console.log("___ Send 1st Escrow ___");
-
                 firstEscrowAmount(
                   settings.selectedAccount,
                   contractAddress,
-                  appId,
+                  fungibleTokenId,
                   settings.selectedNetwork,
                   escrowAmount1
                 );
@@ -127,14 +133,12 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled
+              disabled={fungibleTokenBalance >= escrowAmount1 + escrowAmount2}
               onClick={() => {
-                console.log("___ Send 1st Escrow ___");
-
                 secondEscrowAmount(
                   settings.selectedAccount,
                   contractAddress,
-                  appId,
+                  fungibleTokenId,
                   settings.selectedNetwork,
                   escrowAmount2
                 );
@@ -148,8 +152,6 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               disabled
               onClick={() => {
-                console.log("(_)___(_)");
-
                 signalArbitration(
                   settings.selectedAccount,
                   contractAddress,
@@ -164,9 +166,10 @@ export const ActionsWidget = (props: P) => {
               variant="warning"
               size="sm"
               className="m-1"
+              disabled={
+                !!now && !!inspectionPeriodEnd && now > inspectionPeriodEnd
+              }
               onClick={() => {
-                console.log("_)_(_");
-
                 buyerPullOut(
                   settings.selectedAccount,
                   contractAddress,
@@ -181,11 +184,12 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
+              disabled={fungibleTokenBalance > 0 ? false : true}
               onClick={() => {
                 withdrawEscrow(
                   settings.selectedAccount,
-                  contractAddress,
                   appId,
+                  fungibleTokenId,
                   settings.selectedNetwork
                 );
               }}
@@ -196,6 +200,7 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
+              disabled={balance > 0 ? false : true}
               onClick={() => {
                 withdrawBalance(
                   settings.selectedAccount,
@@ -209,7 +214,6 @@ export const ActionsWidget = (props: P) => {
             </Button>
           </>
         )}
-
         {operator === seller && (
           <>
             <Button variant="secondary" size="sm" className="m-1">
@@ -217,20 +221,14 @@ export const ActionsWidget = (props: P) => {
             </Button>
           </>
         )}
-
         {operator === creator && (
           <>
             <Button
               variant="success"
               size="sm"
               className="m-1"
+              disabled={fungibleTokenBalance >= 0}
               onClick={() => {
-                // deleteApp(
-                //   settings.selectedAccount,
-                //   contractAddress,
-                //   appId,
-                //   settings.selectedNetwork
-                // );
                 optinContractToASA(
                   settings.selectedAccount,
                   contractAddress,
@@ -247,6 +245,7 @@ export const ActionsWidget = (props: P) => {
               variant="info"
               size="sm"
               className="m-1"
+              disabled={fungibleTokenBalance === -1}
               onClick={() => {
                 optoutContractFromASA(
                   settings.selectedAccount,
@@ -276,7 +275,6 @@ export const ActionsWidget = (props: P) => {
             </Button>
           </>
         )}
-
         {/* {operator === arbiter && (
           <>
             <Button

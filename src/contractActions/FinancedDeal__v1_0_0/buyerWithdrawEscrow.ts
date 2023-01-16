@@ -1,10 +1,10 @@
 import algosdk from "algosdk";
-import { Algod } from "../services/algod";
+import { Algod } from "../../services/algod";
 import { Buffer } from "buffer";
-import { showSuccessToast } from "../utility/successToast";
-import { showErrorToast } from "../utility/errorToast";
+import { showSuccessToast } from "../../utility/successToast";
+import { showErrorToast } from "../../utility/errorToast";
 
-export async function sellerWithdrawEscrow(
+export async function buyerWithdrawEscrow(
   sender: string,
   contractAddress: string,
   appId: number,
@@ -20,11 +20,11 @@ export async function sellerWithdrawEscrow(
       sender,
       params,
       appId,
-      [new Uint8Array(Buffer.from("seller_withdraw_funds"))],
+      [new Uint8Array(Buffer.from("buyer_withdraw_funds"))],
       undefined,
       undefined,
       undefined,
-      new Uint8Array(Buffer.from("Seller Withdraw Escrow"))
+      new Uint8Array(Buffer.from("Buyer Withdraw Escrow"))
     );
 
     let binaryTx = noOpTxn.toByte();
@@ -38,13 +38,12 @@ export async function sellerWithdrawEscrow(
       },
     ]);
 
-    let sentTx = await (window as any).AlgoSigner.send({
+    let sentTxn = await (window as any).AlgoSigner.send({
       ledger: network,
       tx: signedTxs[0].blob,
     });
 
-    console.log("sentTx", sentTx);
-
+    console.log("sentTxn", sentTxn);
     showSuccessToast("Withdraw escrow request sent to network");
   } catch (e) {
     showErrorToast("Error occurred when sending withdraw escrow request");

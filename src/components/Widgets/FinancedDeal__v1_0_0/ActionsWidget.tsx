@@ -14,23 +14,23 @@ import {
   BarChart,
   SalesValueChart,
   SalesValueChartphone,
-} from "../Charts";
+} from "../../Charts";
 
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../../assets/img/profile-cover.jpg";
 
-import teamMembers from "../../data/teamMembers";
-import { RootState } from "../../store/store";
-import { useAppSelector } from "../../store/hooks";
-import { fundMinimumBalance } from "../../contractActions/fundMinimumBalance";
-import { firstEscrowAmount } from "../../contractActions/1stEscrowAmount";
-import { secondEscrowAmount } from "../../contractActions/2ndEscrowAmount";
-import { signalPullOut } from "../../contractActions/signalPullOut";
-import { signalArbitration } from "../../contractActions/signalArbitration";
-import { buyerWithdrawEscrow } from "../../contractActions/buyerWithdrawEscrow";
-import { deleteApp } from "../../contractActions/deleteApp";
-import { sendHoldingsToBuyer } from "../../contractActions/sendHoldingsToBuyer";
-import { sendHoldingsToSeller } from "../../contractActions/sendHoldingsToSeller";
+import teamMembers from "../../../data/teamMembers";
+import { RootState } from "../../../store/store";
+import { useAppSelector } from "../../../store/hooks";
+import { fundMinimumBalance } from "../../../contractActions/FinancedDeal__v1_0_0/fundMinimumBalance";
+import { firstEscrowAmount } from "../../../contractActions/FinancedDeal__v1_0_0/1stEscrowAmount";
+import { secondEscrowAmount } from "../../../contractActions/FinancedDeal__v1_0_0/2ndEscrowAmount";
+import { signalPullOut } from "../../../contractActions/FinancedDeal__v1_0_0/signalPullOut";
+import { signalArbitration } from "../../../contractActions/FinancedDeal__v1_0_0/signalArbitration";
+import { buyerWithdrawEscrow } from "../../../contractActions/FinancedDeal__v1_0_0/buyerWithdrawEscrow";
+import { deleteApp } from "../../../contractActions/FinancedDeal__v1_0_0/deleteApp";
+import { sendHoldingsToBuyer } from "../../../contractActions/FinancedDeal__v1_0_0/sendHoldingsToBuyer";
+import { sendHoldingsToSeller } from "../../../contractActions/FinancedDeal__v1_0_0/sendHoldingsToSeller";
 
 interface P {
   buyer: string;
