@@ -5,7 +5,7 @@ import { showSuccessToast } from "../../utility/successToast";
 import { showErrorToast } from "../../utility/errorToast";
 import { supportedContracts } from "../../data/supportedContracts";
 
-export async function signalArbitration(
+export async function buyerArbitration(
   sender: string,
   contractAddress: string,
   appId: number,
@@ -25,7 +25,7 @@ export async function signalArbitration(
       sender,
       params,
       appId,
-      [new Uint8Array(Buffer.from("signal_arbitration"))],
+      [new Uint8Array(Buffer.from("buyer_set_arbitration"))],
       undefined,
       undefined,
       undefined,

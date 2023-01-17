@@ -4,13 +4,19 @@ export function prepareTimelineEventsArray(app: object) {
   const now = {
     title: "Now",
     time: new Date().getTime(),
-    color: "purple",
+    color: "red ",
+  };
+
+  const movingDate = {
+    title: "Moving Date",
+    time: new Date(get(app, "val.global_moving_date", 0) * 1000).getTime(),
+    color: "rgba(0, 0, 0, 0.6)",
   };
 
   const closingDate = {
     title: "Closing Date",
     time: new Date(get(app, "val.global_closing_date", 0) * 1000).getTime(),
-    color: "green",
+    color: "rgba(0, 0, 0, 0.8)",
   };
 
   const inspectionPeriodEnd = {
@@ -18,26 +24,27 @@ export function prepareTimelineEventsArray(app: object) {
     time: new Date(
       get(app, "val.global_inspection_end_date", 0) * 1000
     ).getTime(),
-    color: "orange",
+    color: "rgba(0, 0, 0, 0.4)",
   };
 
   let timelineEvents = [
     now,
     closingDate,
     inspectionPeriodEnd,
+    movingDate,
     {
       title: "Inspection Begins",
       time: new Date(
         get(app, "val.global_inspection_start_date", 0) * 1000
       ).getTime(),
-      color: "red",
+      color: "rgba(0, 0, 0, 0.2)",
     },
     {
       title: "Free Funds Date",
       time: new Date(
         get(app, "val.global_free_funds_date", 0) * 1000
       ).getTime(),
-      color: "pink",
+      color: "rgba(0, 0, 0, 1.0)",
     },
   ];
 
@@ -58,5 +65,6 @@ export function prepareTimelineEventsArray(app: object) {
     now: now.time,
     inspectionPeriodEnd: inspectionPeriodEnd.time,
     closingDate: closingDate.time,
+    movingDate: movingDate.time,
   };
 }

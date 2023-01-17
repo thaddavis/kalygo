@@ -64,7 +64,6 @@ export const EscrowWidget = (props: P) => {
       </Card.Header>
       <Card.Body>
         <ListGroup className="list-group-flush list my--3">
-          {/* <CustomRow theKey={"Escrow Token"} value={escrowTokenName} /> */}
           <CustomRow
             theKey={"Escrow Token Balance"}
             value={
@@ -92,7 +91,7 @@ export const EscrowWidget = (props: P) => {
           />
           <CustomRow
             theKey={"Sale Price"}
-            value={`${totalValue}  ${escrowTokenName}`}
+            value={totalValue < 0 ? "Ø" : `${totalValue} ${escrowTokenName}`}
           />
         </ListGroup>
       </Card.Body>

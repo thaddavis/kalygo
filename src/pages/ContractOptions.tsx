@@ -12,12 +12,6 @@ export default function ContractOptions() {
       <Row>
         {[
           {
-            title: "Financed Deal",
-            desc: "Buyer purchases property via lender financing",
-            pathTo: RoutesData.NewFinanceDealContract.path,
-            disabled: false,
-          },
-          {
             title: "Tokenized Asset",
             desc: "Allows you to create a fungible token",
             pathTo: RoutesData.FungibleTokenContract.path,
@@ -28,6 +22,12 @@ export default function ContractOptions() {
             desc: "Buyer purchases property with 100% 'cash'",
             pathTo: RoutesData.CashBuy.path,
             disabled: false,
+          },
+          {
+            title: "Financed Deal",
+            desc: "Coming soon...",
+            pathTo: RoutesData.NewFinanceDealContract.path,
+            disabled: true,
           },
         ].map((i, idx) => {
           return (

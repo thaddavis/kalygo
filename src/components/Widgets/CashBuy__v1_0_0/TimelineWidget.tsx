@@ -12,19 +12,7 @@ import {
 import { pageVisits, pageTraffic, pageRanking } from "../../../data/tables";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowDown,
-  faArrowUp,
-  faChartArea,
-  faChartBar,
-  faCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faAngular,
-  faBootstrap,
-  faReact,
-  faVuejs,
-} from "@fortawesome/free-brands-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 interface P {
   events: any;
@@ -65,7 +53,17 @@ export const TimelineWidget = (props: P) => {
           {events.map((i: any, idx: number) => {
             return (
               <tr key={idx}>
-                <td>{i.title}</td>
+                <td>
+                  {i.title}
+                  <i>
+                    {i.title === "Inspection Ends" &&
+                      " - Buyer pullout allowed before"}
+                    {i.title === "Closing Date" &&
+                      " - Arbitration flags allowed before"}
+                    {i.title === "Free Funds Date" &&
+                      " - Extension for response arbitration flag"}
+                  </i>
+                </td>
                 <td style={{ color: i.color }}>
                   <FontAwesomeIcon icon={faCircle} className="me-1" />
                 </td>

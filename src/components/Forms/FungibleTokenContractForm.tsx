@@ -34,11 +34,11 @@ export const FungibleTokenContractForm = (props: P) => {
     watch,
   } = useForm({
     defaultValues: {
-      assetName: "Albanian Villa",
-      totalSupply: 100000,
+      assetName: "Asset Name",
+      totalSupply: 1,
       enableClawback: true,
-      unitName: "ALB",
-      url: "https://albanianvillas.com",
+      unitName: "ie: USDCa or USDT or whatever",
+      url: "URL",
     },
   });
 
@@ -160,7 +160,7 @@ export const FungibleTokenContractForm = (props: P) => {
               </Form.Group>
             </Col>
 
-            <Col sm={12} className="mb-3">
+            <Col sm={12} className="mb-0">
               <Form.Group id="equity-divisions">
                 <Form.Label>Total Supply</Form.Label>
                 <Form.Control
@@ -170,8 +170,8 @@ export const FungibleTokenContractForm = (props: P) => {
                 />
 
                 <p>
-                  One unit of this fungible token would represent a{" "}
-                  {1 / getValues("totalSupply")}% stake
+                  One unit of this token would represent a{" "}
+                  {100 / getValues("totalSupply")}% stake
                 </p>
               </Form.Group>
             </Col>

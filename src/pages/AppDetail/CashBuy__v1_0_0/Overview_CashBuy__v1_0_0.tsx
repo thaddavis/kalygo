@@ -181,6 +181,7 @@ function Overview_CashBuy__v1_0_0() {
         now: new Date().getTime(),
         inspectionPeriodEnd: new Date().getTime(),
         closingDate: new Date().getTime(),
+        movingDate: new Date().getTime(),
       };
 
   // console.log("app.val", app.val);
@@ -200,7 +201,7 @@ function Overview_CashBuy__v1_0_0() {
     }
   }
 
-  console.log("escrowTokenBalance", escrowTokenBalance);
+  // console.log("escrowTokenBalance", escrowTokenBalance);
 
   return app.error ? (
     <h1>ERROR</h1>
@@ -216,6 +217,8 @@ function Overview_CashBuy__v1_0_0() {
           <ActionsWidget
             now={timelineEvents.now}
             inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
+            closingDate={timelineEvents.closingDate}
+            movingDate={timelineEvents.movingDate}
             fungibleTokenId={escrowTokenId}
             fungibleTokenBalance={escrowTokenBalance}
             balance={get(account.val, "amount", 0)}
@@ -227,6 +230,12 @@ function Overview_CashBuy__v1_0_0() {
             appId={Number.parseInt(id!)}
             firstEscrowAmount={get(app.val, "global_escrow_payment_1", -1)}
             secondEscrowAmount={get(app.val, "global_escrow_payment_2", -1)}
+            buyerPulloutFlag={get(app.val, "global_buyer_pullout_flag", -1)}
+            buyerArbitrationFlag={get(
+              app.val,
+              "global_buyer_arbitration_flag",
+              -1
+            )}
           />
         </Col>
         <Col xs={12} xl={8} className="mb-4">
@@ -246,13 +255,12 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} lg={6} className="mb-4">
               <FlagsWidget
-                signalPullOut={`${get(
+                signalPullOut={get(app.val, "global_buyer_pullout_flag", -1)}
+                signalBuyerArbitration={get(
                   app.val,
-                  "global_buyer_pullout_flag",
+                  "global_buyer_arbitration_flag",
                   -1
-                )}`}
-                signalArbitration={`${get(app.val, "signal_arbitration", -1)}`}
-                lenderApproves={`${get(app.val, "lender_approves", -1)}`}
+                )}
               />
             </Col>
             <Col xs={12} className="mb-4">
@@ -260,6 +268,7 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} className="mb-4">
               <RolesWidget
+                creator={get(app.val, "global_creator", "Not Found")}
                 buyer={get(app.val, "global_buyer", "Not Found")}
                 seller={get(app.val, "global_seller", "Not Found")}
               />

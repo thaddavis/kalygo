@@ -2,23 +2,23 @@ export const approval_program = `#pragma version 8
 txn ApplicationID
 int 0
 ==
-bnz main_l31
+bnz main_l33
 txn OnCompletion
 int DeleteApplication
 ==
-bnz main_l28
+bnz main_l30
 txn OnCompletion
 int UpdateApplication
 ==
-bnz main_l25
+bnz main_l27
 txn OnCompletion
 int OptIn
 ==
-bnz main_l24
+bnz main_l26
 txn OnCompletion
 int CloseOut
 ==
-bnz main_l23
+bnz main_l25
 txn OnCompletion
 int NoOp
 ==
@@ -26,72 +26,80 @@ bnz main_l7
 err
 main_l7:
 callsub guardcreatorwithdrawbalance_0
-bnz main_l22
+bnz main_l24
 callsub guardbuyerwithdrawbalance_1
-bnz main_l21
+bnz main_l23
 callsub guardsellerwithdrawbalance_2
-bnz main_l20
+bnz main_l22
 callsub guardoptoutfromASA_4
-bnz main_l19
-callsub guardbuyersetpullout_6
-bnz main_l18
+bnz main_l21
 callsub guardbuyerwithdrawASA_5
-bnz main_l17
+bnz main_l20
+callsub guardbuyersetpullout_6
+bnz main_l19
+callsub guardbuyersetarbitration_7
+bnz main_l18
 callsub guardoptintoASA_3
-bnz main_l15
+bnz main_l16
 err
-main_l15:
-callsub optintoASA_9
 main_l16:
+callsub optintoASA_10
+main_l17:
 int 0
 return
-main_l17:
-callsub withdrawASA_11
-b main_l16
 main_l18:
-callsub buyersetpullout_12
-b main_l16
-main_l19:
-callsub optoutfromASA_10
-b main_l16
-main_l20:
-callsub withdrawbalance_8
-b main_l16
-main_l21:
-callsub withdrawbalance_8
-b main_l16
-main_l22:
-callsub withdrawbalance_8
-b main_l16
-main_l23:
+byte "global_buyer_arbitration_flag"
+int 1
+app_global_put
 int 1
 return
+main_l19:
+callsub buyersetpullout_13
+b main_l17
+main_l20:
+callsub withdrawASA_12
+b main_l17
+main_l21:
+callsub optoutfromASA_11
+b main_l17
+main_l22:
+callsub withdrawbalance_9
+b main_l17
+main_l23:
+callsub withdrawbalance_9
+b main_l17
 main_l24:
+callsub withdrawbalance_9
+b main_l17
+main_l25:
+int 1
+return
+main_l26:
 int 0
 return
-main_l25:
+main_l27:
 byte "global_creator"
 app_global_get
 txn Sender
 ==
-bnz main_l27
+bnz main_l29
 err
-main_l27:
+main_l29:
 int 1
 return
-main_l28:
+main_l30:
 global CurrentApplicationAddress
 balance
 int 0
 ==
-bnz main_l30
+bnz main_l32
 int 0
 return
-main_l30:
+main_l32:
 int 1
 return
-main_l31:
-callsub initializecontract_7
+main_l33:
+callsub initializecontract_8
 int 1
 return
 
@@ -216,8 +224,36 @@ app_global_get
 &&
 retsub
 
+// guard_buyer_set_arbitration
+guardbuyersetarbitration_7:
+global GroupSize
+int 1
+==
+byte "global_buyer"
+app_global_get
+txn Sender
+==
+&&
+txna ApplicationArgs 0
+byte "buyer_set_arbitration"
+==
+&&
+byte "global_enable_time_checks"
+app_global_get
+int 1
+==
+&&
+global LatestTimestamp
+byte "global_closing_date"
+app_global_get
+<
+&&
+int 0
+||
+retsub
+
 // initialize_contract
-initializecontract_7:
+initializecontract_8:
 byte "global_enable_time_checks"
 txna ApplicationArgs 10
 btoi
@@ -227,6 +263,9 @@ txna ApplicationArgs 11
 btoi
 app_global_put
 byte "global_buyer_pullout_flag"
+int 0
+app_global_put
+byte "global_buyer_arbitration_flag"
 int 0
 app_global_put
 byte "global_creator"
@@ -256,10 +295,10 @@ txna ApplicationArgs 4
 btoi
 ==
 &&
-bnz initializecontract_7_l5
+bnz initializecontract_8_l5
 int 0
 return
-initializecontract_7_l2:
+initializecontract_8_l2:
 txna ApplicationArgs 5
 btoi
 txna ApplicationArgs 6
@@ -277,10 +316,10 @@ txna ApplicationArgs 8
 btoi
 <=
 &&
-bnz initializecontract_7_l4
+bnz initializecontract_8_l4
 int 0
 return
-initializecontract_7_l4:
+initializecontract_8_l4:
 byte "global_inspection_start_date"
 txna ApplicationArgs 5
 btoi
@@ -301,8 +340,8 @@ byte "global_free_funds_date"
 txna ApplicationArgs 9
 btoi
 app_global_put
-b initializecontract_7_l6
-initializecontract_7_l5:
+b initializecontract_8_l6
+initializecontract_8_l5:
 byte "global_escrow_payment_1"
 txna ApplicationArgs 2
 btoi
@@ -315,12 +354,12 @@ byte "global_escrow_total"
 txna ApplicationArgs 4
 btoi
 app_global_put
-b initializecontract_7_l2
-initializecontract_7_l6:
+b initializecontract_8_l2
+initializecontract_8_l6:
 retsub
 
 // withdraw_balance
-withdrawbalance_8:
+withdrawbalance_9:
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -342,7 +381,7 @@ int 1
 return
 
 // optin_to_ASA
-optintoASA_9:
+optintoASA_10:
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -362,7 +401,7 @@ int 1
 return
 
 // optout_from_ASA
-optoutfromASA_10:
+optoutfromASA_11:
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -382,7 +421,7 @@ int 1
 return
 
 // withdraw_ASA
-withdrawASA_11:
+withdrawASA_12:
 global CurrentApplicationAddress
 byte "global_asa_id"
 app_global_get
@@ -408,7 +447,7 @@ int 1
 return
 
 // buyer_set_pullout
-buyersetpullout_12:
+buyersetpullout_13:
 byte "global_buyer_pullout_flag"
 int 1
 app_global_put

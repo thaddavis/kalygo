@@ -3,39 +3,29 @@ import { Col, Row, Card, ListGroup } from "react-bootstrap";
 import { BsCircle, BsFillCheckCircleFill } from "react-icons/bs";
 
 interface P {
-  signalArbitration: string;
-  signalPullOut: string;
-  lenderApproves: string;
+  signalBuyerArbitration: number;
+  signalPullOut: number;
 }
 
 export const FlagsWidget = (props: P) => {
-  const { signalArbitration, signalPullOut, lenderApproves } = props;
+  const { signalBuyerArbitration, signalPullOut } = props;
 
-  let arbitrationUI;
-  if (Number.parseInt(signalArbitration) === -1) {
-    arbitrationUI = <BsCircle />;
-  } else if (Number.parseInt(signalArbitration) === 0) {
-    arbitrationUI = <BsCircle />;
+  let buyerArbitrationUI;
+  if (signalBuyerArbitration === -1) {
+    buyerArbitrationUI = <BsCircle />;
+  } else if (signalBuyerArbitration === 0) {
+    buyerArbitrationUI = <BsCircle />;
   } else {
-    arbitrationUI = <BsFillCheckCircleFill />;
+    buyerArbitrationUI = <BsFillCheckCircleFill />;
   }
 
   let pullOutUI;
-  if (Number.parseInt(signalPullOut) === -1) {
+  if (signalPullOut === -1) {
     pullOutUI = <BsCircle />;
-  } else if (Number.parseInt(signalPullOut) === 0) {
+  } else if (signalPullOut === 0) {
     pullOutUI = <BsCircle />;
   } else {
     pullOutUI = <BsFillCheckCircleFill />;
-  }
-
-  let lenderApprovesUI;
-  if (Number.parseInt(lenderApproves) === -1) {
-    lenderApprovesUI = <BsCircle />;
-  } else if (Number.parseInt(lenderApproves) === 0) {
-    lenderApprovesUI = <BsCircle />;
-  } else {
-    lenderApprovesUI = <BsFillCheckCircleFill />;
   }
 
   return (
@@ -55,16 +45,16 @@ export const FlagsWidget = (props: P) => {
               </Col>
             </Row>
           </ListGroup.Item>
-          {/* <ListGroup.Item className="px-0">
+          <ListGroup.Item className="px-0">
             <Row className="align-items-center">
               <Col className="col-auto">
-                <h5 className="h5 mb-0">Signal Arbitration</h5>
+                <h5 className="h5 mb-0">Buyer Arbitration Flag</h5>
               </Col>
               <Col className="col-auto">
-                <h6 className="h6 mb-0">{arbitrationUI}</h6>
+                <h6 className="h6 mb-0">{buyerArbitrationUI}</h6>
               </Col>
             </Row>
-          </ListGroup.Item> */}
+          </ListGroup.Item>
 
           {/* <ListGroup.Item className="px-0">
             <Row className="align-items-center">

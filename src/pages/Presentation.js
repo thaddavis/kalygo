@@ -149,9 +149,9 @@ const Presentation = () => {
           <div className="d-flex align-items-center">
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
-                <Nav.Link as={HashLink} to="#features">
+                {/* <Nav.Link as={HashLink} to="#features">
                   Features
-                </Nav.Link>
+                </Nav.Link> */}
                 {/* <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
                 <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link>
@@ -211,8 +211,8 @@ const Presentation = () => {
               <h2>Powered by Blockchain</h2>
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
               <p className="mb-4">
-                Kalygo a hub of real-world applicable smarts contracts running
-                on either the Ethereum, Algorand, or Solana Blockchains.
+                Kalygo a hub of real-world applicable contracts running on
+                either the Ethereum, Algorand, or Solana Blockchains.
               </p>
             </Col>
           </Row>
@@ -223,20 +223,33 @@ const Presentation = () => {
           <Row className="justify-content-center text-center text-white">
             <Col xs={12}>
               <h2 className="fw-light mb-3">
-                Less <span className="fw-bold">hassle</span>, more{" "}
+                Less <span className="fw-bold">stress</span>, more{" "}
                 <span className="fw-bold">time for you</span>.
               </h2>
               <p className="lead px-lg-8">
-                Enhance your experience with Kalygo. Peer-to-Peer tools running
-                on the world's biggest smart-contract platforms.
+                Enhance your Blockchain experience with Kalygo. Peer-to-Peer
+                tools running on the world's biggest smart-contract platforms.
               </p>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="section section-lg bg-white" id="download">
+      <section className="section section-md bg-white" id="download">
         <Container>
-          <Row>
+          <Row className="justify-content-end align-items-center">
+            <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
+              <h2>Only the finest</h2>
+              <p className="mb-3 lead fw-bold">Audited and Community Vetted</p>
+              <p className="mb-4">
+                Kalygo prioritizes rigorously vetted contracts and excellent
+                UI/UX. Explore Kalygo's premium selection of contracts available
+                for you to use for FREE.
+              </p>
+            </Col>
+          </Row>
+        </Container>
+        {/* <Container>
+          <Row className="justify-content-between align-items-center">
             <Col xs={12} lg={8}>
               <h2 className="fw-light mb-3">
                 Peer-2-Peer with arbitration fallback
@@ -246,18 +259,8 @@ const Presentation = () => {
                 arbitration fallback.
               </p>
             </Col>
-            {/* <Col xs={12} lg={4}>
-              <div className="github-big-icon">
-                <FontAwesomeIcon icon={faGithub} />
-              </div>
-            </Col> */}
           </Row>
-          <Row className="mt-lg-6">
-            <Col xs={12} className="text-center">
-              <div></div>
-            </Col>
-          </Row>
-        </Container>
+        </Container> */}
       </section>
       <footer className="footer py-6 bg-dark text-white">
         <Container>
@@ -270,7 +273,7 @@ const Presentation = () => {
                 </Navbar.Brand> */}
                 <p>
                   Kalygo is a free and open source platform for peer-to-peer
-                  contracts with arbitration fallbacks.
+                  contracts.
                 </p>
               </div>
             </Col>

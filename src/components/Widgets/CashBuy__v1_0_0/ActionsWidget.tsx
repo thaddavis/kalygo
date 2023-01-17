@@ -7,7 +7,7 @@ import { optinContractToASA } from "../../../contractActions/CashBuy__v1_0_0/opt
 import { firstEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/1stEscrowAmount";
 import { secondEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/2ndEscrowAmount";
 import { buyerPullOut } from "../../../contractActions/CashBuy__v1_0_0/buyerPullOut";
-import { signalArbitration } from "../../../contractActions/CashBuy__v1_0_0/signalArbitration";
+import { buyerArbitration } from "../../../contractActions/CashBuy__v1_0_0/buyerArbitration";
 import { withdrawEscrow } from "../../../contractActions/CashBuy__v1_0_0/withdrawEscrow";
 import { withdrawBalance } from "../../../contractActions/CashBuy__v1_0_0/withdrawBalance";
 import { deleteApp } from "../../../contractActions/CashBuy__v1_0_0/deleteApp";
@@ -28,6 +28,10 @@ interface P {
   balance: number;
   now: number;
   inspectionPeriodEnd: number;
+  movingDate: number;
+  closingDate: number;
+  buyerPulloutFlag: number;
+  buyerArbitrationFlag: number;
 }
 
 export const ActionsWidget = (props: P) => {
@@ -45,34 +49,24 @@ export const ActionsWidget = (props: P) => {
     balance,
     now,
     inspectionPeriodEnd,
+    movingDate,
+    closingDate,
+    buyerPulloutFlag,
+    buyerArbitrationFlag,
   } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  console.log("fungibleTokenBalance ->", fungibleTokenBalance);
+  console.log("buyerArbitrationFlag ->", buyerArbitrationFlag);
 
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <Card.Body className="">
         <Card.Subtitle className="fw-normal pb-4">Role Actions</Card.Subtitle>
         <Card.Title>
-          {operator === creator && (
-            <>
-              <span>Creator</span>
-              <br />
-            </>
-          )}
-          {operator === buyer && (
-            <>
-              <span>Buyer</span>
-              <br />
-            </>
-          )}
-          {operator === seller && (
-            <>
-              <span>Seller</span>
-            </>
-          )}
+          {operator === creator && <span>Creator</span>}
+          {operator === buyer && <span>Buyer</span>}
+          {operator === seller && <span>Seller</span>}
           <br />
         </Card.Title>
         {operator === buyer && (
@@ -116,7 +110,12 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={fungibleTokenBalance >= escrowAmount1}
+              disabled={
+                buyerPulloutFlag === 1 ||
+                fungibleTokenBalance === -1 ||
+                now > inspectionPeriodEnd ||
+                fungibleTokenBalance >= escrowAmount1
+              }
               onClick={() => {
                 firstEscrowAmount(
                   settings.selectedAccount,
@@ -133,7 +132,15 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={fungibleTokenBalance >= escrowAmount1 + escrowAmount2}
+              disabled={
+                buyerPulloutFlag === 1 ||
+                fungibleTokenBalance < 0 ||
+                (inspectionPeriodEnd <= now &&
+                  fungibleTokenBalance < escrowAmount1) ||
+                (inspectionPeriodEnd <= now &&
+                  fungibleTokenBalance <= escrowAmount1 + escrowAmount2) ||
+                closingDate < now
+              }
               onClick={() => {
                 secondEscrowAmount(
                   settings.selectedAccount,
@@ -150,9 +157,9 @@ export const ActionsWidget = (props: P) => {
               variant="warning"
               size="sm"
               className="m-1"
-              disabled
+              disabled={buyerPulloutFlag === 1 || closingDate < now}
               onClick={() => {
-                signalArbitration(
+                buyerArbitration(
                   settings.selectedAccount,
                   contractAddress,
                   appId,
@@ -167,7 +174,8 @@ export const ActionsWidget = (props: P) => {
               size="sm"
               className="m-1"
               disabled={
-                !!now && !!inspectionPeriodEnd && now > inspectionPeriodEnd
+                buyerPulloutFlag === 1 ||
+                (!!now && !!inspectionPeriodEnd && now > inspectionPeriodEnd)
               }
               onClick={() => {
                 buyerPullOut(
@@ -184,7 +192,7 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={fungibleTokenBalance > 0 ? false : true}
+              disabled={buyerPulloutFlag < 1 || fungibleTokenBalance <= 0}
               onClick={() => {
                 withdrawEscrow(
                   settings.selectedAccount,
@@ -200,7 +208,14 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={balance > 0 ? false : true}
+              disabled={
+                (now <= inspectionPeriodEnd && fungibleTokenBalance >= 0) ||
+                (now <= inspectionPeriodEnd && balance <= 0) ||
+                (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
+                (buyerPulloutFlag === 1 &&
+                  balance === 0 &&
+                  fungibleTokenBalance < 0)
+              }
               onClick={() => {
                 withdrawBalance(
                   settings.selectedAccount,
@@ -227,7 +242,13 @@ export const ActionsWidget = (props: P) => {
               variant="success"
               size="sm"
               className="m-1"
-              disabled={fungibleTokenBalance >= 0}
+              disabled={
+                (now <= inspectionPeriodEnd && balance < 200000) ||
+                (now <= inspectionPeriodEnd && fungibleTokenBalance >= 0) ||
+                (now <= inspectionPeriodEnd && buyerPulloutFlag === 1) ||
+                (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
+                (inspectionPeriodEnd < now && buyerPulloutFlag === 1)
+              }
               onClick={() => {
                 optinContractToASA(
                   settings.selectedAccount,
@@ -245,7 +266,15 @@ export const ActionsWidget = (props: P) => {
               variant="info"
               size="sm"
               className="m-1"
-              disabled={fungibleTokenBalance === -1}
+              disabled={
+                (now <= inspectionPeriodEnd && fungibleTokenBalance < 0) ||
+                (now <= inspectionPeriodEnd && fungibleTokenBalance > 0) ||
+                (now <= inspectionPeriodEnd && balance < 200000) ||
+                (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
+                (inspectionPeriodEnd < now &&
+                  buyerPulloutFlag === 1 &&
+                  fungibleTokenBalance < 0)
+              }
               onClick={() => {
                 optoutContractFromASA(
                   settings.selectedAccount,
@@ -262,6 +291,7 @@ export const ActionsWidget = (props: P) => {
               variant="danger"
               size="sm"
               className="m-1"
+              disabled={balance > 0}
               onClick={() => {
                 deleteApp(
                   settings.selectedAccount,

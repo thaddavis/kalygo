@@ -37,15 +37,15 @@ export const CashBuyContractForm = (props: P) => {
     setValue,
   } = useForm({
     defaultValues: {
-      escrowAmount1: 100000.2,
+      escrowAmount1: 100000,
       escrowAmount2: 100000.0,
       escrowTotal: 200000.0,
       asaId: 1017,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
-      inspectionPeriodEnd: moment().add("3", "m").toString(),
-      movingDate: moment().add("5", "m").toString(),
-      closingDate: moment().add("7", "m").toString(),
-      freeFundsDate: moment().add("9", "m").toString(),
+      inspectionPeriodEnd: moment().add("5", "m").toString(),
+      movingDate: moment().add("6", "m").toString(),
+      closingDate: moment().add("8", "m").toString(),
+      freeFundsDate: moment().add("10", "m").toString(),
       buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
       propertyAddress: "3717 Royal Palm Ave.",
@@ -102,7 +102,7 @@ export const CashBuyContractForm = (props: P) => {
         c_prog,
         0, // local ints
         0, // local byte_slices
-        11, // global ints
+        12, // global ints
         3, // global byte_slices
         [
           // --- --- ---
@@ -193,7 +193,6 @@ export const CashBuyContractForm = (props: P) => {
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
                   type="number"
-                  step="0.01"
                   placeholder="Amount 1"
                 />
               </Form.Group>

@@ -1,20 +1,13 @@
-import {
-  Col,
-  Row,
-  Card,
-  Image,
-  Button,
-  ListGroup,
-  ProgressBar,
-} from "react-bootstrap";
+import { Col, Row, Card, ListGroup } from "react-bootstrap";
 
 interface P {
   buyer: string;
   seller: string;
+  creator: string;
 }
 
 export const RolesWidget = (props: P) => {
-  const { buyer, seller } = props;
+  const { buyer, seller, creator } = props;
 
   const TeamMember = (props: any) => {
     const {
@@ -23,9 +16,6 @@ export const RolesWidget = (props: P) => {
     }: {
       role: string;
       address: string;
-      //   statusKey: "online" | "inMeeting" | "offline";
-      //   btnText: string;
-      //   image: string;
     } = props;
 
     return (
@@ -35,7 +25,6 @@ export const RolesWidget = (props: P) => {
             <h5 className="h5 mb-0">{role}</h5>
           </Col>
           <Col className="ms--2">
-            {/* <h6 className="h6 mb-0">{address}</h6> */}
             <small className="mb-0">{address}</small>
           </Col>
         </Row>
@@ -50,6 +39,7 @@ export const RolesWidget = (props: P) => {
       </Card.Header>
       <Card.Body>
         <ListGroup className="list-group-flush list my--3">
+          <TeamMember role={"Creator"} address={creator} />
           <TeamMember role={"Buyer"} address={buyer} />
           <TeamMember role={"Seller"} address={seller} />
         </ListGroup>
