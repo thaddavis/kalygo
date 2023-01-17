@@ -61,8 +61,8 @@ export const FungibleTokenContractForm = (props: P) => {
         addr: settings.selectedAccount,
       };
 
-      const total = data.totalSupply; // how many of this asset there will be
-      const decimals = 0; // units of this asset are whole-integer amounts
+      const total = Number.parseInt(data.totalSupply); // how many of this asset there will be
+      const decimals = 2; // units of this asset are whole-integer amounts
       const assetName = data.assetName;
       const unitName = data.unitName;
       const url = data.url;
@@ -133,6 +133,8 @@ export const FungibleTokenContractForm = (props: P) => {
       console.log(waiting);
 
       showSuccessToast("Create ASA...");
+
+      navigate(`/dashboard/transactions`);
     } catch (e) {
       showErrorToast(
         "Something unexpected happened. Make sure your wallet is connected."

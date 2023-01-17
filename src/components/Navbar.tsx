@@ -2,7 +2,14 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
-import { Nav, Navbar, Dropdown, Container, Button } from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  Dropdown,
+  Container,
+  Button,
+  NavbarBrand,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { RootState } from "../store/store";
@@ -33,17 +40,43 @@ const NavbarComponent = (props: P) => {
             </Form>
           </div> */}
           <Nav className="align-items-center">
-            <Dropdown as={Nav.Item}>
-              <Dropdown.Toggle
+            {/* <Dropdown as={Nav.Item}> */}
+            {/* <Dropdown.Toggle
                 as={Button}
                 variant="secondary"
                 className="text-dark me-2"
+              > */}
+            <Nav.Item>
+              <Button
+                variant="secondary"
+                className="text-dark me-2"
+                onClick={() => {
+                  if (typeof (window as any).AlgoSigner !== "undefined") {
+                    (window as any).AlgoSigner.connect()
+                      .then(() =>
+                        (window as any).AlgoSigner.accounts({
+                          ledger: network,
+                        })
+                      )
+                      .then((accountData: any) => {
+                        console.log(accountData);
+                      })
+                      .catch((e: any) => {
+                        console.error(e);
+                      });
+                  } else {
+                    console.error("NO AlgoSigner");
+                  }
+                }}
               >
                 <FontAwesomeIcon icon={faWallet} className="me-2" />
                 <span>Wallet</span>
-              </Dropdown.Toggle>
+              </Button>
+            </Nav.Item>
 
-              <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
+            {/* </Dropdown.Toggle> */}
+
+            {/* <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
                 <Dropdown.Item
                   className="fw-bold"
                   onClick={() => {
@@ -76,8 +109,8 @@ const NavbarComponent = (props: P) => {
                 >
                   <FontAwesomeIcon icon={faCog} className="me-2" /> Settings
                 </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              </Dropdown.Menu> */}
+            {/* </Dropdown> */}
           </Nav>
         </div>
       </Container>

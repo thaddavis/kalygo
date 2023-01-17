@@ -38,14 +38,14 @@ export const CashBuyContractForm = (props: P) => {
   } = useForm({
     defaultValues: {
       escrowAmount1: 100000,
-      escrowAmount2: 100000.0,
-      escrowTotal: 200000.0,
+      escrowAmount2: 100000,
+      escrowTotal: 200000,
       asaId: 1017,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
-      inspectionPeriodEnd: moment().add("5", "m").toString(),
-      movingDate: moment().add("6", "m").toString(),
-      closingDate: moment().add("8", "m").toString(),
-      freeFundsDate: moment().add("10", "m").toString(),
+      inspectionPeriodEnd: moment().add("2", "m").toString(),
+      movingDate: moment().add("3", "m").toString(),
+      closingDate: moment().add("4", "m").toString(),
+      freeFundsDate: moment().add("5", "m").toString(),
       buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       seller: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       propertyAddress: "3717 Royal Palm Ave.",
@@ -166,8 +166,6 @@ export const CashBuyContractForm = (props: P) => {
         res.txId,
         32
       );
-
-      console.log(waiting);
 
       navigate(`/dashboard/transactions`);
     } catch (e) {

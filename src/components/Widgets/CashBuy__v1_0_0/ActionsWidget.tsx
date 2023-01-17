@@ -65,13 +65,11 @@ export const ActionsWidget = (props: P) => {
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <Card.Body className="">
-        <Card.Subtitle className="fw-normal pb-4">Role Actions</Card.Subtitle>
-        <Card.Title>
-          {operator === creator && <span>Creator</span>}
-          {operator === buyer && <span>Buyer</span>}
-          {operator === seller && <span>Seller</span>}
-          <br />
-        </Card.Title>
+        <Card.Title>Actions</Card.Title>
+        {/* <Card.Subtitle className="fw-normal pb-4">Role Actions</Card.Subtitle> */}
+
+        {operator === creator && <span>Buyer</span>}
+        <br />
         {operator === buyer && (
           <>
             <Button
@@ -96,7 +94,7 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={balance >= 200000 ? true : false}
+              disabled={balance >= 200000 || inspectionPeriodEnd < now}
               onClick={() => {
                 fundMinimumBalance(
                   settings.selectedAccount,
@@ -116,7 +114,7 @@ export const ActionsWidget = (props: P) => {
               disabled={
                 buyerPulloutFlag === 1 ||
                 fungibleTokenBalance === -1 ||
-                now > inspectionPeriodEnd ||
+                inspectionPeriodEnd < now ||
                 fungibleTokenBalance >= escrowAmount1
               }
               onClick={() => {
@@ -138,11 +136,8 @@ export const ActionsWidget = (props: P) => {
               disabled={
                 buyerPulloutFlag === 1 ||
                 fungibleTokenBalance < 0 ||
-                (inspectionPeriodEnd <= now &&
-                  fungibleTokenBalance < escrowAmount1) ||
-                (inspectionPeriodEnd <= now &&
-                  fungibleTokenBalance <= escrowAmount1 + escrowAmount2) ||
-                closingDate < now
+                closingDate < now ||
+                escrowAmount1 + escrowAmount2 <= fungibleTokenBalance
               }
               onClick={() => {
                 secondEscrowAmount(
@@ -215,9 +210,12 @@ export const ActionsWidget = (props: P) => {
                 (now <= inspectionPeriodEnd && fungibleTokenBalance >= 0) ||
                 (now <= inspectionPeriodEnd && balance <= 0) ||
                 (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
-                (buyerPulloutFlag === 1 &&
-                  balance === 0 &&
-                  fungibleTokenBalance < 0)
+                (inspectionPeriodEnd < now &&
+                  buyerPulloutFlag === 1 &&
+                  fungibleTokenBalance >= 0) ||
+                (inspectionPeriodEnd < now &&
+                  buyerPulloutFlag === 1 &&
+                  (balance === 0 || fungibleTokenBalance < 0))
               }
               onClick={() => {
                 withdrawBalance(
@@ -230,37 +228,6 @@ export const ActionsWidget = (props: P) => {
             >
               Buyer Withdraw Balance
             </Button>
-          </>
-        )}
-        <br />
-        <br />
-        {operator === seller && (
-          <>
-            <Button
-              variant="warning"
-              size="sm"
-              className="m-1"
-              disabled={sellerArbitrationFlag === 1 || closingDate < now}
-              onClick={() => {
-                sellerArbitration(
-                  settings.selectedAccount,
-                  contractAddress,
-                  appId,
-                  settings.selectedNetwork
-                );
-              }}
-            >
-              Seller Arbitration
-            </Button>
-            <Button variant="secondary" disabled size="sm" className="m-1">
-              Seller Withdraw ASA
-            </Button>
-          </>
-        )}
-        <br />
-        <br />
-        {operator === creator && (
-          <>
             <Button
               variant="success"
               size="sm"
@@ -310,6 +277,103 @@ export const ActionsWidget = (props: P) => {
             >
               Optout from ASA
             </Button>
+          </>
+        )}
+        <br />
+        <br />
+        {operator === buyer && <span>Seller</span>}
+        <br />
+        {operator === seller && (
+          <>
+            <Button
+              variant="warning"
+              size="sm"
+              className="m-1"
+              disabled={sellerArbitrationFlag === 1 || closingDate < now}
+              onClick={() => {
+                sellerArbitration(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
+              Seller Arbitration
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={
+                buyerPulloutFlag === 1 ||
+                buyerArbitrationFlag === 1 ||
+                now <= closingDate ||
+                (closingDate < now && fungibleTokenBalance <= 0)
+              }
+              size="sm"
+              className="m-1"
+              onClick={() => {
+                withdrawEscrow(
+                  settings.selectedAccount,
+                  appId,
+                  fungibleTokenId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
+              Seller Withdraw ASA
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="m-1"
+              disabled={
+                now <= closingDate ||
+                (closingDate < now && fungibleTokenBalance >= 0) ||
+                (closingDate < now && balance === 0) ||
+                buyerPulloutFlag === 1
+              }
+              onClick={() => {
+                withdrawBalance(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
+              Seller Withdraw Balance
+            </Button>
+            <Button
+              variant="info"
+              size="sm"
+              className="m-1"
+              disabled={
+                now <= closingDate ||
+                buyerPulloutFlag === 1 ||
+                fungibleTokenBalance < 0 ||
+                (closingDate < now && fungibleTokenBalance > 0) ||
+                (closingDate < now && balance < 200000)
+              }
+              onClick={() => {
+                optoutContractFromASA(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork,
+                  fungibleTokenId
+                );
+              }}
+            >
+              Optout from ASA
+            </Button>
+          </>
+        )}
+        <br />
+        <br />
+        {operator === creator && <span>Creator</span>}
+        <br />
+        {operator === creator && (
+          <>
             <Button
               variant="danger"
               size="sm"
@@ -328,44 +392,6 @@ export const ActionsWidget = (props: P) => {
             </Button>
           </>
         )}
-        {/* {operator === arbiter && (
-          <>
-            <Button
-              variant="info"
-              size="sm"
-              className="m-1"
-              onClick={() => {
-                console.log("___");
-
-                sendHoldingsToBuyer(
-                  settings.selectedAccount,
-                  contractAddress,
-                  appId,
-                  settings.selectedNetwork,
-                  buyer
-                );
-              }}
-            >
-              Send Holdings to Buyer
-            </Button>
-            <Button
-              variant="info"
-              size="sm"
-              className="m-1"
-              onClick={() => {
-                sendHoldingsToSeller(
-                  settings.selectedAccount,
-                  contractAddress,
-                  appId,
-                  settings.selectedNetwork,
-                  seller
-                );
-              }}
-            >
-              Send Holdings to Seller
-            </Button>
-          </>
-        )} */}
       </Card.Body>
     </Card>
   );

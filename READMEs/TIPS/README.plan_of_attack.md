@@ -1,16 +1,11 @@
 # Plan of attack
 
-- Send 1/2 escrow
-- Buyer/Seller Arbitration
+Flesh out the seller actions then take learnings and apply it to the PyTeal code and then should be approaching the finish line
 
-Adding Time Restrictions
-s
+- Adding Time Restrictions
 - A few more e2e pytests?
 
 Wrap up
-
 Post to LinkedIn
-
 Sleep?
-
 Build up from the basics....
