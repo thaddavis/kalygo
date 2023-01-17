@@ -8,6 +8,7 @@ import { firstEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/1stE
 import { secondEscrowAmount } from "../../../contractActions/CashBuy__v1_0_0/2ndEscrowAmount";
 import { buyerPullOut } from "../../../contractActions/CashBuy__v1_0_0/buyerPullOut";
 import { buyerArbitration } from "../../../contractActions/CashBuy__v1_0_0/buyerArbitration";
+import { sellerArbitration } from "../../../contractActions/CashBuy__v1_0_0/sellerArbitration";
 import { withdrawEscrow } from "../../../contractActions/CashBuy__v1_0_0/withdrawEscrow";
 import { withdrawBalance } from "../../../contractActions/CashBuy__v1_0_0/withdrawBalance";
 import { deleteApp } from "../../../contractActions/CashBuy__v1_0_0/deleteApp";
@@ -32,6 +33,7 @@ interface P {
   closingDate: number;
   buyerPulloutFlag: number;
   buyerArbitrationFlag: number;
+  sellerArbitrationFlag: number;
 }
 
 export const ActionsWidget = (props: P) => {
@@ -53,11 +55,12 @@ export const ActionsWidget = (props: P) => {
     closingDate,
     buyerPulloutFlag,
     buyerArbitrationFlag,
+    sellerArbitrationFlag,
   } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  console.log("buyerArbitrationFlag ->", buyerArbitrationFlag);
+  console.log("sellerArbitrationFlag ->", sellerArbitrationFlag);
 
   return (
     <Card border="light" className="text-center p-0 mb-4">
@@ -229,13 +232,33 @@ export const ActionsWidget = (props: P) => {
             </Button>
           </>
         )}
+        <br />
+        <br />
         {operator === seller && (
           <>
-            <Button variant="secondary" size="sm" className="m-1">
+            <Button
+              variant="warning"
+              size="sm"
+              className="m-1"
+              disabled={sellerArbitrationFlag === 1 || closingDate < now}
+              onClick={() => {
+                sellerArbitration(
+                  settings.selectedAccount,
+                  contractAddress,
+                  appId,
+                  settings.selectedNetwork
+                );
+              }}
+            >
+              Seller Arbitration
+            </Button>
+            <Button variant="secondary" disabled size="sm" className="m-1">
               Seller Withdraw ASA
             </Button>
           </>
         )}
+        <br />
+        <br />
         {operator === creator && (
           <>
             <Button

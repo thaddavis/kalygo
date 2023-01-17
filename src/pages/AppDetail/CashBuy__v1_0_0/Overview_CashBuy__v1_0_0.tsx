@@ -184,7 +184,7 @@ function Overview_CashBuy__v1_0_0() {
         movingDate: new Date().getTime(),
       };
 
-  // console.log("app.val", app.val);
+  console.log("app.val", app.val);
   // console.log("asset.val", asset.val);
   // console.log("account.val", account.val);
   // debugger;
@@ -236,6 +236,11 @@ function Overview_CashBuy__v1_0_0() {
               "global_buyer_arbitration_flag",
               -1
             )}
+            sellerArbitrationFlag={get(
+              app.val,
+              "global_seller_arbitration_flag",
+              -1
+            )}
           />
         </Col>
         <Col xs={12} xl={8} className="mb-4">
@@ -259,6 +264,11 @@ function Overview_CashBuy__v1_0_0() {
                 signalBuyerArbitration={get(
                   app.val,
                   "global_buyer_arbitration_flag",
+                  -1
+                )}
+                signalSellerArbitration={get(
+                  app.val,
+                  "global_seller_arbitration_flag",
                   -1
                 )}
               />

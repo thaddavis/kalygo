@@ -5,10 +5,12 @@ import { BsCircle, BsFillCheckCircleFill } from "react-icons/bs";
 interface P {
   signalBuyerArbitration: number;
   signalPullOut: number;
+  signalSellerArbitration: number;
 }
 
 export const FlagsWidget = (props: P) => {
-  const { signalBuyerArbitration, signalPullOut } = props;
+  const { signalBuyerArbitration, signalPullOut, signalSellerArbitration } =
+    props;
 
   let buyerArbitrationUI;
   if (signalBuyerArbitration === -1) {
@@ -17,6 +19,15 @@ export const FlagsWidget = (props: P) => {
     buyerArbitrationUI = <BsCircle />;
   } else {
     buyerArbitrationUI = <BsFillCheckCircleFill />;
+  }
+
+  let sellerArbitrationUI;
+  if (signalSellerArbitration === -1) {
+    sellerArbitrationUI = <BsCircle />;
+  } else if (signalSellerArbitration === 0) {
+    sellerArbitrationUI = <BsCircle />;
+  } else {
+    sellerArbitrationUI = <BsFillCheckCircleFill />;
   }
 
   let pullOutUI;
@@ -55,17 +66,16 @@ export const FlagsWidget = (props: P) => {
               </Col>
             </Row>
           </ListGroup.Item>
-
-          {/* <ListGroup.Item className="px-0">
+          <ListGroup.Item className="px-0">
             <Row className="align-items-center">
               <Col className="col-auto">
-                <h5 className="h5 mb-0">Lender Approves</h5>
+                <h5 className="h5 mb-0">Seller Arbitration Flag</h5>
               </Col>
               <Col className="col-auto">
-                <h6 className="h6 mb-0">{lenderApprovesUI}</h6>
+                <h6 className="h6 mb-0">{sellerArbitrationUI}</h6>
               </Col>
             </Row>
-          </ListGroup.Item> */}
+          </ListGroup.Item>
         </ListGroup>
       </Card.Body>
     </Card>

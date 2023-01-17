@@ -47,7 +47,7 @@ export const CashBuyContractForm = (props: P) => {
       closingDate: moment().add("8", "m").toString(),
       freeFundsDate: moment().add("10", "m").toString(),
       buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
-      seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
+      seller: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -102,7 +102,7 @@ export const CashBuyContractForm = (props: P) => {
         c_prog,
         0, // local ints
         0, // local byte_slices
-        12, // global ints
+        13, // global ints
         3, // global byte_slices
         [
           // --- --- ---
