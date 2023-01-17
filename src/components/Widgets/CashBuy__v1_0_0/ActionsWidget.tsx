@@ -194,7 +194,7 @@ export const ActionsWidget = (props: P) => {
                 (buyerPulloutFlag < 1 && inspectionPeriodEnd < now) ||
                 (now < inspectionPeriodEnd && fungibleTokenBalance <= 0) ||
                 (inspectionPeriodEnd < now &&
-                  buyerPulloutFlag > 1 &&
+                  buyerPulloutFlag === 1 &&
                   fungibleTokenBalance <= 0)
               }
               onClick={() => {
@@ -269,6 +269,9 @@ export const ActionsWidget = (props: P) => {
                 (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
                 (inspectionPeriodEnd < now &&
                   buyerPulloutFlag === 1 &&
+                  fungibleTokenBalance > 0) ||
+                (inspectionPeriodEnd < now &&
+                  buyerPulloutFlag === 1 &&
                   fungibleTokenBalance < 0)
               }
               onClick={() => {
@@ -281,7 +284,7 @@ export const ActionsWidget = (props: P) => {
                 );
               }}
             >
-              Optout from ASA
+              Buyer Optout from ASA
             </Button>
           </>
         )}
@@ -370,7 +373,7 @@ export const ActionsWidget = (props: P) => {
                 );
               }}
             >
-              Optout from ASA
+              Seller Optout from ASA
             </Button>
           </>
         )}

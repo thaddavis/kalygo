@@ -184,7 +184,7 @@ export const CashBuyContractForm = (props: P) => {
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} id="cash-buy-contract-form">
           <h5 className="mb-4">Contract Details</h5>
           <Row>
             <Col sm={4} className="mb-3">
