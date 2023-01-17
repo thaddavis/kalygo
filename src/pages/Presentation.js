@@ -212,7 +212,7 @@ const Presentation = () => {
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
               <p className="mb-4">
                 Kalygo a hub of real-world applicable contracts running on
-                either the Ethereum, Algorand, or Solana Blockchains.
+                either the Ethereum, Algorand, or Solana Blockchains
               </p>
             </Col>
           </Row>
@@ -224,11 +224,11 @@ const Presentation = () => {
             <Col xs={12}>
               <h2 className="fw-light mb-3">
                 Less <span className="fw-bold">stress</span>, more{" "}
-                <span className="fw-bold">time for you</span>.
+                <span className="fw-bold">time for you</span>
               </h2>
               <p className="lead px-lg-8">
                 Enhance your Blockchain experience with Kalygo. Peer-to-Peer
-                tools running on the world's biggest smart-contract platforms.
+                tools running on the world's biggest smart-contract platforms
               </p>
             </Col>
           </Row>
@@ -238,13 +238,17 @@ const Presentation = () => {
         <Container>
           <Row className="justify-content-end align-items-center">
             <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
-              <h2>Only the finest</h2>
-              <p className="mb-3 lead fw-bold">Audited and Community Vetted</p>
-              <p className="mb-4">
-                Kalygo prioritizes rigorously vetted contracts and excellent
-                UI/UX. Explore Kalygo's premium selection of contracts available
-                for you to use for FREE.
-              </p>
+              <div className="text-right">
+                <h2>Only the finest</h2>
+                <p className="mb-3 lead fw-bold">
+                  Audited and Community Vetted
+                </p>
+                <p className="mb-4">
+                  Kalygo prioritizes rigorously vetted contracts and excellent
+                  UI/UX. Explore Kalygo's premium selection of contracts
+                  available for you to use for FREE
+                </p>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -273,7 +277,7 @@ const Presentation = () => {
                 </Navbar.Brand> */}
                 <p>
                   Kalygo is a free and open source platform for peer-to-peer
-                  contracts.
+                  contracts
                 </p>
               </div>
             </Col>
@@ -324,7 +328,7 @@ const Presentation = () => {
                 role="contentinfo"
               >
                 <p className="font-weight-normal font-small mb-0">
-                  Copyright © COMMAND -
+                  Copyright © COMMAND{" "}
                   <span className="current-year">
                     {new Date().getFullYear()}
                   </span>

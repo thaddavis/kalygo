@@ -37,7 +37,7 @@ export const FungibleTokenContractForm = (props: P) => {
       assetName: "Asset Name",
       totalSupply: 1,
       enableClawback: true,
-      unitName: "ie: USDCa or USDT or whatever",
+      unitName: "USDCa",
       url: "URL",
     },
   });

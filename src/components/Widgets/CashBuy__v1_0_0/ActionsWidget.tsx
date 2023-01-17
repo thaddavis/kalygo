@@ -190,7 +190,13 @@ export const ActionsWidget = (props: P) => {
               variant="secondary"
               size="sm"
               className="m-1"
-              disabled={buyerPulloutFlag < 1 || fungibleTokenBalance <= 0}
+              disabled={
+                (buyerPulloutFlag < 1 && inspectionPeriodEnd < now) ||
+                (now < inspectionPeriodEnd && fungibleTokenBalance <= 0) ||
+                (inspectionPeriodEnd < now &&
+                  buyerPulloutFlag > 1 &&
+                  fungibleTokenBalance <= 0)
+              }
               onClick={() => {
                 withdrawEscrow(
                   settings.selectedAccount,
@@ -209,13 +215,13 @@ export const ActionsWidget = (props: P) => {
               disabled={
                 (now <= inspectionPeriodEnd && fungibleTokenBalance >= 0) ||
                 (now <= inspectionPeriodEnd && balance <= 0) ||
-                (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
                 (inspectionPeriodEnd < now &&
                   buyerPulloutFlag === 1 &&
                   fungibleTokenBalance >= 0) ||
                 (inspectionPeriodEnd < now &&
                   buyerPulloutFlag === 1 &&
-                  (balance === 0 || fungibleTokenBalance < 0))
+                  balance === 0) ||
+                (inspectionPeriodEnd < now && buyerPulloutFlag < 1)
               }
               onClick={() => {
                 withdrawBalance(
@@ -258,7 +264,7 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               disabled={
                 (now <= inspectionPeriodEnd && fungibleTokenBalance < 0) ||
-                (now <= inspectionPeriodEnd && fungibleTokenBalance > 0) ||
+                (now <= inspectionPeriodEnd && fungibleTokenBalance >= 0) ||
                 (now <= inspectionPeriodEnd && balance < 200000) ||
                 (inspectionPeriodEnd < now && buyerPulloutFlag < 1) ||
                 (inspectionPeriodEnd < now &&
