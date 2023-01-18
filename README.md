@@ -1,4 +1,4 @@
-<img src="public/project_banner_photo.png" width="330" height="285"/>
+<img src="public/project_banner_photo.jpg" width="330" height="285"/>
 
 LIVE SITE: https://kalygo.io
 
