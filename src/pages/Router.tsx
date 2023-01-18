@@ -64,6 +64,7 @@ import { BsFillNutFill } from "react-icons/bs";
 import FungibleTokenContract from "./contracts/FungibleTokenContract";
 import Overview_CashBuy__v1_0_0 from "./AppDetail/CashBuy__v1_0_0/Overview_CashBuy__v1_0_0";
 import OverviewAsset from "./AppDetail/AssetDetail/OverviewAsset";
+import { Support } from "./documentation/Support";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -188,6 +189,7 @@ const Router = () => (
           />
           <Route path={"asa/:id"} element={<OverviewAsset />} />
         </Route>
+        <Route path={"support"} element={<Support />} />
         <Route path={"contract-options"} element={<ContractOptions />} />
         <Route
           path={"transactions/detail/:id"}

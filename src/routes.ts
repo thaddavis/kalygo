@@ -14,6 +14,7 @@ export const RoutesData = {
     path: "/dashboard/cash-buy",
   },
   Settings: { path: "/dashboard/settings" },
+  Support: { path: "/dashboard/support" },
   Upgrade: { path: "/upgrade" },
   BootstrapTables: { path: "/tables/bootstrap-tables" },
   Billing: { path: "/examples/billing" },

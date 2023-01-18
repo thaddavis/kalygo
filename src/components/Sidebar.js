@@ -4,20 +4,12 @@ import { useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBook,
-  faBoxOpen,
-  faChartPie,
+  faRectangleList,
   faCog,
-  faFileAlt,
-  faHandHoldingUsd,
-  faSignOutAlt,
-  faTable,
-  faTimes,
-  faCalendarAlt,
-  faMapPin,
-  faInbox,
-  faRocket,
+  faInfo,
   faBank,
+  faCircleHalfStroke,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Nav,
@@ -189,22 +181,28 @@ const Sidebar = (props = {}) => {
               <NavItem
                 title="Overview"
                 link={RoutesData.DashboardOverview.path}
-                icon={faChartPie}
+                icon={faGlobe}
               />
               <NavItem
                 title="Transactions"
-                icon={faBank}
+                icon={faRectangleList}
                 link={RoutesData.Transactions.path}
               />
               <NavItem
                 title="Contracts"
-                icon={faBank}
+                icon={faCircleHalfStroke}
                 link={RoutesData.ContractOptions.path}
               />
               <NavItem
                 title="Settings"
                 icon={faCog}
                 link={RoutesData.Settings.path}
+              />
+
+              <NavItem
+                title="Support"
+                icon={faInfo}
+                link={RoutesData.Support.path}
               />
 
               <Dropdown.Divider className="my-3 border-indigo" />

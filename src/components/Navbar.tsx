@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/hooks";
+import { showErrorToast } from "../utility/errorToast";
 
 interface P {}
 
@@ -66,6 +67,9 @@ const NavbarComponent = (props: P) => {
                       });
                   } else {
                     console.error("NO AlgoSigner");
+                    showErrorToast(
+                      "Make sure you have a compatible wallet installed on your browser"
+                    );
                   }
                 }}
               >
