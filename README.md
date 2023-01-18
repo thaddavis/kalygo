@@ -9,11 +9,11 @@ The website has 2 functional contracts:
 
 1) Tokenized Asset
 
-2) Cash purchasd
-
 implemented with a fungible ASA
 
-contract code here: https://github.com/thaddavis/kalygo_contracts
+2) Cash purchase
+
+PyTeal contract code here: https://github.com/thaddavis/kalygo_contracts
 
 ## Additional technical information
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
