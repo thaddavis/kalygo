@@ -70,7 +70,7 @@ const NavbarComponent = (props: P) => {
                 }}
               >
                 <FontAwesomeIcon icon={faWallet} className="me-2" />
-                <span>Wallet</span>
+                <span>Sync Wallet</span>
               </Button>
             </Nav.Item>
 
@@ -99,7 +99,7 @@ const NavbarComponent = (props: P) => {
                   }}
                 >
                   <FontAwesomeIcon icon={faUserCircle} className="me-2" />{" "}
-                  Connect Wallet
+                  Wallet
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fw-bold"

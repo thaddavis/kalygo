@@ -43,14 +43,16 @@ export const CashBuyContractForm = (props: P) => {
       asaId: 1017,
       // inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       // inspectionPeriodEnd: moment().add("2", "m").toString(),
-      // movingDate: moment().add("3", "m").toString(),
-      // closingDate: moment().add("4", "m").toString(),
-      // freeFundsDate: moment().add("5", "m").toString(),
+      // inspectionPeriodExtension: moment().add("3", "m").toString(),
+      // movingDate: moment().add("4", "m").toString(),
+      // closingDate: moment().add("5", "m").toString(),
+      // freeFundsDate: moment().add("6", "m").toString(),
       inspectionPeriodStart: moment().add("30", "s").toString(),
       inspectionPeriodEnd: moment().add("60", "s").toString(),
-      movingDate: moment().add("90", "s").toString(),
-      closingDate: moment().add("120", "s").toString(),
-      freeFundsDate: moment().add("150", "s").toString(),
+      inspectionPeriodExtension: moment().add("90", "s").toString(),
+      movingDate: moment().add("120", "s").toString(),
+      closingDate: moment().add("150", "s").toString(),
+      freeFundsDate: moment().add("180", "s").toString(),
       buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       seller: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       propertyAddress: "3717 Royal Palm Ave.",
@@ -71,6 +73,7 @@ export const CashBuyContractForm = (props: P) => {
         escrowTotal,
         inspectionPeriodStart,
         inspectionPeriodEnd,
+        inspectionPeriodExtension,
         movingDate,
         closingDate,
         freeFundsDate,
@@ -107,7 +110,7 @@ export const CashBuyContractForm = (props: P) => {
         c_prog,
         0, // local ints
         0, // local byte_slices
-        13, // global ints
+        14, // global ints
         3, // global byte_slices
         [
           // --- --- ---
@@ -118,11 +121,12 @@ export const CashBuyContractForm = (props: P) => {
           algosdk.encodeUint64(Math.floor(escrowTotal) * 2), // 4 total escrow
           algosdk.encodeUint64(moment(inspectionPeriodStart).unix()), // 5 GLOBAL_INSPECTION_START_DATE
           algosdk.encodeUint64(moment(inspectionPeriodEnd).unix()), // 6 GLOBAL_INSPECTION_END_DATE
-          algosdk.encodeUint64(moment(movingDate).unix()), // 7 GLOBAL_MOVING_DATE
-          algosdk.encodeUint64(moment(closingDate).unix()), // 8 GLOBAL_CLOSING_DATE
-          algosdk.encodeUint64(moment(freeFundsDate).unix()), // 9 GLOBAL_FREE_FUNDS_DATE
-          algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 10 GLOBAL_TIME_CHECK_ENABLED
-          algosdk.encodeUint64(asaId), // 11 GLOBAL_ASA_ID
+          algosdk.encodeUint64(moment(inspectionPeriodExtension).unix()), // 7 GLOBAL_INSPECTION_EXTENSION_DATE
+          algosdk.encodeUint64(moment(movingDate).unix()), // 8 GLOBAL_MOVING_DATE
+          algosdk.encodeUint64(moment(closingDate).unix()), // 9 GLOBAL_CLOSING_DATE
+          algosdk.encodeUint64(moment(freeFundsDate).unix()), // 10 GLOBAL_FREE_FUNDS_DATE
+          algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 11 GLOBAL_TIME_CHECK_ENABLED
+          algosdk.encodeUint64(asaId), // 12 GLOBAL_ASA_ID
           // --- --- --- --- ---
         ],
         [],
@@ -276,7 +280,6 @@ export const CashBuyContractForm = (props: P) => {
                 />
               </Form.Group>
             </Col>
-
             <Col md={6} className="mb-3">
               <Form.Group id="inspection-period-end">
                 <Form.Label>Inpection Period End</Form.Label>
@@ -312,6 +315,37 @@ export const CashBuyContractForm = (props: P) => {
 
           <Row>
             <Col md={6} className="mb-3">
+              <Form.Group id="inspection-period-end">
+                <Form.Label>Inpection Period Extension</Form.Label>
+                <Datetime
+                  timeFormat={true}
+                  onChange={(e: any) => {
+                    // console.log("e", e.unix());
+
+                    setValue("inspectionPeriodExtension", e.toString());
+                  }}
+                  renderInput={(props, openCalendar) => (
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <FontAwesomeIcon icon={faCalendarAlt} />
+                      </InputGroup.Text>
+                      <Form.Control
+                        {...register("inspectionPeriodExtension", {
+                          required: true,
+                        })}
+                        type="text"
+                        value={getValues("inspectionPeriodExtension")}
+                        placeholder="mm/dd/yyyy"
+                        onFocus={(e: any) => {
+                          openCalendar();
+                        }}
+                      />
+                    </InputGroup>
+                  )}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6} className="mb-3">
               <Form.Group id="closing-date">
                 <Form.Label>Moving Date</Form.Label>
                 <Datetime
@@ -343,6 +377,9 @@ export const CashBuyContractForm = (props: P) => {
                 />
               </Form.Group>
             </Col>
+          </Row>
+
+          <Row>
             <Col md={6} className="mb-3">
               <Form.Group id="closing-date">
                 <Form.Label>Closing Date</Form.Label>
@@ -375,9 +412,6 @@ export const CashBuyContractForm = (props: P) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-
-          <Row>
             <Col md={6} className="mb-3">
               <Form.Group id="closing-date">
                 <Form.Label>Free Funds Date (without Arbitration)</Form.Label>

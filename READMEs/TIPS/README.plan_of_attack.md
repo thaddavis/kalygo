@@ -1,11 +1,13 @@
 # Plan of attack
 
-Flesh out the seller actions then take learnings and apply it to the PyTeal code and then should be approaching the finish line
-
-- Adding Time Restrictions
-- A few more e2e pytests?
-
-Wrap up
-Post to LinkedIn
-Sleep?
 Build up from the basics....
+
+## Updated Plan of attach
+
+https://developer.algorand.org/docs/get-details/asa/#revoking-an-asset
+
+- move discovered logic to smart contract guards TODO
+- write one more e2e pytest for testing arbitration conditions
+- to a realtime timeline visualization with D3
+
+SHARE WITH THE WORLD!

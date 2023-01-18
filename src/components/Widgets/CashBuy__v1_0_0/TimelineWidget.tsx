@@ -51,6 +51,8 @@ export const TimelineWidget = (props: P) => {
           </thead> */}
         <tbody>
           {events.map((i: any, idx: number) => {
+            console.log("i", i);
+
             return (
               <tr key={idx}>
                 <td>
@@ -62,6 +64,8 @@ export const TimelineWidget = (props: P) => {
                       " - Arbitration flags allowed before"}
                     {i.title === "Free Funds Date" &&
                       " - Extension for response arbitration flag"}
+                    {i.title === "Inspection Extension" &&
+                      " - On pullout buyer funds freed (if no arbitration)"}
                   </i>
                 </td>
                 <td style={{ color: i.color }}>

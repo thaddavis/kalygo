@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruckLoading } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import get from "lodash/get";
 
 import {
   Nav,
@@ -8,14 +10,14 @@ import {
   Image,
   Button,
   Table,
+  Col,
+  Row,
   Dropdown,
   ProgressBar,
   Pagination,
   ButtonGroup,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-import get from "lodash/get";
 
 import { useNavigate } from "react-router-dom";
 import { RoutesData } from "../../../routes";
@@ -26,74 +28,83 @@ import { RootState } from "../../../store/store";
 
 import { showErrorToast } from "../../../utility/errorToast";
 
-import { TableRow } from "./TableRow";
+import { HoldersTableRow } from "./HoldersTableRow";
 
-async function fetchTxns(
-  nextToken: string,
+async function fetchHolders(
+  assetId: string,
   settingsState: any,
-  accountTxnsStateSetter: any
+  assetStateSetter: any,
+  nextToken: string = ""
 ) {
   try {
-    const accountTxnsResponse = await Algod.getIndexer(
-      settingsState.selectedNetwork
-    )
-      .lookupAccountTransactions(settingsState.selectedAccount)
-      .limit(21)
+    const assetInfo = await Algod.getIndexer(settingsState.selectedNetwork)
+      .lookupAssetBalances(Number.parseInt(assetId!))
       .nextToken(nextToken)
       .do();
+    console.log(
+      "Information for Asset: " + JSON.stringify(assetInfo, undefined, 2)
+    );
 
-    console.log("accountTxnsResponse", accountTxnsResponse);
-    accountTxnsStateSetter({
-      val: accountTxnsResponse,
+    assetStateSetter({
+      val: assetInfo,
       loading: false,
       error: null,
     });
   } catch (e) {
-    console.error(e);
-    accountTxnsStateSetter({
+    console.error("___ ___ ___", e);
+    assetStateSetter({
       val: null,
       loading: false,
       error: e,
     });
-    showErrorToast("Error occurred while fetching transaction history");
   }
 }
 
-export const TransactionsTable = () => {
+export const HoldersTable = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  let navigate = useNavigate();
-
-  const [accountTxns, setAccountTxns] = useState<any>({
-    val: [],
+  const [asset, setAsset] = useState<any>({
+    val: undefined,
     loading: false,
-    error: null,
+    error: undefined,
   });
 
+  let { id } = useParams();
+
   useEffect(() => {
-    fetchTxns("", settings, setAccountTxns);
+    console.log("load the AssetDetail page", id);
+
+    fetchHolders(id!, settings, setAsset);
   }, []);
 
-  const totalTransactions = accountTxns?.val?.transactions?.length || 0;
+  console.log("asset.val", asset.val);
 
-  return totalTransactions > 0 ? (
+  const totalHolders = asset?.val?.balances?.length || 0;
+
+  return totalHolders > 0 ? (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Header>
+        <Row className="align-items-center">
+          <Col>
+            <h5 className="mb-0">Holders</h5>
+          </Col>
+        </Row>
+      </Card.Header>
       <Card.Body className="pt-0">
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">Id</th>
-              <th className="border-bottom">Type</th>
-              <th className="border-bottom">Time</th>
-              <th className="border-bottom">Round</th>
-              <th className="border-bottom">Meta</th>
-              <th className="border-bottom">Arg</th>
-              <th className="border-bottom">Action</th>
+              <th className="border-bottom">Address</th>
+              <th className="border-bottom">Amount</th>
+              <th className="border-bottom">Deleted</th>
+              <th className="border-bottom">Frozen</th>
             </tr>
           </thead>
           <tbody>
-            {accountTxns?.val?.transactions?.map((t: any) => {
-              return <TableRow key={`transaction-${t.id}`} {...t} />;
+            {asset?.val?.balances?.map((t: any) => {
+              // console.log("t", t);
+
+              return <HoldersTableRow key={`holder-${t.address}`} {...t} />;
             })}
           </tbody>
         </Table>
@@ -102,10 +113,11 @@ export const TransactionsTable = () => {
             <Pagination className="mb-2 mb-lg-0">
               <Pagination.Next
                 onClick={() => {
-                  fetchTxns(
-                    get(accountTxns, "val.next-token", ""),
+                  fetchHolders(
+                    id!,
                     settings,
-                    setAccountTxns
+                    setAsset,
+                    get(asset, "val.next-token", "")
                   );
                 }}
               >
@@ -114,7 +126,7 @@ export const TransactionsTable = () => {
             </Pagination>
           </Nav>
           <small className="fw-bold">
-            Showing <b>{totalTransactions}</b> entries
+            Showing <b>{totalHolders}</b> out of <b>{totalHolders}</b> entries
           </small>
         </Card.Footer>
       </Card.Body>

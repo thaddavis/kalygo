@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { faCashRegister, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCashRegister,
+  faChartLine,
+  faTruckLoading,
+} from "@fortawesome/free-solid-svg-icons";
 import { Col, Row } from "react-bootstrap";
 import algosdk from "algosdk";
 import { totalOrders } from "../data/charts";
@@ -9,11 +13,12 @@ import { Algod } from "../services/algod";
 import { RootState } from "../store/store";
 
 import { showErrorToast } from "../utility/errorToast";
+import { BlockchainStatWidget } from "../components/Widgets/Generic/BlockchainStat";
 
 const BlockchainOverview = () => {
   const [status, setStatus] = useState<any>({
     val: undefined,
-    loading: false,
+    loading: true,
     error: undefined,
   });
   const count = useAppSelector((state) => state.counter.value);
@@ -50,7 +55,7 @@ const BlockchainOverview = () => {
           error: e,
         });
       }
-    }, 2000);
+    }, 3000);
     return () => clearInterval(interval);
   });
 
@@ -63,31 +68,25 @@ const BlockchainOverview = () => {
         </Col>
       </Row>
 
-      {status?.loading ? "..." : <br />}
+      {/* {status?.loading ? "..." : <br />} */}
 
       <Row className="justify-content-md-center py-4">
         <Col xs={12} sm={6} xl={4} className="mb-4">
-          <CounterWidget
-            category="Last Block"
-            title={status?.val && status?.val["last-round"]}
-            period=""
-            percentage={18.2}
-            icon={faChartLine}
-            iconColor="shape-secondary"
+          <BlockchainStatWidget
+            field="Last Block"
+            value={status?.val && status?.val["last-round"]}
+            loading={status?.loading}
           />
         </Col>
         <Col xs={12} sm={6} xl={4} className="mb-4">
-          <CounterWidget
-            category="Last Block Time"
-            title={
+          <BlockchainStatWidget
+            field="Last Block Time"
+            value={
               status?.val && status?.val["time-since-last-round"]
                 ? new Date().toLocaleTimeString()
                 : ""
             }
-            period=""
-            percentage={28.4}
-            icon={faCashRegister}
-            iconColor="shape-tertiary"
+            loading={status?.loading}
           />
         </Col>
       </Row>

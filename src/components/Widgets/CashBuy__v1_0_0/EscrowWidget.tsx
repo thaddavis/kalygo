@@ -7,10 +7,25 @@ interface P {
   balance: number;
   fungibleTokenName: string;
   fungibleTokenBalance: number;
+  fungibleTokenDecimals: number;
   now: number;
   inspectionPeriodEnd: number;
   closingDate: number;
 }
+
+function moveDecimal(n: number, moveDecimalLeftBy: number) {
+  // var l = n.toString().length - 0;
+  // var v = n / Math.pow(10, l);
+
+  n /= Math.pow(10, moveDecimalLeftBy);
+  return n;
+}
+
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+  // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  // maximumFractionDigits: 2, // (causes 2500.99 to be printed as $2,501)
+});
 
 export const EscrowWidget = (props: P) => {
   const {
@@ -20,6 +35,7 @@ export const EscrowWidget = (props: P) => {
     totalValue,
     fungibleTokenName,
     fungibleTokenBalance,
+    fungibleTokenDecimals,
     now,
     inspectionPeriodEnd,
     closingDate,
@@ -48,15 +64,36 @@ export const EscrowWidget = (props: P) => {
     );
   };
 
-  // console.log("fungibleToken", fungibleToken);
-
   const escrowTokenName = fungibleTokenName;
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 2, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    // maximumFractionDigits: 2, // (causes 2500.99 to be printed as $2,501)
+  });
 
-  // debugger;
+  const balanceFORMATTED = balance;
+  const fungibleTokenBalanceFORMATTED = formatter.format(
+    moveDecimal(fungibleTokenBalance, fungibleTokenDecimals)
+  );
+  const escrowAmount1FORMATTED = formatter.format(
+    moveDecimal(escrowAmount1, fungibleTokenDecimals)
+  );
+  const escrowAmount2FORMATTED = formatter.format(
+    moveDecimal(escrowAmount2, fungibleTokenDecimals)
+  );
+  const totalValueFORMATTED = formatter.format(
+    moveDecimal(totalValue, fungibleTokenDecimals)
+  );
 
   return (
     <Card
-      border={fungibleTokenBalance >= totalValue ? "success" : "light"}
+      border={
+        fungibleTokenBalance > 0 &&
+        totalValue > 0 &&
+        fungibleTokenBalance >= totalValue
+          ? "success"
+          : "light"
+      }
       className="shadow-sm"
     >
       <Card.Header className="border-bottom border-light d-flex justify-content-between">
@@ -69,29 +106,35 @@ export const EscrowWidget = (props: P) => {
             value={
               fungibleTokenBalance < 0
                 ? "Ø"
-                : `${fungibleTokenBalance} ${escrowTokenName}`
+                : `${fungibleTokenBalanceFORMATTED} ${escrowTokenName}`
             }
           />
 
           <CustomRow
-            theKey={"Minimum Balance (200,000 mAlgos)"}
-            value={balance < 0 ? "Ø" : `${balance} mAlgos`}
+            theKey={"Deposit (200,000 mAlgos)"}
+            value={balance < 0 ? "Ø" : `${balanceFORMATTED} mAlgos`}
           />
           <CustomRow
             theKey={"Escrow Amount 1"}
             value={
-              escrowAmount1 < 0 ? "Ø" : `${escrowAmount1} ${escrowTokenName}`
+              escrowAmount1 < 0
+                ? "Ø"
+                : `${escrowAmount1FORMATTED} ${escrowTokenName}`
             }
           />
           <CustomRow
             theKey={"Escrow Amount 2"}
             value={
-              escrowAmount2 < 0 ? "Ø" : `${escrowAmount2} ${escrowTokenName}`
+              escrowAmount2 < 0
+                ? "Ø"
+                : `${escrowAmount2FORMATTED} ${escrowTokenName}`
             }
           />
           <CustomRow
             theKey={"Sale Price"}
-            value={totalValue < 0 ? "Ø" : `${totalValue} ${escrowTokenName}`}
+            value={
+              totalValue < 0 ? "Ø" : `${totalValueFORMATTED} ${escrowTokenName}`
+            }
           />
         </ListGroup>
       </Card.Body>

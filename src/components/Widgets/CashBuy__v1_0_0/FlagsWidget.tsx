@@ -3,44 +3,48 @@ import { Col, Row, Card, ListGroup } from "react-bootstrap";
 import { BsCircle, BsFillCheckCircleFill } from "react-icons/bs";
 
 interface P {
-  signalBuyerArbitration: number;
-  signalPullOut: number;
-  signalSellerArbitration: number;
+  buyerArbitration: number;
+  buyerPullout: number;
+  sellerArbitration: number;
 }
 
 export const FlagsWidget = (props: P) => {
-  const { signalBuyerArbitration, signalPullOut, signalSellerArbitration } =
-    props;
+  const { buyerPullout, buyerArbitration, sellerArbitration } = props;
 
   let buyerArbitrationUI;
-  if (signalBuyerArbitration === -1) {
+  if (buyerArbitration === -1) {
     buyerArbitrationUI = <BsCircle />;
-  } else if (signalBuyerArbitration === 0) {
+  } else if (buyerArbitration === 0) {
     buyerArbitrationUI = <BsCircle />;
   } else {
     buyerArbitrationUI = <BsFillCheckCircleFill />;
   }
 
   let sellerArbitrationUI;
-  if (signalSellerArbitration === -1) {
+  if (sellerArbitration === -1) {
     sellerArbitrationUI = <BsCircle />;
-  } else if (signalSellerArbitration === 0) {
+  } else if (sellerArbitration === 0) {
     sellerArbitrationUI = <BsCircle />;
   } else {
     sellerArbitrationUI = <BsFillCheckCircleFill />;
   }
 
   let pullOutUI;
-  if (signalPullOut === -1) {
+  if (buyerPullout === -1) {
     pullOutUI = <BsCircle />;
-  } else if (signalPullOut === 0) {
+  } else if (buyerPullout === 0) {
     pullOutUI = <BsCircle />;
   } else {
     pullOutUI = <BsFillCheckCircleFill />;
   }
 
   return (
-    <Card border="light" className="shadow-sm">
+    <Card
+      border={
+        buyerArbitration > 0 && sellerArbitration > 0 ? "danger" : "light"
+      }
+      className="shadow-sm"
+    >
       <Card.Header className="border-bottom border-light d-flex justify-content-between">
         <h5 className="mb-0">Flags</h5>
       </Card.Header>

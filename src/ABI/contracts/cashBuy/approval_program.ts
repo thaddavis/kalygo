@@ -291,11 +291,11 @@ retsub
 // initialize_contract
 initializecontract_9:
 byte "global_enable_time_checks"
-txna ApplicationArgs 10
+txna ApplicationArgs 11
 btoi
 app_global_put
 byte "global_asa_id"
-txna ApplicationArgs 11
+txna ApplicationArgs 12
 btoi
 app_global_put
 byte "global_buyer_pullout_flag"
@@ -355,6 +355,18 @@ txna ApplicationArgs 8
 btoi
 <=
 &&
+txna ApplicationArgs 8
+btoi
+txna ApplicationArgs 9
+btoi
+<=
+&&
+txna ApplicationArgs 9
+btoi
+txna ApplicationArgs 10
+btoi
+<=
+&&
 bnz initializecontract_9_l4
 int 0
 return
@@ -367,16 +379,20 @@ byte "global_inspection_end_date"
 txna ApplicationArgs 6
 btoi
 app_global_put
-byte "global_moving_date"
+byte "global_inspection_extension_date"
 txna ApplicationArgs 7
 btoi
 app_global_put
-byte "global_closing_date"
+byte "global_moving_date"
 txna ApplicationArgs 8
 btoi
 app_global_put
-byte "global_free_funds_date"
+byte "global_closing_date"
 txna ApplicationArgs 9
+btoi
+app_global_put
+byte "global_free_funds_date"
+txna ApplicationArgs 10
 btoi
 app_global_put
 b initializecontract_9_l6

@@ -211,8 +211,8 @@ const Presentation = () => {
               <h2>Powered by Blockchain</h2>
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
               <p className="mb-4">
-                Kalygo a hub of real-world applicable contracts running on
-                either the Ethereum, Algorand, or Solana Blockchains
+                Kalygo a hub of customizable contracts running on either the
+                Algorand, Ethereum, or Solana Blockchains
               </p>
             </Col>
           </Row>
@@ -275,10 +275,7 @@ const Presentation = () => {
                   <Image src={ReactHero} />
                   <span className="ms-2 brand-text">Kalygo</span>
                 </Navbar.Brand> */}
-                <p>
-                  Kalygo is a free and open source platform for peer-to-peer
-                  contracts
-                </p>
+                <p>Kalygo is a free and open source platform</p>
               </div>
             </Col>
             {/* <Col xs={6} md={2} className="mb-5 mb-lg-0">
@@ -328,7 +325,7 @@ const Presentation = () => {
                 role="contentinfo"
               >
                 <p className="font-weight-normal font-small mb-0">
-                  Copyright © COMMAND{" "}
+                  © COMMAND{" "}
                   <span className="current-year">
                     {new Date().getFullYear()}
                   </span>

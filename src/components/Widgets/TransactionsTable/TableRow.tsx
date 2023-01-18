@@ -213,9 +213,7 @@ export const TableRow = (props: TR) => {
             {txType === "acfg" && assetConfigTransaction && (
               <Dropdown.Item
                 onClick={() => {
-                  navigate(
-                    `/dashboard/transactions/asset/${createdAssetIndex}`
-                  );
+                  navigate(`/dashboard/app/asa/${createdAssetIndex}`);
                 }}
               >
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View holders

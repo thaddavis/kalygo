@@ -104,7 +104,7 @@ export const ChoosePhotoWidget = (props) => {
 };
 
 export const CounterWidget = (props) => {
-  const { icon, iconColor, category, title, period } = props;
+  const { icon, iconColor, category, title } = props;
 
   return (
     <Card border="light" className="shadow-sm">

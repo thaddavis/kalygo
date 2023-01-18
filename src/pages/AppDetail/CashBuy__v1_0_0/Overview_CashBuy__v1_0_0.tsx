@@ -179,17 +179,21 @@ function Overview_CashBuy__v1_0_0() {
     : {
         timeline: [],
         now: new Date().getTime(),
+        inspectionPeriodStart: new Date().getTime(),
         inspectionPeriodEnd: new Date().getTime(),
-        closingDate: new Date().getTime(),
+        inspectionExtension: new Date().getTime(),
         movingDate: new Date().getTime(),
+        closingDate: new Date().getTime(),
+        freeFundsDate: new Date().getTime(),
       };
 
   console.log("app.val", app.val);
-  // console.log("asset.val", asset.val);
-  // console.log("account.val", account.val);
+  console.log("asset.val", asset.val);
+  console.log("account.val", account.val);
   // debugger;
 
   const escrowTokenName = asset?.val?.assets[0]?.params?.name;
+  const escrowTokenDecimals = asset?.val?.assets[0]?.params?.decimals;
   const escrowTokenId = asset?.val?.assets[0]?.index;
   let escrowTokenBalance = -1;
 
@@ -217,7 +221,9 @@ function Overview_CashBuy__v1_0_0() {
           <ActionsWidget
             now={timelineEvents.now}
             inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
+            inspectionPeriodExtension={timelineEvents.inspectionExtension}
             closingDate={timelineEvents.closingDate}
+            freeFundsDate={timelineEvents.freeFundsDate}
             movingDate={timelineEvents.movingDate}
             fungibleTokenId={escrowTokenId}
             fungibleTokenBalance={escrowTokenBalance}
@@ -252,6 +258,7 @@ function Overview_CashBuy__v1_0_0() {
                 closingDate={timelineEvents.closingDate}
                 fungibleTokenName={escrowTokenName}
                 fungibleTokenBalance={escrowTokenBalance}
+                fungibleTokenDecimals={escrowTokenDecimals}
                 balance={get(account.val, "amount", -1)}
                 escrowAmount1={get(app.val, "global_escrow_payment_1", -1)}
                 escrowAmount2={get(app.val, "global_escrow_payment_2", -1)}
@@ -260,13 +267,13 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} lg={6} className="mb-4">
               <FlagsWidget
-                signalPullOut={get(app.val, "global_buyer_pullout_flag", -1)}
-                signalBuyerArbitration={get(
+                buyerPullout={get(app.val, "global_buyer_pullout_flag", -1)}
+                buyerArbitration={get(
                   app.val,
                   "global_buyer_arbitration_flag",
                   -1
                 )}
-                signalSellerArbitration={get(
+                sellerArbitration={get(
                   app.val,
                   "global_seller_arbitration_flag",
                   -1

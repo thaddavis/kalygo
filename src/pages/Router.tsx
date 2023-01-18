@@ -58,11 +58,12 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import TransactionsOverview from "./TransactionsOverview";
 import TransactionDetail from "./TransactionDetail";
 import AppDetail from "./AppDetail";
-import AssetDetail from "./AssetDetail";
+
 import ContractOptions from "./ContractOptions";
 import { BsFillNutFill } from "react-icons/bs";
 import FungibleTokenContract from "./contracts/FungibleTokenContract";
 import Overview_CashBuy__v1_0_0 from "./AppDetail/CashBuy__v1_0_0/Overview_CashBuy__v1_0_0";
+import OverviewAsset from "./AppDetail/AssetDetail/OverviewAsset";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -185,8 +186,8 @@ const Router = () => (
             path={"cashBuy__v1_0_0/:id"}
             element={<Overview_CashBuy__v1_0_0 />}
           />
+          <Route path={"asa/:id"} element={<OverviewAsset />} />
         </Route>
-        <Route path={"transactions/asset/:id"} element={<AssetDetail />} />
         <Route path={"contract-options"} element={<ContractOptions />} />
         <Route
           path={"transactions/detail/:id"}

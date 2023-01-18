@@ -50,12 +50,20 @@ function TransactionDetail() {
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"></div>
 
       <Row>
-        <Col xs={12} xl={4}>
-          <OperatorConfig />
-        </Col>
-        <Col xs={12} md={8} xl={8}>
+        <Col>
           {/* <SettingsForm accounts={settings.accounts} /> */}
-          {txn && <pre>{JSON.stringify(txn, undefined, 2)}</pre>}
+          {txn && (
+            <code>
+              <pre
+                className={"truncate"}
+                style={{
+                  overflowX: "hidden",
+                }}
+              >
+                {JSON.stringify(txn, undefined, 2)}
+              </pre>
+            </code>
+          )}
         </Col>
       </Row>
     </>

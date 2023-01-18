@@ -32,7 +32,7 @@ export default function ContractOptions() {
         ].map((i, idx) => {
           return (
             <Col key={i.title} xs={12} sm={6} xl={4} className="mb-4">
-              <Card style={{ width: "18rem" }}>
+              <Card>
                 <Card.Body>
                   <Card.Title>{i.title}</Card.Title>
                   <Card.Text>{i.desc}</Card.Text>
