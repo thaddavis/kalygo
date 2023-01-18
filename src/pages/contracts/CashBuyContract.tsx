@@ -27,7 +27,7 @@ const CashBuyContract = () => {
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <h1>New Contract</h1>
+        <h1>Cash Buy</h1>
       </div>
 
       <Row>

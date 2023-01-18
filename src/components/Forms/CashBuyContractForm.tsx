@@ -41,18 +41,18 @@ export const CashBuyContractForm = (props: P) => {
       escrowAmount2: 100000,
       escrowTotal: 200000,
       asaId: 1017,
-      // inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
-      // inspectionPeriodEnd: moment().add("2", "m").toString(),
-      // inspectionPeriodExtension: moment().add("3", "m").toString(),
-      // movingDate: moment().add("4", "m").toString(),
-      // closingDate: moment().add("5", "m").toString(),
-      // freeFundsDate: moment().add("6", "m").toString(),
-      inspectionPeriodStart: moment().add("30", "s").toString(),
-      inspectionPeriodEnd: moment().add("60", "s").toString(),
-      inspectionPeriodExtension: moment().add("90", "s").toString(),
-      movingDate: moment().add("120", "s").toString(),
-      closingDate: moment().add("150", "s").toString(),
-      freeFundsDate: moment().add("180", "s").toString(),
+      inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
+      inspectionPeriodEnd: moment().add("2", "m").toString(),
+      inspectionPeriodExtension: moment().add("3", "m").toString(),
+      movingDate: moment().add("4", "m").toString(),
+      closingDate: moment().add("5", "m").toString(),
+      freeFundsDate: moment().add("6", "m").toString(),
+      // inspectionPeriodStart: moment().add("30", "s").toString(),
+      // inspectionPeriodEnd: moment().add("60", "s").toString(),
+      // inspectionPeriodExtension: moment().add("90", "s").toString(),
+      // movingDate: moment().add("120", "s").toString(),
+      // closingDate: moment().add("150", "s").toString(),
+      // freeFundsDate: moment().add("180", "s").toString(),
       buyer: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       seller: "LRRN5NIUW5FM6CGWXBK4LP37TJL232HV5KQ4C45WK373MKVUEYS5EHQN5Y",
       propertyAddress: "3717 Royal Palm Ave.",
@@ -126,7 +126,7 @@ export const CashBuyContractForm = (props: P) => {
           algosdk.encodeUint64(moment(closingDate).unix()), // 9 GLOBAL_CLOSING_DATE
           algosdk.encodeUint64(moment(freeFundsDate).unix()), // 10 GLOBAL_FREE_FUNDS_DATE
           algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 11 GLOBAL_TIME_CHECK_ENABLED
-          algosdk.encodeUint64(asaId), // 12 GLOBAL_ASA_ID
+          algosdk.encodeUint64(Math.floor(asaId)), // 12 GLOBAL_ASA_ID
           // --- --- --- --- ---
         ],
         [],
