@@ -188,10 +188,12 @@ export const TableRow = (props: TR) => {
                 createdApplicationIndex) && (
                 <Dropdown.Item
                   onClick={() => {
-                    console.log("note", note);
-                    console.log(Buffer.from(note, "base64").toString());
+                    // console.log("note", note);
+                    // console.log(Buffer.from(note, "base64").toString());
 
-                    const decodedNote = Buffer.from(note, "base64").toString();
+                    const decodedNote = note
+                      ? Buffer.from(note, "base64").toString()
+                      : "";
                     switch (decodedNote) {
                       case supportedContracts.cashBuy__v1_0_0:
                         navigate(
