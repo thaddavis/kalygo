@@ -17,7 +17,7 @@ import { BlockchainStatWidget } from "../components/Widgets/Generic/BlockchainSt
 
 const BlockchainOverview = () => {
   const [status, setStatus] = useState<any>({
-    val: undefined,
+    val: "...",
     loading: true,
     error: undefined,
   });
@@ -29,11 +29,11 @@ const BlockchainOverview = () => {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        setStatus({
-          val: status.val,
-          loading: true,
-          error: null,
-        });
+        // setStatus({
+        //   val: status.val,
+        //   loading: true,
+        //   error: null,
+        // });
 
         const response = await Algod.getAlgod(settings.selectedNetwork)
           .status()
