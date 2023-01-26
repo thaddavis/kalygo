@@ -144,13 +144,25 @@ export const CashBuyContractForm = (props: P) => {
         numLocalInts: 0,
         sender: settings.selectedAccount,
         suggestedParams: params,
-        signer: async (unsignedTxns: Array<algosdk.Transaction>) => {
-          return (window as any).AlgoSigner.signTxns(
-            unsignedTxns.map((txn) =>
-              (window as any).AlgoSigner.encoding.msgpackToBase64(txn.toByte())
-            )
+        signer: async (
+          unsignedTxns: Array<algosdk.Transaction>
+        ): Promise<Uint8Array[]> => {
+          console.log("unsignedTxns", unsignedTxns);
+
+          // let binaryTx = appCreateTxn.toByte();
+
+          let signedTxns = await (window as any).AlgoSigner.signTxn(
+            unsignedTxns.map((_txn) => {
+              return {
+                txn: (window as any).AlgoSigner.encoding.msgpackToBase64(
+                  _txn.toByte()
+                ),
+              };
+            })
           );
-          // .map((sTxn: any) => Uint8Array.from(atob(sTxn), (v) => v.charCodeAt(0)));
+          return signedTxns.map((sTxn: any) =>
+            Uint8Array.from(atob(sTxn), (v) => v.charCodeAt(0))
+          );
         },
         onComplete: onComplete,
       });
