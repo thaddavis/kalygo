@@ -138,12 +138,13 @@ export const CashBuyContractForm = (props: P) => {
         ] as ABIArgument[],
         approvalProgram: a_prog,
         clearProgram: c_prog,
-        numGlobalByteSlices: 13,
-        numGlobalInts: 3,
+        numGlobalByteSlices: 3,
+        numGlobalInts: 13,
         numLocalByteSlices: 0,
         numLocalInts: 0,
         sender: settings.selectedAccount,
         suggestedParams: params,
+        note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: async (
           unsignedTxns: Array<algosdk.Transaction>
         ): Promise<Uint8Array[]> => {
@@ -160,14 +161,33 @@ export const CashBuyContractForm = (props: P) => {
               };
             })
           );
-          return signedTxns.map((sTxn: any) =>
-            Uint8Array.from(atob(sTxn), (v) => v.charCodeAt(0))
-          );
+
+          return signedTxns.map((sTxn: any) => {
+            console.log("sTxn", sTxn);
+            return Uint8Array.from(Buffer.from(sTxn.blob, "base64"));
+          });
         },
         onComplete: onComplete,
       });
 
-      atc.execute(Algod.getAlgod(settings.selectedNetwork), 2);
+      const tx_id = await atc.submit(Algod.getAlgod(settings.selectedNetwork));
+
+      console.log("submit_response", tx_id);
+
+      showSuccessToast("Contract creation request sent to network!");
+
+      const waiting = await algosdk.waitForConfirmation(
+        Algod.getAlgod(settings.selectedNetwork),
+        tx_id[0],
+        32
+      );
+
+      // const txn_id = await atc.execute(
+      //   Algod.getAlgod(settings.selectedNetwork),
+      //   2
+      // );
+
+      showSuccessToast("Awaiting block confirmation...");
 
       // let params = await Algod.getAlgod(settings.selectedNetwork)
       //   .getTransactionParams()
@@ -255,17 +275,7 @@ export const CashBuyContractForm = (props: P) => {
 
       // console.log("res", res);
 
-      // showSuccessToast("Contract creation request sent to network!");
-
-      // showSuccessToast("Awaiting block confirmation...");
-
-      // const waiting = await algosdk.waitForConfirmation(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   res.txId,
-      //   32
-      // );
-
-      // navigate(`/dashboard/transactions`);
+      navigate(`/dashboard/transactions`);
     } catch (e) {
       showErrorToast(
         "Something unexpected happened. Make sure your wallet is connected."
