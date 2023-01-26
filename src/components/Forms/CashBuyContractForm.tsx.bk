@@ -40,7 +40,8 @@ export const CashBuyContractForm = (props: P) => {
       escrowAmount1: 100000,
       escrowAmount2: 100000,
       escrowTotal: 200000,
-      asaId: 95939489,
+      // asaId: 95939489,
+      asaId: 12,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
       inspectionPeriodExtension: moment().add("3", "m").toString(),
@@ -53,8 +54,8 @@ export const CashBuyContractForm = (props: P) => {
       // movingDate: moment().add("120", "s").toString(),
       // closingDate: moment().add("150", "s").toString(),
       // freeFundsDate: moment().add("180", "s").toString(),
-      buyer: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-      seller: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+      buyer: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
+      seller: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -110,22 +111,23 @@ export const CashBuyContractForm = (props: P) => {
         c_prog,
         0, // local ints
         0, // local byte_slices
-        14, // global ints
+        13, // global ints
         3, // global byte_slices
         [
+          new Uint8Array(Buffer.from("create")),
           // --- --- ---
           new Uint8Array(Buffer.from(algosdk.decodeAddress(buyer).publicKey)), // 0 buyer
           new Uint8Array(Buffer.from(algosdk.decodeAddress(seller).publicKey)), // 1 seller
-          algosdk.encodeUint64(Math.floor(escrowAmount1 * 2)), // 2 1st_escrow_payment
-          algosdk.encodeUint64(Math.floor(escrowAmount2 * 2)), // 3 2nd_escrow_payment
-          algosdk.encodeUint64(Math.floor(escrowTotal) * 2), // 4 total escrow
+          algosdk.encodeUint64(Math.floor(escrowAmount1)), // 2 1st_escrow_payment
+          algosdk.encodeUint64(Math.floor(escrowAmount2)), // 3 2nd_escrow_payment
+          algosdk.encodeUint64(Math.floor(escrowTotal)), // 4 total escrow
           algosdk.encodeUint64(moment(inspectionPeriodStart).unix()), // 5 GLOBAL_INSPECTION_START_DATE
           algosdk.encodeUint64(moment(inspectionPeriodEnd).unix()), // 6 GLOBAL_INSPECTION_END_DATE
           algosdk.encodeUint64(moment(inspectionPeriodExtension).unix()), // 7 GLOBAL_INSPECTION_EXTENSION_DATE
           algosdk.encodeUint64(moment(movingDate).unix()), // 8 GLOBAL_MOVING_DATE
           algosdk.encodeUint64(moment(closingDate).unix()), // 9 GLOBAL_CLOSING_DATE
           algosdk.encodeUint64(moment(freeFundsDate).unix()), // 10 GLOBAL_FREE_FUNDS_DATE
-          algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 11 GLOBAL_TIME_CHECK_ENABLED
+          // algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 11 GLOBAL_TIME_CHECK_ENABLED
           algosdk.encodeUint64(Math.floor(asaId)), // 12 GLOBAL_ASA_ID
           // --- --- --- --- ---
         ],

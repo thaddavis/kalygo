@@ -18,7 +18,8 @@ import { SettingsForm } from "../../components/Forms/SettingsForm";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { OperatorConfig } from "../../components/Widgets/Generic/OperatorConfig";
-import { CashBuyContractForm } from "../../components/Forms/CashBuyContractForm";
+import { CashBuyContractForm } from "../../components/Forms/CashBuyContractFormWithATC";
+// import { CashBuyContractForm } from "../../components/Forms/CashBuyContractFormWithSDK";
 
 const CashBuyContract = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
