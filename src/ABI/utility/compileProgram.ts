@@ -12,5 +12,6 @@ export async function compileProgram(
   let compiledBytes = new Uint8Array(
     Buffer.from(compileResponse.result, "base64")
   );
+
   return compiledBytes;
 }

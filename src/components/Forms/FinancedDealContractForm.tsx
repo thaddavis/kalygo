@@ -13,8 +13,9 @@ import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Algod } from "../../services/algod";
 import algosdk from "algosdk";
-import { clear_state_program } from "../../ABI/contracts/financedDeal/clear_state_program";
-import { approval_program } from "../../ABI/contracts/financedDeal/approval_program";
+import { clear_state_program } from "../../contractExports/contracts/financedDeal/clear_state_program";
+import { approval_program } from "../../contractExports/contracts/financedDeal/approval_program";
+
 import { compileProgram } from "../../ABI/utility/compileProgram";
 import { showErrorToast } from "../../utility/errorToast";
 import { showSuccessToast } from "../../utility/successToast";

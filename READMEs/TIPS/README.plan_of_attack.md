@@ -11,3 +11,19 @@ https://developer.algorand.org/docs/get-details/asa/#revoking-an-asset
 - to a realtime timeline visualization with D3
 
 SHARE WITH THE WORLD!
+
+
+1 - works
+2 - works
+3 - works
+4 - works
+5 - works
+
+
+AGAIN
+
+1 - works
+2 - 
+3 - 
+4 - 
+5 - 

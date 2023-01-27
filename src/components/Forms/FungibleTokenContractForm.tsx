@@ -55,8 +55,6 @@ export const FungibleTokenContractForm = (props: P) => {
       params.flatFee = true;
       params.fee = 1000;
 
-      debugger;
-
       const account = {
         addr: settings.selectedAccount,
       };

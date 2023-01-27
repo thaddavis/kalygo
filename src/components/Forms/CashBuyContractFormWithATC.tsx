@@ -12,8 +12,6 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Algod } from "../../services/algod";
-import { clear_state_program } from "../../ABI/contracts/cashBuy/clear_state_program";
-import { approval_program } from "../../ABI/contracts/cashBuy/approval_program";
 import { compileProgram } from "../../ABI/utility/compileProgram";
 import { showErrorToast } from "../../utility/errorToast";
 import { showSuccessToast } from "../../utility/successToast";
@@ -25,7 +23,7 @@ import algosdk, {
   Account,
 } from "algosdk";
 
-import ABI from "../../ABI/contracts/cashBuy/abi.json";
+import ABI from "../../contractExports/contracts/cashBuy/application.json";
 
 interface P {
   accounts: string[];
@@ -52,9 +50,9 @@ export const CashBuyContractForm = (props: P) => {
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
       inspectionPeriodExtension: moment().add("3", "m").toString(),
-      movingDate: moment().add("4", "m").toString(),
-      closingDate: moment().add("5", "m").toString(),
-      freeFundsDate: moment().add("6", "m").toString(),
+      movingDate: moment().add("3", "m").add("30", "s").toString(),
+      closingDate: moment().add("4", "m").toString(),
+      freeFundsDate: moment().add("4", "m").add("30", "s").toString(),
       // inspectionPeriodStart: moment().add("30", "s").toString(),
       // inspectionPeriodEnd: moment().add("60", "s").toString(),
       // inspectionPeriodExtension: moment().add("90", "s").toString(),
@@ -63,6 +61,8 @@ export const CashBuyContractForm = (props: P) => {
       // freeFundsDate: moment().add("180", "s").toString(),
       buyer: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
       seller: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
+      stablecoinIssuer:
+        "VLREUBCYOB247DM5CROEBL7PXWXKG36IAXQGFXCLGQEHVXWLBCX3LWMLPE",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -76,6 +76,7 @@ export const CashBuyContractForm = (props: P) => {
       const {
         buyer,
         seller,
+        stablecoinIssuer,
         escrowAmount1,
         escrowAmount2,
         escrowTotal,
@@ -89,7 +90,7 @@ export const CashBuyContractForm = (props: P) => {
         asaId,
       } = data;
 
-      const contract = new algosdk.ABIContract(ABI);
+      const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
       let params = await Algod.getAlgod(settings.selectedNetwork)
         .getTransactionParams()
@@ -101,23 +102,23 @@ export const CashBuyContractForm = (props: P) => {
 
       let a_prog = await compileProgram(
         Algod.getAlgod(settings.selectedNetwork),
-        approval_program
+        Buffer.from(ABI.source.approval, "base64").toString()
       );
+
+      // return;
       let c_prog = await compileProgram(
         Algod.getAlgod(settings.selectedNetwork),
-        clear_state_program
+        Buffer.from(ABI.source.clear, "base64").toString()
       );
 
-      // async function signer(unsignedTxns: Array<algosdk.Transaction>) {
-      //   // console.log("unsignedTxns", unsignedTxns);
+      // console.log(
+      //   "---",
+      //   Buffer.from(ABI.source.approval, "base64").toString()
+      //   atob(ABI.source.approval)
+      // );
 
-      //   return (window as any).AlgoSigner.signTxns(
-      //     unsignedTxns.map((txn) =>
-      //       (window as any).AlgoSigner.encoding.msgpackToBase64(txn.toByte())
-      //     )
-      //   );
-      //   // .map((sTxn: any) => Uint8Array.from(atob(sTxn), (v) => v.charCodeAt(0)));
-      // }
+      // let a_prog = btoa(ABI.source.approval);
+      // let c_prog = ABI.source.clear;
 
       atc.addMethodCall({
         appID: 0,
@@ -125,6 +126,7 @@ export const CashBuyContractForm = (props: P) => {
         methodArgs: [
           buyer, // global_buyer: "",
           seller, // global_seller: "",
+          stablecoinIssuer, // global_stablecoin_issuer,
           Math.floor(escrowAmount1), // global_escrow_payment_1: "",
           Math.floor(escrowAmount2), // global_escrow_payment_2: "",
           Math.floor(escrowTotal), // global_total_price: "",
@@ -150,8 +152,6 @@ export const CashBuyContractForm = (props: P) => {
         ): Promise<Uint8Array[]> => {
           console.log("unsignedTxns", unsignedTxns);
 
-          // let binaryTx = appCreateTxn.toByte();
-
           let signedTxns = await (window as any).AlgoSigner.signTxn(
             unsignedTxns.map((_txn) => {
               return {
@@ -176,105 +176,13 @@ export const CashBuyContractForm = (props: P) => {
 
       showSuccessToast("Contract creation request sent to network!");
 
-      const waiting = await algosdk.waitForConfirmation(
+      await algosdk.waitForConfirmation(
         Algod.getAlgod(settings.selectedNetwork),
         tx_id[0],
         32
       );
 
-      // const txn_id = await atc.execute(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   2
-      // );
-
       showSuccessToast("Awaiting block confirmation...");
-
-      // let params = await Algod.getAlgod(settings.selectedNetwork)
-      //   .getTransactionParams()
-      //   .do();
-
-      // params.flatFee = true;
-      // params.fee = 1000;
-
-      // let onComplete = algosdk.OnApplicationComplete.NoOpOC;
-
-      // let a_prog = await compileProgram(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   approval_program
-      // );
-      // let c_prog = await compileProgram(
-      //   Algod.getAlgod(settings.selectedNetwork),
-      //   clear_state_program
-      // );
-
-      // console.log("a_prog", a_prog);
-      // console.log("c_prog", c_prog);
-
-      // const appCreateTxn = algosdk.makeApplicationCreateTxn(
-      //   settings.selectedAccount,
-      //   params,
-      //   onComplete,
-      //   a_prog,
-      //   c_prog,
-      //   0, // local ints
-      //   0, // local byte_slices
-      //   13, // global ints
-      //   3, // global byte_slices
-      //   [
-      //     new Uint8Array(Buffer.from("create")),
-      //     // --- --- ---
-      //     new Uint8Array(Buffer.from(algosdk.decodeAddress(buyer).publicKey)), // 0 buyer
-      //     new Uint8Array(Buffer.from(algosdk.decodeAddress(seller).publicKey)), // 1 seller
-      //     algosdk.encodeUint64(Math.floor(escrowAmount1)), // 2 1st_escrow_payment
-      //     algosdk.encodeUint64(Math.floor(escrowAmount2)), // 3 2nd_escrow_payment
-      //     algosdk.encodeUint64(Math.floor(escrowTotal)), // 4 total escrow
-      //     algosdk.encodeUint64(moment(inspectionPeriodStart).unix()), // 5 GLOBAL_INSPECTION_START_DATE
-      //     algosdk.encodeUint64(moment(inspectionPeriodEnd).unix()), // 6 GLOBAL_INSPECTION_END_DATE
-      //     algosdk.encodeUint64(moment(inspectionPeriodExtension).unix()), // 7 GLOBAL_INSPECTION_EXTENSION_DATE
-      //     algosdk.encodeUint64(moment(movingDate).unix()), // 8 GLOBAL_MOVING_DATE
-      //     algosdk.encodeUint64(moment(closingDate).unix()), // 9 GLOBAL_CLOSING_DATE
-      //     algosdk.encodeUint64(moment(freeFundsDate).unix()), // 10 GLOBAL_FREE_FUNDS_DATE
-      //     // algosdk.encodeUint64(enableTimeChecks ? 1 : 0), // 11 GLOBAL_TIME_CHECK_ENABLED
-      //     algosdk.encodeUint64(Math.floor(asaId)), // 12 GLOBAL_ASA_ID
-      //     // --- --- --- --- ---
-      //   ],
-      //   [],
-      //   [],
-      //   [],
-      //   new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0))
-      // );
-
-      // let binaryTx = appCreateTxn.toByte();
-
-      // let base64Tx = (window as any).AlgoSigner.encoding.msgpackToBase64(
-      //   binaryTx
-      // );
-
-      // console.log(base64Tx);
-
-      // let signedTxn = await (window as any).AlgoSigner.signTxn([
-      //   {
-      //     txn: base64Tx,
-      //   },
-      // ]);
-
-      // console.log("signedTxn", signedTxn);
-
-      // let tmp = signedTxn.map((tx: any) => {
-      //   if (tx)
-      //     return {
-      //       txID: tx.txID,
-      //       blob: (window as any).AlgoSigner.encoding.base64ToMsgpack(tx.blob),
-      //     };
-      //   return {};
-      // });
-
-      // const res = await Algod.getAlgod(settings.selectedNetwork)
-      //   .sendRawTransaction(tmp[0].blob)
-      //   .do();
-
-      // console.log("res", res);
-
       navigate(`/dashboard/transactions`);
     } catch (e) {
       showErrorToast(
@@ -568,6 +476,19 @@ export const CashBuyContractForm = (props: P) => {
                   })}
                   type="text"
                   placeholder="Seller Wallet Address"
+                />
+              </Form.Group>
+            </Col>
+
+            <Col sm={12} className="mb-3">
+              <Form.Group id="stablecoin_issuer">
+                <Form.Label>Stablecoin Issuer</Form.Label>
+                <Form.Control
+                  {...register("stablecoinIssuer", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="Stablecoin Issuer Address"
                 />
               </Form.Group>
             </Col>

@@ -3,11 +3,12 @@ import { Col, Row, Card, ListGroup } from "react-bootstrap";
 interface P {
   buyer: string;
   seller: string;
-  creator: string;
+  stablecoinIssuer: string;
+  clawbackAddress: string;
 }
 
 export const RolesWidget = (props: P) => {
-  const { buyer, seller, creator } = props;
+  const { buyer, seller, stablecoinIssuer, clawbackAddress } = props;
 
   const TeamMember = (props: any) => {
     const {
@@ -39,9 +40,10 @@ export const RolesWidget = (props: P) => {
       </Card.Header>
       <Card.Body>
         <ListGroup className="list-group-flush list my--3">
-          <TeamMember role={"Creator"} address={creator} />
           <TeamMember role={"Buyer"} address={buyer} />
           <TeamMember role={"Seller"} address={seller} />
+          <TeamMember role={"Stablecoin Issuer"} address={stablecoinIssuer} />
+          <TeamMember role={"Clawback Address"} address={clawbackAddress} />
         </ListGroup>
       </Card.Body>
     </Card>

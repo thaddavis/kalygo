@@ -131,7 +131,7 @@ export const EscrowWidget = (props: P) => {
             }
           />
           <CustomRow
-            theKey={"Sale Price"}
+            theKey={"Total Price"}
             value={
               totalValue < 0 ? "Ø" : `${totalValueFORMATTED} ${escrowTokenName}`
             }

@@ -51,7 +51,7 @@ export const TimelineWidget = (props: P) => {
           </thead> */}
         <tbody>
           {events.map((i: any, idx: number) => {
-            console.log("i", i);
+            // console.log("i", i);
 
             return (
               <tr key={idx}>

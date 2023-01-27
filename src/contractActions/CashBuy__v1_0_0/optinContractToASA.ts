@@ -1,10 +1,13 @@
-import algosdk from "algosdk";
+import algosdk, { AtomicTransactionComposer, ABIArgument } from "algosdk";
 import { Algod } from "../../services/algod";
 import { Buffer } from "buffer";
 
 import { showErrorToast } from "../../utility/errorToast";
 import { showSuccessToast } from "../../utility/successToast";
 import { supportedContracts } from "../../data/supportedContracts";
+
+import ABI from "../../contractExports/contracts/cashBuy/application.json";
+import { signer as AlgoSigner } from "../helpers/signers/AlgoSigner";
 
 export async function optinContractToASA(
   sender: string,
@@ -15,51 +18,24 @@ export async function optinContractToASA(
   optinAmount: number = 200000
 ) {
   try {
-    console.log("!!!");
-
+    console.log("optinContractToASA");
+    const contract = new algosdk.ABIContract(ABI.contract);
+    let atc = new AtomicTransactionComposer();
     let params = await Algod.getAlgod(network).getTransactionParams().do();
-
     params.flatFee = true;
-    params.fee = 1000 * 2; // 1 fee for the
-
-    // const payTxn = algosdk.makePaymentTxnWithSuggestedParams(
-    //   sender,
-    //   contractAddress,
-    //   optinAmount,
-    //   undefined,
-    //   new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
-    //   params
-    // );
-
-    const noOpTxn = algosdk.makeApplicationNoOpTxn(
-      sender,
-      params,
-      appId,
-      [new Uint8Array(Buffer.from("optin_contract"))],
-      undefined,
-      undefined,
-      [fungibleTokenId],
-      new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0))
-    );
-
-    let binaryTxs = [noOpTxn.toByte()];
-    let base64Txs = binaryTxs.map((binary) =>
-      (window as any).AlgoSigner.encoding.msgpackToBase64(binary)
-    );
-
-    let signedTxs = await (window as any).AlgoSigner.signTxn([
-      {
-        txn: base64Txs[0],
-      },
-    ]);
-
-    let sentTxn = await (window as any).AlgoSigner.send({
-      ledger: network,
-      tx: signedTxs[0].blob,
+    params.fee = 1000 * 2; // 1 fee for this txn and 1 for the optin from the contract into the ASA
+    atc.addMethodCall({
+      appID: appId,
+      method: contract.getMethodByName("optin_to_ASA"),
+      methodArgs: [] as ABIArgument[],
+      sender: sender,
+      suggestedParams: params,
+      note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
+      signer: AlgoSigner,
+      appForeignAssets: [fungibleTokenId],
     });
-
-    console.log("sentTxn", sentTxn);
-
+    const tx_id = await atc.submit(Algod.getAlgod(network));
+    console.log("submit_response", tx_id);
     showSuccessToast("Sent ASA optin request to network");
   } catch (e) {
     showErrorToast("Error occurred when opting contract into ASA");

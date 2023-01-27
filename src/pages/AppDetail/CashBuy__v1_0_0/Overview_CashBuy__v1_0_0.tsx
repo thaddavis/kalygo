@@ -187,9 +187,9 @@ function Overview_CashBuy__v1_0_0() {
         freeFundsDate: new Date().getTime(),
       };
 
-  console.log("app.val", app.val);
-  console.log("asset.val", asset.val);
-  console.log("account.val", account.val);
+  // console.log("app.val", app.val);
+  // console.log("asset.val", asset.val);
+  // console.log("account.val", account.val);
   // debugger;
 
   const escrowTokenName = asset?.val?.assets[0]?.params?.name;
@@ -228,7 +228,11 @@ function Overview_CashBuy__v1_0_0() {
             fungibleTokenId={escrowTokenId}
             fungibleTokenBalance={escrowTokenBalance}
             balance={get(account.val, "amount", 0)}
-            creator={get(app.val, "global_creator", "Not Found")}
+            stablecoinIssuerClawbackAddress={get(
+              asset.val,
+              "assets.0.params.clawback",
+              "Not Found"
+            )}
             buyer={get(app.val, "global_buyer", "Not Found")}
             seller={get(app.val, "global_seller", "Not Found")}
             operator={settings.selectedAccount}
@@ -262,7 +266,7 @@ function Overview_CashBuy__v1_0_0() {
                 balance={get(account.val, "amount", -1)}
                 escrowAmount1={get(app.val, "global_escrow_payment_1", -1)}
                 escrowAmount2={get(app.val, "global_escrow_payment_2", -1)}
-                totalValue={get(app.val, "global_escrow_total", -1)}
+                totalValue={get(app.val, "global_total_price", -1)}
               />
             </Col>
             <Col xs={12} lg={6} className="mb-4">
@@ -285,9 +289,18 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} className="mb-4">
               <RolesWidget
-                creator={get(app.val, "global_creator", "Not Found")}
+                stablecoinIssuer={get(
+                  app.val,
+                  "global_stablecoin_issuer",
+                  "Not Found"
+                )}
                 buyer={get(app.val, "global_buyer", "Not Found")}
                 seller={get(app.val, "global_seller", "Not Found")}
+                clawbackAddress={get(
+                  asset.val,
+                  "assets.0.params.clawback",
+                  "Not Found"
+                )}
               />
             </Col>
           </Row>
