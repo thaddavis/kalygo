@@ -211,8 +211,9 @@ function Overview_CashBuy__v1_0_0() {
     <h1>ERROR</h1>
   ) : (
     <ErrorBoundary>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+      <div className="d-flex flex-column flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Cash Buy</h1>
+        <h3></h3>
       </div>
 
       <Row>

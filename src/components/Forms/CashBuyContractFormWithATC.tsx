@@ -91,6 +91,8 @@ export const CashBuyContractForm = (props: P) => {
         closingDate,
         freeFundsDate,
         enableTimeChecks,
+        propertyAddress,
+        propertyName,
         asaId,
       } = data;
 

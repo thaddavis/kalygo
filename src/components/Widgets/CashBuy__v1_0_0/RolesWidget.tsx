@@ -41,7 +41,7 @@ export const RolesWidget = (props: P) => {
         <ListGroup className="list-group-flush list my--3">
           <TeamMember role={"Buyer"} address={buyer} />
           <TeamMember role={"Seller"} address={seller} />
-          <TeamMember role={"Clawback Address"} address={clawbackAddress} />
+          <TeamMember role={"Clawbacker"} address={clawbackAddress} />
         </ListGroup>
       </Card.Body>
     </Card>
