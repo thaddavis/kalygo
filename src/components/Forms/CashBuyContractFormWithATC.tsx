@@ -24,7 +24,7 @@ import algosdk, {
   Account,
 } from "algosdk";
 
-import { formatNumber, formatCurrency } from "./helpers/formatCurrency";
+import { formatCurrency } from "./helpers/formatCurrency";
 
 import ABI from "../../contractExports/contracts/cashBuy/application.json";
 import { signer } from "../../contractActions/helpers/signers/AlgoSigner";
@@ -40,12 +40,14 @@ export const CashBuyContractForm = (props: P) => {
 
   const {
     register,
+    trigger,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
     setValue,
   } = useForm({
+    mode: "onBlur",
     defaultValues: {
       escrowAmount1: "$100,000.00",
       escrowAmount2: "$100,000.00",
@@ -98,6 +100,8 @@ export const CashBuyContractForm = (props: P) => {
       //   escrowAmount1.replace(/[^0-9.-]+/g, ""),
       //   Number(escrowAmount1.replace(/[^0-9.-]+/g, ""))
       // );
+
+      console.log("errors", errors);
 
       let escrowAmount1AsInt = escrowAmount1;
       try {
@@ -158,26 +162,6 @@ export const CashBuyContractForm = (props: P) => {
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: signer,
-        // async (
-        //   unsignedTxns: Array<algosdk.Transaction>
-        // ): Promise<Uint8Array[]> => {
-        //   console.log("unsignedTxns", unsignedTxns);
-
-        //   let signedTxns = await (window as any).AlgoSigner.signTxn(
-        //     unsignedTxns.map((_txn) => {
-        //       return {
-        //         txn: (window as any).AlgoSigner.encoding.msgpackToBase64(
-        //           _txn.toByte()
-        //         ),
-        //       };
-        //     })
-        //   );
-
-        //   return signedTxns.map((sTxn: any) => {
-        //     console.log("sTxn", sTxn);
-        //     return Uint8Array.from(Buffer.from(sTxn.blob, "base64"));
-        //   });
-        // },
         onComplete: onComplete,
       });
 
@@ -203,6 +187,9 @@ export const CashBuyContractForm = (props: P) => {
     }
   };
 
+  console.log("errors", errors);
+  console.log("isValid", isValid);
+
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
@@ -211,10 +198,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-1">
-                <Form.Label>
-                  Escrow Amount 1<br />
-                  <small>(ASA)</small>
-                </Form.Label>
+                <Form.Label>Escrow 1</Form.Label>
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
                   type="tel"
@@ -222,24 +206,25 @@ export const CashBuyContractForm = (props: P) => {
                   pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                   placeholder="Amount 1"
                   onBlur={(event) => {
-                    event.target.value = formatCurrency(event.target, true);
-                    setValue(
-                      "escrowAmount1",
-                      formatCurrency(event.target, true)
-                    );
+                    let result = formatCurrency(event.target, true);
+                    event.target.value = result.input_val;
+                    setValue("escrowAmount1", result.input_val);
+                    trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    event.target.value = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false);
+                    event.target.value = result.input_val;
+                    event.target.setSelectionRange(
+                      result.caret_pos,
+                      result.caret_pos
+                    );
                   }}
                 />
               </Form.Group>
             </Col>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-2">
-                <Form.Label>
-                  Escrow Amount 2<br />
-                  <small>(ASA)</small>
-                </Form.Label>
+                <Form.Label>Escrow 2</Form.Label>
                 <Form.Control
                   {...register("escrowAmount2", { required: true })}
                   type="tel"
@@ -247,39 +232,89 @@ export const CashBuyContractForm = (props: P) => {
                   pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                   placeholder="Amount 2"
                   onBlur={(event) => {
-                    event.target.value = formatCurrency(event.target, true);
-                    setValue(
-                      "escrowAmount2",
-                      formatCurrency(event.target, true)
-                    );
+                    let result = formatCurrency(event.target, true);
+                    event.target.value = result.input_val;
+                    setValue("escrowAmount2", result.input_val);
+                    trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    event.target.value = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false);
+                    event.target.value = result.input_val;
+                    event.target.setSelectionRange(
+                      result.caret_pos,
+                      result.caret_pos
+                    );
                   }}
                 />
               </Form.Group>
             </Col>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-total">
-                <Form.Label>
-                  Total Price
-                  <br />
-                  <small>(ASA)</small>
-                </Form.Label>
+                <Form.Label>Total Price</Form.Label>
                 <Form.Control
-                  {...register("escrowTotal", { required: true })}
+                  {...register("escrowTotal", {
+                    // required: true,
+                    validate: (value, formValues) => {
+                      // console.log("value", value);
+                      // console.log("formValues", formValues);
+
+                      let escrowAmount1AsInt;
+                      try {
+                        escrowAmount1AsInt =
+                          Number(
+                            formValues.escrowAmount1.replace(/[^0-9.-]+/g, "")
+                          ) * 100;
+                      } catch (e) {}
+                      let escrowAmount2AsInt;
+                      try {
+                        escrowAmount2AsInt =
+                          Number(
+                            formValues.escrowAmount2.replace(/[^0-9.-]+/g, "")
+                          ) * 100;
+                      } catch (e) {}
+                      let escrowTotalAsInt;
+                      try {
+                        escrowTotalAsInt =
+                          Number(
+                            formValues.escrowTotal.replace(/[^0-9.-]+/g, "")
+                          ) * 100;
+                      } catch (e) {}
+
+                      if (
+                        escrowAmount1AsInt &&
+                        escrowAmount2AsInt &&
+                        escrowAmount1AsInt + escrowAmount2AsInt ===
+                          escrowTotalAsInt
+                      ) {
+                        return true;
+                      } else {
+                        return "Escrow ≠ Total";
+                      }
+                    },
+                  })}
                   type="tel"
                   inputMode="numeric"
                   pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                   placeholder="Total Price"
+                  isInvalid={errors["escrowTotal"] ? true : false}
                   onBlur={(event) => {
-                    event.target.value = formatCurrency(event.target, true);
-                    setValue("escrowTotal", formatCurrency(event.target, true));
+                    let result = formatCurrency(event.target, true);
+                    event.target.value = result.input_val;
+                    setValue("escrowTotal", result.input_val);
+                    trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    event.target.value = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false);
+                    event.target.value = result.input_val;
+                    event.target.setSelectionRange(
+                      result.caret_pos,
+                      result.caret_pos
+                    );
                   }}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.escrowTotal?.message}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -565,7 +600,7 @@ export const CashBuyContractForm = (props: P) => {
 
           <div className="mt-3">
             <Button variant="primary" type="submit">
-              Create
+              Create Contract
             </Button>
           </div>
         </Form>

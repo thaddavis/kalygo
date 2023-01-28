@@ -1,26 +1,40 @@
 import { DOMElement } from "react";
 
-export function formatNumber(n: string) {
+export function formatNumber(n: string, removeLeadingZeroes: boolean = true) {
   // format number 1000000 to 1,234,567
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let tmp = n.replace(/\D/g, "");
+  if (removeLeadingZeroes) {
+    return tmp.replace(/^0+(\d)/, "$1").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else {
+    return tmp.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }
 
-export function formatCurrency(input: any, blur: boolean = true): string {
+export function formatCurrency(
+  input: any,
+  blur: boolean = true
+): {
+  input_val: string;
+  caret_pos: number;
+} {
   // appends $ to value, validates decimal side
   // and puts cursor back in right position.
   // get input value
-  var input_val = input.value;
+  let input_val: string = input.value;
 
   // don't validate empty input
   if (input_val === "") {
-    return "";
+    return {
+      input_val: "",
+      caret_pos: 0,
+    };
   }
 
   // original length
-  var original_len = input_val.length;
+  let original_len = input_val.length;
 
   // initial caret position
-  var caret_pos = input.selectionStart;
+  let caret_pos: number = input.selectionStart || 0;
 
   // check for decimal
   if (input_val.indexOf(".") >= 0) {
@@ -34,10 +48,10 @@ export function formatCurrency(input: any, blur: boolean = true): string {
     var right_side = input_val.substring(decimal_pos);
 
     // add commas to left side of number
-    left_side = formatNumber(left_side);
+    left_side = formatNumber(left_side) === "0" ? "0" : formatNumber(left_side);
 
     // validate right side
-    right_side = formatNumber(right_side);
+    right_side = formatNumber(right_side, false);
 
     // On blur make sure 2 numbers after decimal
     if (blur) {
@@ -66,6 +80,5 @@ export function formatCurrency(input: any, blur: boolean = true): string {
   var updated_len = input_val.length;
   caret_pos = updated_len - original_len + caret_pos;
   input.setSelectionRange(caret_pos, caret_pos);
-
-  return input_val;
+  return { input_val, caret_pos };
 }
