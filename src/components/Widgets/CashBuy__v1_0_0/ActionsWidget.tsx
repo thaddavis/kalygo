@@ -129,7 +129,8 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (inspectionPeriodEnd <= now && now <= closingDate && buyerArbitrationFlag < 1 && balance > 0 && fungibleTokenBalance > 0)  ||
+
+              (inspectionPeriodEnd <= now && now <= closingDate && buyerArbitrationFlag < 1 && buyerPulloutFlag < 1 && balance > 0 && fungibleTokenBalance > 0)  ||
               (closingDate < now && now < freeFundsDate && sellerArbitrationFlag === 1 && buyerArbitrationFlag < 1)?
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
@@ -144,7 +145,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              now < inspectionPeriodEnd && buyerPulloutFlag < 1?
+              now < inspectionPeriodEnd && buyerPulloutFlag < 1 && balance > 0 && fungibleTokenBalance > 0 ?
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
                   buyerPullOut(
@@ -157,7 +158,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (buyerPulloutFlag === 1 && inspectionPeriodExtension < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0) 
+              (buyerPulloutFlag === 1 && closingDate < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0)
               ||
               (buyerArbitrationFlag === 1 && freeFundsDate < now && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0) ?
               <Button
@@ -176,7 +177,6 @@ export const ActionsWidget = (props: P) => {
             {
               /* prettier-ignore */
               (buyerPulloutFlag === 1 && inspectionPeriodExtension < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance < 0 && balance > 0) ||
-              (inspectionPeriodExtension < now && buyerPulloutFlag === 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance < 0 && balance > 0) ||
               (freeFundsDate < now && sellerArbitrationFlag < 1 && buyerArbitrationFlag === 1 && fungibleTokenBalance < 0 && balance > 0) ?
               <Button variant="secondary" size="sm" className="m-1"
                 onClick={() => {
@@ -247,8 +247,8 @@ export const ActionsWidget = (props: P) => {
           <>
             {
               /* prettier-ignore */
-              (now < closingDate && sellerArbitrationFlag < 1 && balance > 0 && fungibleTokenBalance > 0) ||
-              (closingDate < now && now < freeFundsDate && buyerArbitrationFlag === 1 && sellerArbitrationFlag < 1)
+              (now < closingDate && sellerArbitrationFlag < 1 && balance > 0 && fungibleTokenBalance > 0 && buyerPulloutFlag < 1) ||
+              (closingDate < now && now < freeFundsDate && buyerArbitrationFlag === 1 && sellerArbitrationFlag < 1 && buyerPulloutFlag < 1)
 
               ?
               <Button variant="warning" size="sm" className="m-1"
@@ -302,7 +302,9 @@ export const ActionsWidget = (props: P) => {
             }
             {
               /* prettier-ignore */
-              (closingDate < now && buyerPulloutFlag < 1 && buyerArbitrationFlag < 1 && fungibleTokenBalance === 0) ?
+              (closingDate < now && buyerPulloutFlag < 1 && buyerArbitrationFlag < 1 && fungibleTokenBalance === 0) ||
+              (freeFundsDate < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag === 1 && fungibleTokenBalance === 0)
+              ?
               <Button
                 variant="info"
                 size="sm"
@@ -429,7 +431,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (balance > 0 && sellerArbitrationFlag > 0 && buyerArbitrationFlag > 0) ?
+              (balance > 0 && fungibleTokenBalance < 0 && sellerArbitrationFlag > 0 && buyerArbitrationFlag > 0) ?
               <Button
                 variant="secondary"
                 size="sm"

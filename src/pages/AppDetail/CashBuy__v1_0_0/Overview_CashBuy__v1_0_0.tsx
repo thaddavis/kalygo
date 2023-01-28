@@ -289,11 +289,6 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} className="mb-4">
               <RolesWidget
-                stablecoinIssuer={get(
-                  app.val,
-                  "global_stablecoin_issuer",
-                  "Not Found"
-                )}
                 buyer={get(app.val, "global_buyer", "Not Found")}
                 seller={get(app.val, "global_seller", "Not Found")}
                 clawbackAddress={get(

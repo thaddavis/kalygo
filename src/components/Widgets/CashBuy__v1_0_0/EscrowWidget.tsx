@@ -112,7 +112,11 @@ export const EscrowWidget = (props: P) => {
 
           <CustomRow
             theKey={"Deposit (200,000 mAlgos)"}
-            value={balance < 0 ? "Ø" : `${balanceFORMATTED} mAlgos`}
+            value={
+              balance < 0
+                ? "Ø"
+                : `${balanceFORMATTED.toLocaleString("en-US")} mAlgos`
+            }
           />
           <CustomRow
             theKey={"Escrow Amount 1"}

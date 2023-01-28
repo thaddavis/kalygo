@@ -23,7 +23,7 @@ SHARE WITH THE WORLD!
 AGAIN
 
 1 - works
-2 - 
-3 - 
+2 - works
+3 - works
 4 - 
 5 - 

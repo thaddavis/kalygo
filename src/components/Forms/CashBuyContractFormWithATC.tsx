@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Form, Button, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 import moment from "moment-timezone";
 import { Buffer } from "buffer";
 import Datetime from "react-datetime";
@@ -23,7 +24,10 @@ import algosdk, {
   Account,
 } from "algosdk";
 
+import { formatNumber, formatCurrency } from "./helpers/formatCurrency";
+
 import ABI from "../../contractExports/contracts/cashBuy/application.json";
+import { signer } from "../../contractActions/helpers/signers/AlgoSigner";
 
 interface P {
   accounts: string[];
@@ -39,12 +43,13 @@ export const CashBuyContractForm = (props: P) => {
     handleSubmit,
     getValues,
     formState: { errors },
+    control,
     setValue,
   } = useForm({
     defaultValues: {
-      escrowAmount1: 100000,
-      escrowAmount2: 100000,
-      escrowTotal: 200000,
+      escrowAmount1: "$100,000.00",
+      escrowAmount2: "$100,000.00",
+      escrowTotal: "$200,000.00",
       // asaId: 95939489,
       asaId: 12,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
@@ -61,8 +66,6 @@ export const CashBuyContractForm = (props: P) => {
       // freeFundsDate: moment().add("180", "s").toString(),
       buyer: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
       seller: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
-      stablecoinIssuer:
-        "VLREUBCYOB247DM5CROEBL7PXWXKG36IAXQGFXCLGQEHVXWLBCX3LWMLPE",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -76,7 +79,6 @@ export const CashBuyContractForm = (props: P) => {
       const {
         buyer,
         seller,
-        stablecoinIssuer,
         escrowAmount1,
         escrowAmount2,
         escrowTotal,
@@ -90,13 +92,33 @@ export const CashBuyContractForm = (props: P) => {
         asaId,
       } = data;
 
+      // console.log(
+      //   "escrowAmount1",
+      //   escrowAmount1,
+      //   escrowAmount1.replace(/[^0-9.-]+/g, ""),
+      //   Number(escrowAmount1.replace(/[^0-9.-]+/g, ""))
+      // );
+
+      let escrowAmount1AsInt = escrowAmount1;
+      try {
+        escrowAmount1AsInt =
+          Number(escrowAmount1.replace(/[^0-9.-]+/g, "")) * 100;
+      } catch (e) {}
+      let escrowAmount2AsInt = escrowAmount2;
+      try {
+        escrowAmount2AsInt =
+          Number(escrowAmount2.replace(/[^0-9.-]+/g, "")) * 100;
+      } catch (e) {}
+      let escrowTotalAsInt = escrowTotal;
+      try {
+        escrowTotalAsInt = Number(escrowTotal.replace(/[^0-9.-]+/g, "")) * 100;
+      } catch (e) {}
+
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
       let params = await Algod.getAlgod(settings.selectedNetwork)
         .getTransactionParams()
         .do();
-      // params.flatFee = true;
-      // params.fee = 1000;
 
       let onComplete = algosdk.OnApplicationComplete.NoOpOC;
 
@@ -104,21 +126,10 @@ export const CashBuyContractForm = (props: P) => {
         Algod.getAlgod(settings.selectedNetwork),
         Buffer.from(ABI.source.approval, "base64").toString()
       );
-
-      // return;
       let c_prog = await compileProgram(
         Algod.getAlgod(settings.selectedNetwork),
         Buffer.from(ABI.source.clear, "base64").toString()
       );
-
-      // console.log(
-      //   "---",
-      //   Buffer.from(ABI.source.approval, "base64").toString()
-      //   atob(ABI.source.approval)
-      // );
-
-      // let a_prog = btoa(ABI.source.approval);
-      // let c_prog = ABI.source.clear;
 
       atc.addMethodCall({
         appID: 0,
@@ -126,10 +137,9 @@ export const CashBuyContractForm = (props: P) => {
         methodArgs: [
           buyer, // global_buyer: "",
           seller, // global_seller: "",
-          stablecoinIssuer, // global_stablecoin_issuer,
-          Math.floor(escrowAmount1), // global_escrow_payment_1: "",
-          Math.floor(escrowAmount2), // global_escrow_payment_2: "",
-          Math.floor(escrowTotal), // global_total_price: "",
+          Math.floor(escrowAmount1AsInt), // global_escrow_payment_1: "",
+          Math.floor(escrowAmount2AsInt), // global_escrow_payment_2: "",
+          Math.floor(escrowTotalAsInt), // global_total_price: "",
           moment(inspectionPeriodStart).unix(), // global_inspection_start_date: "",
           moment(inspectionPeriodEnd).unix(), // global_inspection_end_date: "",
           moment(inspectionPeriodExtension).unix(), // global_inspection_extension_date: "",
@@ -147,26 +157,27 @@ export const CashBuyContractForm = (props: P) => {
         sender: settings.selectedAccount,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
-        signer: async (
-          unsignedTxns: Array<algosdk.Transaction>
-        ): Promise<Uint8Array[]> => {
-          console.log("unsignedTxns", unsignedTxns);
+        signer: signer,
+        // async (
+        //   unsignedTxns: Array<algosdk.Transaction>
+        // ): Promise<Uint8Array[]> => {
+        //   console.log("unsignedTxns", unsignedTxns);
 
-          let signedTxns = await (window as any).AlgoSigner.signTxn(
-            unsignedTxns.map((_txn) => {
-              return {
-                txn: (window as any).AlgoSigner.encoding.msgpackToBase64(
-                  _txn.toByte()
-                ),
-              };
-            })
-          );
+        //   let signedTxns = await (window as any).AlgoSigner.signTxn(
+        //     unsignedTxns.map((_txn) => {
+        //       return {
+        //         txn: (window as any).AlgoSigner.encoding.msgpackToBase64(
+        //           _txn.toByte()
+        //         ),
+        //       };
+        //     })
+        //   );
 
-          return signedTxns.map((sTxn: any) => {
-            console.log("sTxn", sTxn);
-            return Uint8Array.from(Buffer.from(sTxn.blob, "base64"));
-          });
-        },
+        //   return signedTxns.map((sTxn: any) => {
+        //     console.log("sTxn", sTxn);
+        //     return Uint8Array.from(Buffer.from(sTxn.blob, "base64"));
+        //   });
+        // },
         onComplete: onComplete,
       });
 
@@ -206,8 +217,20 @@ export const CashBuyContractForm = (props: P) => {
                 </Form.Label>
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
-                  type="number"
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                   placeholder="Amount 1"
+                  onBlur={(event) => {
+                    event.target.value = formatCurrency(event.target, true);
+                    setValue(
+                      "escrowAmount1",
+                      formatCurrency(event.target, true)
+                    );
+                  }}
+                  onChange={(event) => {
+                    event.target.value = formatCurrency(event.target, false);
+                  }}
                 />
               </Form.Group>
             </Col>
@@ -219,8 +242,20 @@ export const CashBuyContractForm = (props: P) => {
                 </Form.Label>
                 <Form.Control
                   {...register("escrowAmount2", { required: true })}
-                  type="number"
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                   placeholder="Amount 2"
+                  onBlur={(event) => {
+                    event.target.value = formatCurrency(event.target, true);
+                    setValue(
+                      "escrowAmount2",
+                      formatCurrency(event.target, true)
+                    );
+                  }}
+                  onChange={(event) => {
+                    event.target.value = formatCurrency(event.target, false);
+                  }}
                 />
               </Form.Group>
             </Col>
@@ -233,8 +268,17 @@ export const CashBuyContractForm = (props: P) => {
                 </Form.Label>
                 <Form.Control
                   {...register("escrowTotal", { required: true })}
-                  type="number"
-                  placeholder="Total"
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                  placeholder="Total Price"
+                  onBlur={(event) => {
+                    event.target.value = formatCurrency(event.target, true);
+                    setValue("escrowTotal", formatCurrency(event.target, true));
+                  }}
+                  onChange={(event) => {
+                    event.target.value = formatCurrency(event.target, false);
+                  }}
                 />
               </Form.Group>
             </Col>
@@ -476,19 +520,6 @@ export const CashBuyContractForm = (props: P) => {
                   })}
                   type="text"
                   placeholder="Seller Wallet Address"
-                />
-              </Form.Group>
-            </Col>
-
-            <Col sm={12} className="mb-3">
-              <Form.Group id="stablecoin_issuer">
-                <Form.Label>Stablecoin Issuer</Form.Label>
-                <Form.Control
-                  {...register("stablecoinIssuer", {
-                    required: true,
-                  })}
-                  type="text"
-                  placeholder="Stablecoin Issuer Address"
                 />
               </Form.Group>
             </Col>
