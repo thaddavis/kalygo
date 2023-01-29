@@ -65,6 +65,7 @@ import FungibleTokenContract from "./contracts/FungibleTokenContract";
 import Overview_CashBuy__v1_0_0 from "./AppDetail/CashBuy__v1_0_0/Overview_CashBuy__v1_0_0";
 import OverviewAsset from "./AppDetail/AssetDetail/OverviewAsset";
 import { Support } from "./documentation/Support";
+import { Boxes } from "./AppDetail/CashBuy__v1_0_0/Boxes";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -182,9 +183,10 @@ const Router = () => (
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
         <Route path={"overview"} element={<BlockchainOverview />} />
         <Route path={"transactions"} element={<TransactionsOverview />} />
+        <Route path={"boxes/:id"} element={<Boxes />} />
         <Route path={"app/"} element={<AppDetail />}>
           <Route
-            path={"cashBuy__v1_0_0/:id"}
+            path={"cashBuy__v1_0_0/:id/"}
             element={<Overview_CashBuy__v1_0_0 />}
           />
           <Route path={"asa/:id"} element={<OverviewAsset />} />

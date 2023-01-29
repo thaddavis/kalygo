@@ -37,6 +37,7 @@ interface P {
   buyerPulloutFlag: number;
   buyerArbitrationFlag: number;
   sellerArbitrationFlag: number;
+  showNoteModal: () => void;
 }
 
 export const ActionsWidget = (props: P) => {
@@ -61,14 +62,15 @@ export const ActionsWidget = (props: P) => {
     buyerPulloutFlag,
     buyerArbitrationFlag,
     sellerArbitrationFlag,
+    showNoteModal,
   } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  console.log(
-    "stablecoinIssuerClawbackAddress ->",
-    stablecoinIssuerClawbackAddress
-  );
+  // console.log(
+  //   "stablecoinIssuerClawbackAddress ->",
+  //   stablecoinIssuerClawbackAddress
+  // );
 
   return (
     <Card border="light" className="text-center p-0 mb-4">
@@ -236,6 +238,15 @@ export const ActionsWidget = (props: P) => {
                     settings.selectedNetwork
                   );
                 }}>Buyer Delete App</Button> : <Button size="sm" className="m-1" disabled>Buyer Delete App</Button>
+            }
+
+            {
+              /* prettier-ignore */
+              (true) ?
+              <Button variant="light" size="sm" className="m-1"
+                onClick={() => {
+                  showNoteModal()
+                }}>Buyer Note</Button> : <Button size="sm" className="m-1" disabled>Buyer Note</Button>
             }
           </>
         )}

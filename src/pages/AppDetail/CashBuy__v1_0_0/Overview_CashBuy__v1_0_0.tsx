@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import get from "lodash/get";
 
-import { Col, Row, Button, Dropdown } from "react-bootstrap";
 import { SettingsForm } from "../../../components/Forms/SettingsForm";
+import { useForm } from "react-hook-form";
+import { Col, Row, Button, Dropdown, Modal } from "react-bootstrap";
 
 import { RootState } from "../../../store/store";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -21,6 +22,8 @@ import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/Escrow
 import algosdk from "algosdk";
 import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
 import { prepareTimelineEventsArray } from "./helpers/prepareTimelineEventsArray";
+import { AddNoteWidget } from "../../../components/Widgets/CashBuy__v1_0_0/AddNoteWidget";
+import { BoxesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/BoxesWidget";
 
 function Overview_CashBuy__v1_0_0() {
   const [app, setApp] = useState<any>({
@@ -41,36 +44,19 @@ function Overview_CashBuy__v1_0_0() {
     error: undefined,
   });
 
+  const [boxes, setBoxes] = useState<any>({
+    val: undefined,
+    loading: false,
+    error: undefined,
+  });
+
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const handleClose = () => setShowNoteModal(false);
+  const handleShow = () => setShowNoteModal(true);
+
   const settings = useAppSelector((state: RootState) => state.settings);
 
   let { id } = useParams();
-  //   async function fetch() {
-  //     try {
-  //       const appResponse = await Algod.getIndexer(settings.selectedNetwork)
-  //         .lookupApplications(Number.parseInt(id!))
-  //         .do();
-
-  //       setApp({
-  //         val: parseGlobalState(
-  //           appResponse?.application?.params &&
-  //             appResponse.application.params["global-state"]
-  //         ),
-  //         loading: false,
-  //         error: null,
-  //       });
-  //     } catch (e) {
-  //       console.log("error!", e);
-
-  //       setApp({
-  //         val: null,
-  //         loading: false,
-  //         error: e,
-  //       });
-  //     }
-  //   }
-
-  //   fetch();
-  // }, []);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -160,8 +146,19 @@ function Overview_CashBuy__v1_0_0() {
         setAsset({
           val: assetInfo,
           loading: false,
-          error: false,
+          error: null,
         });
+
+        let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
+          .getApplicationBoxes(Number.parseInt(id!))
+          .do();
+
+        setBoxes({
+          val: boxInfo,
+          loading: false,
+          error: null,
+        });
+        // console.log("boxInfo", boxInfo);
       } catch (e) {
         setApp({
           val: null,
@@ -190,6 +187,7 @@ function Overview_CashBuy__v1_0_0() {
   // console.log("app.val", app.val);
   // console.log("asset.val", asset.val);
   // console.log("account.val", account.val);
+  // console.log("boxes.val", boxes.val);
   // debugger;
 
   const escrowTokenName = asset?.val?.assets[0]?.params?.name;
@@ -213,7 +211,7 @@ function Overview_CashBuy__v1_0_0() {
     <ErrorBoundary>
       <div className="d-flex flex-column flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Cash Buy</h1>
-        <h3></h3>
+        {/* <h3></h3> */}
       </div>
 
       <Row>
@@ -252,7 +250,12 @@ function Overview_CashBuy__v1_0_0() {
               "global_seller_arbitration_flag",
               -1
             )}
+            showNoteModal={handleShow}
           />
+          <BoxesWidget
+            boxes={get(boxes.val, "boxes", [])}
+            appId={Number.parseInt(id!)}
+          ></BoxesWidget>
         </Col>
         <Col xs={12} xl={8} className="mb-4">
           <Row>
@@ -302,6 +305,13 @@ function Overview_CashBuy__v1_0_0() {
           </Row>
         </Col>
       </Row>
+      <AddNoteWidget
+        showNoteModal={showNoteModal}
+        closeNoteModal={handleClose}
+        appId={Number.parseInt(id!)}
+        operator={settings.selectedAccount}
+        contractAddress={`${get(account.val, "address", "Not Found")}`}
+      />
     </ErrorBoundary>
   );
 }

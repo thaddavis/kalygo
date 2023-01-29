@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Form, Button, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import moment from "moment-timezone";
 import { Buffer } from "buffer";
@@ -562,7 +562,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
           </Row>
 
-          <h5 className="my-4">Property</h5>
+          {/* <h5 className="my-4">Property</h5>
           <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="buyer">
@@ -588,9 +588,9 @@ export const CashBuyContractForm = (props: P) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
 
-          <h5 className="my-4">Customization</h5>
+          {/* <h5 className="my-4">Customization</h5>
           <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="enableTimeChecks">
@@ -598,7 +598,7 @@ export const CashBuyContractForm = (props: P) => {
                 <Form.Check {...register("enableTimeChecks", {})} />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
 
           <div className="mt-3">
             <Button variant="primary" type="submit">
