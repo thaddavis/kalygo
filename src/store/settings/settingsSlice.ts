@@ -26,14 +26,14 @@ interface SettingsStateForSpread {
 // Define the initial state using that type
 const initialState: SettingsState = {
   // selectedNetwork: "TestNet",
-  selectedNetwork: "localhost",
+  selectedNetwork: "TestNet",
   supportedNetworks: ["MainNet", "TestNet", "localhost"],
   supportedBlockchains: ["Algorand", "Ethereum", "Solana"],
   accounts: [],
   // selectedAccount: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
-  // selectedAccount: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-  selectedAccount: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
+  selectedAccount: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  // selectedAccount: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
   selectedBlockchain: "Algorand",
   // selectedAccount: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
   // selectedAccount: "",
