@@ -12,18 +12,6 @@ interface P {
 export function BoxesWidget({ boxes, appId }: P) {
   let navigate = useNavigate();
 
-  const BoxKey = ({ boxName }: { boxName: string }) => {
-    return (
-      <ListGroup.Item className="px-0">
-        <Row className="align-items-center">
-          <Col className="col-auto">
-            <h5 className="h5 mb-0">{boxName}</h5>
-          </Col>
-        </Row>
-      </ListGroup.Item>
-    );
-  };
-
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Header className="border-bottom border-light d-flex justify-content-between align-items-center">
@@ -35,7 +23,7 @@ export function BoxesWidget({ boxes, appId }: P) {
             navigate(`/dashboard/boxes/${appId}`);
           }}
         >
-          View Box Data
+          View Data
         </Button>
       </Card.Header>
       {/* <Card.Body> */}

@@ -99,8 +99,6 @@ export function AddNoteWidget({
             name: new Uint8Array(Buffer.from(title, "utf8")),
           },
         ],
-
-        // appForeignAssets: [fungibleTokenId],
       });
 
       const tx_id = await atc.submit(Algod.getAlgod(settings.selectedNetwork));
@@ -108,6 +106,13 @@ export function AddNoteWidget({
       console.log("submit_response", tx_id);
 
       showSuccessToast("Awaiting block confirmation...");
+      await algosdk.waitForConfirmation(
+        Algod.getAlgod(settings.selectedNetwork),
+        tx_id[0],
+        32
+      );
+
+      closeNoteModal();
     } catch (e) {
       showErrorToast("Something unexpected happened.");
       console.error(e);

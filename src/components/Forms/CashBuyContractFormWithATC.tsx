@@ -173,13 +173,13 @@ export const CashBuyContractForm = (props: P) => {
 
       showSuccessToast("Contract creation request sent to network!");
 
+      showSuccessToast("Awaiting block confirmation...");
       await algosdk.waitForConfirmation(
         Algod.getAlgod(settings.selectedNetwork),
         tx_id[0],
         32
       );
 
-      showSuccessToast("Awaiting block confirmation...");
       navigate(`/dashboard/transactions`);
     } catch (e) {
       showErrorToast(
