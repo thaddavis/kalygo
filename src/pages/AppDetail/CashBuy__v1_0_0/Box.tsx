@@ -76,19 +76,6 @@ export function Box() {
   useEffect(() => {
     async function fetch() {
       try {
-        // let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
-        //   .getApplicationBoxes(Number.parseInt(app_id!))
-        //   .do();
-
-        // let tmp = [];
-
-        // for (let i = 0; i < boxInfo.boxes.length; i++) {
-        //   let boxKey = arrayBufferToString(
-        //     get(boxInfo.boxes[i], get(boxInfo.boxes[i], `attribute_map.name`))
-        //   );
-
-        //   console.log("___ ___ ___", boxKey);
-
         let boxValue = await Algod.getAlgod(settings.selectedNetwork)
           .getApplicationBoxByName(
             Number.parseInt(app_id!),
@@ -96,33 +83,9 @@ export function Box() {
           )
           .do();
 
-        //   console.log("box", box);
-        //   console.log("box.value", arrayBufferToString(box.value));
-
-        // tmp.push({
-        //   boxKey,
-        //   boxValue: arrayBufferToString(box.value),
-        // });
-        // }
-
-        // debugger;
-
         setValue("note", arrayBufferToString(boxValue.value).trimEnd());
-
-        // setNote({
-        //   val: arrayBufferToString(boxValue.value),
-        //   loading: false,
-        //   error: null,
-        // });
       } catch (e) {
-        console.log("e", e);
         setValue("note", "");
-
-        // setNote({
-        //   val: null,
-        //   loading: false,
-        //   error: e,
-        // });
       }
     }
 
@@ -131,39 +94,13 @@ export function Box() {
 
   const onSubmit = async (data: { note: string }) => {
     try {
-      // setFormState({
-      //   loading: true,
-      //   error: false,
-      // });
-
-      console.log("-> data <-", data);
       const { note } = data;
-
-      console.log(note);
-      console.log(note.padStart(256, " "));
-
-      // let byteCount = getValues("title").length + getValues("note").length;
-      // let mbr = 2500 + 400 * byteCount || -1;
 
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
       let params = await Algod.getAlgod(settings.selectedNetwork)
         .getTransactionParams()
         .do();
-
-      // const ptxn = new Transaction({
-      //   from: operator,
-      //   to: contractAddress,
-      //   amount: mbr,
-      //   note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
-      //   ...params,
-      // });
-      // const tws = {
-      //   txn: ptxn,
-      //   signer: signer,
-      // };
-
-      // atc.addTransaction(tws);
 
       atc.addMethodCall({
         appID: Number.parseInt(app_id!),
@@ -176,15 +113,12 @@ export function Box() {
         boxes: [
           {
             appIndex: Number.parseInt(app_id!),
-            // name: new Uint8Array(Buffer.from(title, "utf8")),
-            name: new Uint8Array(Buffer.from("Buyer", "utf8")),
+            name: new Uint8Array(Buffer.from(box!, "utf8")),
           },
         ],
       });
 
       const tx_id = await atc.submit(Algod.getAlgod(settings.selectedNetwork));
-
-      console.log("submit_response", tx_id);
 
       showSuccessToast("Awaiting block confirmation...");
       await algosdk.waitForConfirmation(
@@ -192,8 +126,6 @@ export function Box() {
         tx_id[0],
         32
       );
-
-      // closeNoteModal();
     } catch (e) {
       showErrorToast("Something unexpected happened.");
       console.error(e);
@@ -204,30 +136,11 @@ export function Box() {
     <>
       <Card border="light" className="shadow-sm mb-4 mt-4">
         <Card.Header className="border-bottom border-light d-flex justify-content-between">
-          <h5 className="mb-0">Notes</h5>
+          <h5 className="mb-0">{box} Notes</h5>
         </Card.Header>
         <Form onSubmit={handleSubmit(onSubmit)} id="add-note-contract-form">
           <Card.Body>
-            {/* <ListGroup className="list-group-flush list my--3">
-              <ListGroupItem
-                key={"Buyer"}
-                boxKey={"Buyer"}
-                value={get(note, "val", "Not Found")}
-              />
-            </ListGroup> */}
             <Row>
-              {/* <Col sm={12} className="mb-3">
-                <Form.Group id="escrow-amount-1">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    {...register("title", {
-                      required: true,
-                    })}
-                    placeholder="Title"
-                  />
-                </Form.Group>
-              </Col> */}
-
               <Col sm={12} className="mb-3">
                 <Form.Group id="note">
                   <Form.Control
@@ -246,7 +159,6 @@ export function Box() {
             </Row>
           </Card.Body>
           <Card.Footer>
-            {/* <Button variant="primary" type="submit" disabled={isLoading}> */}
             <Button variant="primary" type="submit">
               Save
             </Button>

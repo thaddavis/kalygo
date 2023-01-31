@@ -16,10 +16,7 @@ export function BoxesWidget({ boxes, appId, boxKey }: P) {
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Header className="border-bottom border-light d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">
-          {boxKey} Notes
-          {/* ({boxes.length}) */}
-        </h5>
+        <h5 className="mb-0">{boxKey} Notes</h5>
         <Button
           variant="primary"
           type="submit"
@@ -30,18 +27,6 @@ export function BoxesWidget({ boxes, appId, boxKey }: P) {
           View/Edit
         </Button>
       </Card.Header>
-      {/* <Card.Body> */}
-      {/* <ListGroup className="list-group-flush list my--3">
-          {boxes.map((val, idx) => {
-            return (
-              <BoxKey
-                boxName={get(val, "attribute_map.name", "Not Found")}
-                key={get(val, "attribute_map.name", "Not Found")}
-              />
-            );
-          })}
-        </ListGroup> */}
-      {/* </Card.Body> */}
     </Card>
   );
 }
