@@ -24,7 +24,7 @@ export default function ContractOptions() {
             disabled: false,
           },
           {
-            title: "Grow Contract",
+            title: "Property Rights DAO",
             desc: "Coming soon...",
             pathTo: RoutesData.NewFinanceDealContract.path,
             disabled: false,
