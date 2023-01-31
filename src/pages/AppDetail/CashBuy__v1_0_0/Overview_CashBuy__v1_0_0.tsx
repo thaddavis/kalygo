@@ -23,7 +23,6 @@ import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/Escrow
 import algosdk from "algosdk";
 import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
 import { prepareTimelineEventsArray } from "./helpers/prepareTimelineEventsArray";
-import { AddNoteWidget } from "../../../components/Widgets/CashBuy__v1_0_0/AddNoteWidget";
 import { BoxesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/BoxesWidget";
 import { arrayBufferToString } from "./helpers/arrayBufferToString";
 
@@ -46,14 +45,14 @@ function Overview_CashBuy__v1_0_0() {
     error: undefined,
   });
 
-  const [boxes, setBoxes] = useState<any>({
-    val: undefined,
-    loading: false,
-    error: undefined,
-  });
+  // const [boxes, setBoxes] = useState<any>({
+  //   val: undefined,
+  //   loading: false,
+  //   error: undefined,
+  // });
 
   const [buyerBox, setBuyerBox] = useState<any>({
-    val: "",
+    val: undefined,
     loading: false,
     error: undefined,
   });
@@ -157,14 +156,14 @@ function Overview_CashBuy__v1_0_0() {
           error: null,
         });
         // STEP 4
-        let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
-          .getApplicationBoxes(Number.parseInt(id!))
-          .do();
-        setBoxes({
-          val: boxInfo,
-          loading: false,
-          error: null,
-        });
+        // let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
+        //   .getApplicationBoxes(Number.parseInt(id!))
+        //   .do();
+        // setBoxes({
+        //   val: boxInfo,
+        //   loading: false,
+        //   error: null,
+        // });
         // STEP 5
         console.log("--- --- ---", Number.parseInt(id!));
         try {
@@ -177,7 +176,7 @@ function Overview_CashBuy__v1_0_0() {
 
           arrayBufferToString(buyerBoxRes.value);
 
-          setBoxes({
+          setBuyerBox({
             val: arrayBufferToString(buyerBoxRes.value),
             loading: false,
             error: null,
@@ -245,9 +244,6 @@ function Overview_CashBuy__v1_0_0() {
     }
   }
 
-  // console.log("escrowTokenBalance", escrowTokenBalance);
-  console.log("->", get(boxes, "val", ""));
-
   return app.error ? (
     <h1>ERROR</h1>
   ) : (
@@ -296,7 +292,12 @@ function Overview_CashBuy__v1_0_0() {
           />
           <BoxesWidget
             boxKey={"Buyer"}
-            boxes={get(boxes.val, "boxes", [])}
+            boxes={get(buyerBox.val, "boxes", [])}
+            appId={Number.parseInt(id!)}
+          ></BoxesWidget>
+          <BoxesWidget
+            boxKey={"Seller"}
+            boxes={get(buyerBox.val, "boxes", [])}
             appId={Number.parseInt(id!)}
           ></BoxesWidget>
         </Col>
@@ -348,15 +349,6 @@ function Overview_CashBuy__v1_0_0() {
           </Row>
         </Col>
       </Row>
-      <AddNoteWidget
-        title="Buyer Notes"
-        value={get(boxes, "val", "")}
-        showNoteModal={showNoteModal}
-        closeNoteModal={handleClose}
-        appId={Number.parseInt(id!)}
-        operator={settings.selectedAccount}
-        contractAddress={`${get(account.val, "address", "Not Found")}`}
-      />
     </ErrorBoundary>
   );
 }

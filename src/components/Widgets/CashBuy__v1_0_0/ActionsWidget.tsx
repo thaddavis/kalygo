@@ -88,12 +88,18 @@ export const ActionsWidget = (props: P) => {
                 size="sm"
                 className="m-1"
                 onClick={() => {
+                  // let byteCount = getValues("title").length + getValues("note").length;
+                  let byteCount = 1000
+                  let mbrForBuyerNotes = 2500 + 400 * byteCount || -1; // for Buyer Notes
+
+                  let mbr = 200000 + mbrForBuyerNotes 
+
                   fundMinimumBalance(
                     settings.selectedAccount,
                     contractAddress,
                     appId,
                     settings.selectedNetwork,
-                    200000 // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
+                    mbr // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
                   );
                 }}>Fund Minimum Balance</Button> : <Button size="sm" className="m-1" disabled> Fund Minimum Balance{" "} </Button>
             }
@@ -241,12 +247,11 @@ export const ActionsWidget = (props: P) => {
             }
 
             {
-              /* prettier-ignore */
-              (true) ?
-              <Button variant="light" size="sm" className="m-1"
-                onClick={() => {
-                  showNoteModal()
-                }}>Buyer Note</Button> : <Button size="sm" className="m-1" disabled>Buyer Note</Button>
+              // (true) ?
+              // <Button variant="light" size="sm" className="m-1"
+              //   onClick={() => {
+              //     showNoteModal()
+              //   }}>Buyer Note</Button> : <Button size="sm" className="m-1" disabled>Buyer Note</Button>
             }
           </>
         )}

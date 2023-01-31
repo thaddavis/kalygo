@@ -17,17 +17,17 @@ export function BoxesWidget({ boxes, appId, boxKey }: P) {
     <Card border="light" className="shadow-sm mb-4">
       <Card.Header className="border-bottom border-light d-flex justify-content-between align-items-center">
         <h5 className="mb-0">
-          Buyer Notes
+          {boxKey} Notes
           {/* ({boxes.length}) */}
         </h5>
         <Button
           variant="primary"
           type="submit"
           onClick={() => {
-            navigate(`/dashboard/boxes/${appId}/${boxKey}`);
+            navigate(`/dashboard/box/${appId}/${boxKey}`);
           }}
         >
-          View Data
+          View/Edit
         </Button>
       </Card.Header>
       {/* <Card.Body> */}
