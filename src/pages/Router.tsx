@@ -183,7 +183,7 @@ const Router = () => (
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
         <Route path={"overview"} element={<BlockchainOverview />} />
         <Route path={"transactions"} element={<TransactionsOverview />} />
-        <Route path={"boxes/:id"} element={<Boxes />} />
+        <Route path={"boxes/:app_id/:box"} element={<Boxes />} />
         <Route path={"app/"} element={<AppDetail />}>
           <Route
             path={"cashBuy__v1_0_0/:id/"}

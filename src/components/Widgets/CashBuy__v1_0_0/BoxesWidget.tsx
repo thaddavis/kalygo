@@ -7,20 +7,24 @@ import { RoutesData } from "../../../routes";
 interface P {
   boxes: any[];
   appId: number;
+  boxKey: string;
 }
 
-export function BoxesWidget({ boxes, appId }: P) {
+export function BoxesWidget({ boxes, appId, boxKey }: P) {
   let navigate = useNavigate();
 
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Header className="border-bottom border-light d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">Buyer Notes ({boxes.length})</h5>
+        <h5 className="mb-0">
+          Buyer Notes
+          {/* ({boxes.length}) */}
+        </h5>
         <Button
           variant="primary"
           type="submit"
           onClick={() => {
-            navigate(`/dashboard/boxes/${appId}`);
+            navigate(`/dashboard/boxes/${appId}/${boxKey}`);
           }}
         >
           View Data

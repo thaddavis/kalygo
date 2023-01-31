@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { Col, Row, Button, Dropdown, Modal, Form } from "react-bootstrap";
@@ -30,6 +30,8 @@ interface P {
   appId: number;
   contractAddress: string;
   operator: string;
+  title: string;
+  value: string;
 }
 
 export function AddNoteWidget({
@@ -38,8 +40,15 @@ export function AddNoteWidget({
   appId,
   operator,
   contractAddress,
+  title,
+  value,
 }: P) {
   const settings = useAppSelector((state: RootState) => state.settings);
+
+  const [formState, setFormState] = useState({
+    loading: false,
+    error: null,
+  });
 
   const {
     register,
@@ -52,18 +61,31 @@ export function AddNoteWidget({
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      title: "Title",
-      note: "Add a Note",
+      note: value,
     },
   });
 
-  const onSubmit = async (data: { title: string; note: string }) => {
-    try {
-      console.log("-> data <-", data);
-      const { title, note } = data;
+  useEffect(() => {
+    console.log("___ _*_*_ ___", value);
 
-      let byteCount = getValues("title").length + getValues("note").length;
-      let mbr = 2500 + 400 * byteCount || -1;
+    setValue("note", value);
+  }, [value]);
+
+  const onSubmit = async (data: { note: string }) => {
+    try {
+      // setFormState({
+      //   loading: true,
+      //   error: false,
+      // });
+
+      console.log("-> data <-", data);
+      const { note } = data;
+
+      console.log(note);
+      console.log(note.padStart(64, " "));
+
+      // let byteCount = getValues("title").length + getValues("note").length;
+      // let mbr = 2500 + 400 * byteCount || -1;
 
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
@@ -71,24 +93,24 @@ export function AddNoteWidget({
         .getTransactionParams()
         .do();
 
-      const ptxn = new Transaction({
-        from: operator,
-        to: contractAddress,
-        amount: mbr,
-        note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
-        ...params,
-      });
-      const tws = {
-        txn: ptxn,
-        signer: signer,
-      };
+      // const ptxn = new Transaction({
+      //   from: operator,
+      //   to: contractAddress,
+      //   amount: mbr,
+      //   note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
+      //   ...params,
+      // });
+      // const tws = {
+      //   txn: ptxn,
+      //   signer: signer,
+      // };
 
-      atc.addTransaction(tws);
+      // atc.addTransaction(tws);
 
       atc.addMethodCall({
         appID: appId,
         method: contract.getMethodByName("add_key_to_buyer_note_box"),
-        methodArgs: [title, note] as ABIArgument[],
+        methodArgs: [note.padEnd(64, " ")] as ABIArgument[],
         sender: operator,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
@@ -96,7 +118,8 @@ export function AddNoteWidget({
         boxes: [
           {
             appIndex: appId,
-            name: new Uint8Array(Buffer.from(title, "utf8")),
+            // name: new Uint8Array(Buffer.from(title, "utf8")),
+            name: new Uint8Array(Buffer.from("Buyer", "utf8")),
           },
         ],
       });
@@ -119,23 +142,26 @@ export function AddNoteWidget({
     }
   };
 
+  console.log("value", value);
+  // console.log("isLoading", isLoading);
   //   console.log("errors", errors);
   //   console.log("isValid", isValid);
 
-  let byteCount = getValues("title").length + getValues("note").length;
-  let mbr = formatNumberFromString((2500 + 400 * byteCount).toString()) || "";
+  // let byteCount = getValues("title").length + getValues("note").length;
+  // let mbr = formatNumberFromString((2500 + 400 * byteCount).toString()) || "";
+  // let mbr = formatNumberFromString((400 * byteCount).toString()) || "";
 
   return (
     <>
       <Modal show={showNoteModal} onHide={closeNoteModal}>
         <Form onSubmit={handleSubmit(onSubmit)} id="add-note-contract-form">
           <Modal.Header closeButton>
-            <Modal.Title>Add a note</Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Row>
-              <Col sm={12} className="mb-3">
+              {/* <Col sm={12} className="mb-3">
                 <Form.Group id="escrow-amount-1">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
@@ -145,7 +171,7 @@ export function AddNoteWidget({
                     placeholder="Title"
                   />
                 </Form.Group>
-              </Col>
+              </Col> */}
 
               <Col sm={12} className="mb-3">
                 <Form.Group id="escrow-amount-1">
@@ -153,9 +179,12 @@ export function AddNoteWidget({
                   <Form.Control
                     {...register("note", {
                       required: true,
+                      min: 0,
+                      max: 64,
                     })}
                     as="textarea"
                     rows={3}
+                    maxLength={64}
                     placeholder="Note"
                   />
                 </Form.Group>
@@ -163,10 +192,10 @@ export function AddNoteWidget({
             </Row>
             <Row>
               <Col sm={12} className="mb-3">
-                Byte Count: {byteCount}
+                {/* Byte Count: {byteCount} */}
                 <br />
-                Cost: {mbr} mAlgos
-                <br />
+                {/* Cost: {mbr} mAlgos
+                <br /> */}
               </Col>
             </Row>
           </Modal.Body>
@@ -174,6 +203,7 @@ export function AddNoteWidget({
             <Button variant="secondary" onClick={closeNoteModal}>
               Close
             </Button>
+            {/* <Button variant="primary" type="submit" disabled={isLoading}> */}
             <Button variant="primary" type="submit">
               Save
             </Button>

@@ -6,6 +6,7 @@ import get from "lodash/get";
 import { SettingsForm } from "../../../components/Forms/SettingsForm";
 import { useForm } from "react-hook-form";
 import { Col, Row, Button, Dropdown, Modal } from "react-bootstrap";
+import { Buffer } from "buffer";
 
 import { RootState } from "../../../store/store";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -24,6 +25,7 @@ import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/Actio
 import { prepareTimelineEventsArray } from "./helpers/prepareTimelineEventsArray";
 import { AddNoteWidget } from "../../../components/Widgets/CashBuy__v1_0_0/AddNoteWidget";
 import { BoxesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/BoxesWidget";
+import { arrayBufferToString } from "./helpers/arrayBufferToString";
 
 function Overview_CashBuy__v1_0_0() {
   const [app, setApp] = useState<any>({
@@ -46,6 +48,12 @@ function Overview_CashBuy__v1_0_0() {
 
   const [boxes, setBoxes] = useState<any>({
     val: undefined,
+    loading: false,
+    error: undefined,
+  });
+
+  const [buyerBox, setBuyerBox] = useState<any>({
+    val: "",
     loading: false,
     error: undefined,
   });
@@ -148,18 +156,52 @@ function Overview_CashBuy__v1_0_0() {
           loading: false,
           error: null,
         });
-
+        // STEP 4
         let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
           .getApplicationBoxes(Number.parseInt(id!))
           .do();
-
         setBoxes({
           val: boxInfo,
           loading: false,
           error: null,
         });
-        // console.log("boxInfo", boxInfo);
+        // STEP 5
+        console.log("--- --- ---", Number.parseInt(id!));
+        try {
+          let buyerBoxRes = await Algod.getAlgod(settings.selectedNetwork)
+            .getApplicationBoxByName(
+              Number.parseInt(id!),
+              new Uint8Array(Buffer.from("Buyer" || "", "utf8"))
+            )
+            .do();
+
+          arrayBufferToString(buyerBoxRes.value);
+
+          setBoxes({
+            val: arrayBufferToString(buyerBoxRes.value),
+            loading: false,
+            error: null,
+          });
+
+          console.log("buyerBoxRes", buyerBoxRes);
+        } catch (e) {}
+
+        // let buyerBoxRes = await Algod.getAlgod(settings.selectedNetwork)
+        //   .getApplicationBoxByName(
+        //     Number.parseInt(id!),
+        //     new Uint8Array(Buffer.from("Buyer", "utf8"))
+        //   )
+        //   .do();
+        // console.log("buyerBoxRes", buyerBoxRes);
+
+        // setBoxes({
+        //   val: buyerBox,
+        //   loading: false,
+        //   error: null,
+        // });
       } catch (e) {
+        console.log("e", e);
+
         setApp({
           val: null,
           loading: false,
@@ -204,6 +246,7 @@ function Overview_CashBuy__v1_0_0() {
   }
 
   // console.log("escrowTokenBalance", escrowTokenBalance);
+  console.log("->", get(boxes, "val", ""));
 
   return app.error ? (
     <h1>ERROR</h1>
@@ -211,7 +254,6 @@ function Overview_CashBuy__v1_0_0() {
     <ErrorBoundary>
       <div className="d-flex flex-column flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Cash Buy</h1>
-        {/* <h3></h3> */}
       </div>
 
       <Row>
@@ -253,6 +295,7 @@ function Overview_CashBuy__v1_0_0() {
             showNoteModal={handleShow}
           />
           <BoxesWidget
+            boxKey={"Buyer"}
             boxes={get(boxes.val, "boxes", [])}
             appId={Number.parseInt(id!)}
           ></BoxesWidget>
@@ -306,6 +349,8 @@ function Overview_CashBuy__v1_0_0() {
         </Col>
       </Row>
       <AddNoteWidget
+        title="Buyer Notes"
+        value={get(boxes, "val", "")}
         showNoteModal={showNoteModal}
         closeNoteModal={handleClose}
         appId={Number.parseInt(id!)}

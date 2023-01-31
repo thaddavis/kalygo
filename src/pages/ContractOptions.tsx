@@ -24,6 +24,12 @@ export default function ContractOptions() {
             disabled: false,
           },
           {
+            title: "Grow Contract",
+            desc: "Coming soon...",
+            pathTo: RoutesData.NewFinanceDealContract.path,
+            disabled: false,
+          },
+          {
             title: "Financed Deal",
             desc: "Coming soon...",
             pathTo: RoutesData.NewFinanceDealContract.path,
