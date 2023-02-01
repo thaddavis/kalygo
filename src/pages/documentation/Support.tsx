@@ -23,6 +23,12 @@ export function Support() {
                 </p>
                 <ul className="docs-list">
                   <li>
+                    Ethereum{" "}
+                    <Card.Link href="https://metamask.io/" target="_blank">
+                      MetaMask
+                    </Card.Link>
+                  </li>
+                  <li>
                     Algorand{" "}
                     <Card.Link
                       href="https://www.purestake.com/technology/algosigner/"
@@ -32,14 +38,20 @@ export function Support() {
                     </Card.Link>
                   </li>
                   <li>
-                    Ethereum{" "}
-                    <Card.Link href="https://metamask.io/" target="_blank">
-                      MetaMask
+                    Solana{" "}
+                    <Card.Link href="https://solana.com/" target="_blank">
+                      Coming Soon...
                     </Card.Link>
                   </li>
                   <li>
-                    Solana{" "}
-                    <Card.Link href="https://solana.com/" target="_blank">
+                    Avalanche{" "}
+                    <Card.Link href="https://www.avax.network/" target="_blank">
+                      Coming Soon...
+                    </Card.Link>
+                  </li>
+                  <li>
+                    Cardano{" "}
+                    <Card.Link href="https://cardano.org/" target="_blank">
                       Coming Soon...
                     </Card.Link>
                   </li>
