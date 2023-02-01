@@ -14,9 +14,15 @@ import { RootState } from "../store/store";
 
 import { showErrorToast } from "../utility/errorToast";
 import { BlockchainStatWidget } from "../components/Widgets/Generic/BlockchainStat";
+import { EthereumClient } from "../services/ethereum_client";
 
 const BlockchainOverview = () => {
-  const [status, setStatus] = useState<any>({
+  const [statusAlgorand, setStatusAlgorand] = useState<any>({
+    val: "...",
+    loading: true,
+    error: undefined,
+  });
+  const [statusEthereum, setStatusEthereum] = useState<any>({
     val: "...",
     loading: true,
     error: undefined,
@@ -35,25 +41,56 @@ const BlockchainOverview = () => {
         //   error: null,
         // });
 
-        const response = await Algod.getAlgod(settings.selectedNetwork)
-          .status()
-          .do();
+        if (settings.selectedBlockchain === "Ethereum") {
+          const web3 = await EthereumClient.getEthereumClient(
+            settings.selectedEthereumNetwork
+          );
 
-        setStatus({
-          val: response,
-          loading: false,
-          error: null,
-        });
+          // console.log(web3);
+
+          let response = await web3.eth.getBlockNumber();
+
+          // console.log("response", response);
+
+          // .status()
+          // .do();
+
+          setStatusEthereum({
+            val: response,
+            loading: false,
+            error: null,
+          });
+        } else if (settings.selectedBlockchain === "Algorand") {
+          const response = await Algod.getAlgod(
+            settings.selectedAlgorandNetwork
+          )
+            .status()
+            .do();
+
+          setStatusAlgorand({
+            val: response,
+            loading: false,
+            error: null,
+          });
+        }
       } catch (e) {
         console.error("e", e);
 
         showErrorToast("Error occurred while fetching network status");
 
-        setStatus({
-          val: null,
-          loading: false,
-          error: e,
-        });
+        if (settings.selectedBlockchain === "Ethereum") {
+          setStatusEthereum({
+            val: null,
+            loading: false,
+            error: e,
+          });
+        } else if (settings.selectedBlockchain === "Algorand") {
+          setStatusAlgorand({
+            val: null,
+            loading: false,
+            error: e,
+          });
+        }
       }
     }, 3000);
     return () => clearInterval(interval);
@@ -64,32 +101,64 @@ const BlockchainOverview = () => {
       <Row className="justify-content-md-center py-4">
         <Col className="mb-4">
           <h1>{settings.selectedBlockchain}</h1>
-          <h3>Network: {settings.selectedNetwork}</h3>
+          {settings.selectedBlockchain === "Ethereum" && (
+            <h3>Network: {settings.selectedEthereumNetwork}</h3>
+          )}
+          {settings.selectedBlockchain === "Algorand" && (
+            <h3>Network: {settings.selectedAlgorandNetwork}</h3>
+          )}
         </Col>
       </Row>
 
       {/* {status?.loading ? "..." : <br />} */}
 
-      <Row className="justify-content-md-center py-4">
-        <Col xs={12} sm={6} xl={4} className="mb-4">
-          <BlockchainStatWidget
-            field="Last Block"
-            value={status?.val && status?.val["last-round"]}
-            loading={status?.loading}
-          />
-        </Col>
-        <Col xs={12} sm={6} xl={4} className="mb-4">
-          <BlockchainStatWidget
-            field="Last Block Time"
-            value={
-              status?.val && status?.val["time-since-last-round"]
-                ? new Date().toLocaleTimeString()
-                : ""
-            }
-            loading={status?.loading}
-          />
-        </Col>
-      </Row>
+      {settings.selectedBlockchain === "Algorand" && (
+        <Row className="justify-content-md-center py-4">
+          <Col xs={12} sm={6} xl={4} className="mb-4">
+            <BlockchainStatWidget
+              field="Last Block"
+              value={statusAlgorand?.val && statusAlgorand?.val["last-round"]}
+              loading={statusAlgorand?.loading}
+            />
+          </Col>
+          <Col xs={12} sm={6} xl={4} className="mb-4">
+            <BlockchainStatWidget
+              field="Last Block Time"
+              value={
+                statusAlgorand?.val &&
+                statusAlgorand?.val["time-since-last-round"]
+                  ? new Date().toLocaleTimeString()
+                  : ""
+              }
+              loading={statusAlgorand?.loading}
+            />
+          </Col>
+        </Row>
+      )}
+
+      {settings.selectedBlockchain === "Ethereum" && (
+        <Row className="justify-content-md-center py-4">
+          <Col xs={12} sm={6} xl={4} className="mb-4">
+            <BlockchainStatWidget
+              field="Last Block"
+              value={statusEthereum?.val}
+              loading={statusEthereum?.loading}
+            />
+          </Col>
+          {/* <Col xs={12} sm={6} xl={4} className="mb-4">
+            <BlockchainStatWidget
+              field="Last Block Time"
+              value={
+                statusEthereum?.val &&
+                statusEthereum?.val["time-since-last-round"]
+                  ? new Date().toLocaleTimeString()
+                  : ""
+              }
+              loading={statusAlgorand?.loading}
+            />
+          </Col> */}
+        </Row>
+      )}
 
       {/* <Row>
         {status.val && !status.error && !status.loading && (

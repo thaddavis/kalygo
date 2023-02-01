@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../components/Forms/SettingsForm";
+import { SettingsFormEthereum } from "../components/Forms/SettingsFormEthereum";
+import { SettingsFormAlgorand } from "../components/Forms/SettingsFormAlgorand";
 
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -9,7 +10,13 @@ import { OperatorConfig } from "../components/Widgets/Generic/OperatorConfig";
 
 const Settings = () => {
   const settings = useAppSelector((state: RootState) => state.settings);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+
+  // console.log("settings", settings);
+  console.log(
+    "settings.selectedBlockchain -> -> ->",
+    settings.selectedBlockchain
+  );
 
   return (
     <>
@@ -21,7 +28,13 @@ const Settings = () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          <SettingsForm accounts={settings.accounts} />
+          {settings.selectedBlockchain === "Algorand" && (
+            <SettingsFormAlgorand />
+          )}
+
+          {settings.selectedBlockchain === "Ethereum" && (
+            <SettingsFormEthereum />
+          )}
         </Col>
 
         <Col xs={12} xl={4}>

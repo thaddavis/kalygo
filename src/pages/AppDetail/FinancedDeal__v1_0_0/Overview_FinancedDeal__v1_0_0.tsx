@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import get from "lodash/get";
 
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../../../components/Forms/SettingsForm";
 
 import { RootState } from "../../../store/store";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -41,7 +40,9 @@ function AppDetail() {
   useEffect(() => {
     async function fetch() {
       try {
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -68,7 +69,9 @@ function AppDetail() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -85,7 +88,9 @@ function AppDetail() {
           Number.parseInt(id!)
         );
 
-        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
+        const accountResponse = await Algod.getAlgod(
+          settings.selectedAlgorandNetwork
+        )
           .accountInformation(appAddress)
           .do();
 
@@ -114,7 +119,9 @@ function AppDetail() {
   useEffect(() => {
     async function fetch() {
       try {
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupApplications(Number.parseInt(id!))
           .do();
 
@@ -131,7 +138,9 @@ function AppDetail() {
           Number.parseInt(id!)
         );
 
-        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
+        const accountResponse = await Algod.getAlgod(
+          settings.selectedAlgorandNetwork
+        )
           .accountInformation(appAddress)
           .do();
 
@@ -285,7 +294,7 @@ function AppDetail() {
             buyerRealtor={get(app.val, "buyer_realtor", "Not Found")}
             sellerRealtor={get(app.val, "seller_realtor", "Not Found")}
             jurisdiction={get(app.val, "jurisdiction", "Not Found")}
-            operator={settings.selectedAccount}
+            operator={settings.selectedAlgorandAccount}
             contractAddress={`${get(account.val, "address", "Not Found")}`}
             appId={Number.parseInt(id!)}
             firstEscrowAmount={get(app.val, "1st_escrow_amount", -1)}

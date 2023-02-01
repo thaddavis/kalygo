@@ -13,7 +13,6 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../components/Forms/SettingsForm";
 
 import { RootState } from "../store/store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -33,15 +32,15 @@ function TransactionDetail() {
   useEffect(() => {
     async function fetch() {
       try {
-        const txnResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const txnResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupTransactionByID(id!)
           .do();
-
         console.log("txnResponse", txnResponse);
         setTxn(txnResponse);
       } catch (e) {}
     }
-
     fetch();
   }, []);
 
@@ -51,7 +50,6 @@ function TransactionDetail() {
 
       <Row>
         <Col>
-          {/* <SettingsForm accounts={settings.accounts} /> */}
           {txn && (
             <code>
               <pre

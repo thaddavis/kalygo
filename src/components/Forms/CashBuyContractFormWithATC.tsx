@@ -122,18 +122,18 @@ export const CashBuyContractForm = (props: P) => {
 
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
-      let params = await Algod.getAlgod(settings.selectedNetwork)
+      let params = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .getTransactionParams()
         .do();
 
       let onComplete = algosdk.OnApplicationComplete.NoOpOC;
 
       let a_prog = await compileProgram(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         Buffer.from(ABI.source.approval, "base64").toString()
       );
       let c_prog = await compileProgram(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         Buffer.from(ABI.source.clear, "base64").toString()
       );
 
@@ -160,14 +160,16 @@ export const CashBuyContractForm = (props: P) => {
         numGlobalInts: 13,
         numLocalByteSlices: 0,
         numLocalInts: 0,
-        sender: settings.selectedAccount,
+        sender: settings.selectedAlgorandAccount,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: signer,
         onComplete: onComplete,
       });
 
-      const tx_id = await atc.submit(Algod.getAlgod(settings.selectedNetwork));
+      const tx_id = await atc.submit(
+        Algod.getAlgod(settings.selectedAlgorandNetwork)
+      );
 
       console.log("submit_response", tx_id);
 
@@ -175,7 +177,7 @@ export const CashBuyContractForm = (props: P) => {
 
       showSuccessToast("Awaiting block confirmation...");
       await algosdk.waitForConfirmation(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         tx_id[0],
         32
       );

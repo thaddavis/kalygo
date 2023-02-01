@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import get from "lodash/get";
 
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../../../components/Forms/SettingsForm";
 
 import { RootState } from "../../../store/store";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";

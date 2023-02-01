@@ -173,7 +173,9 @@ const Presentation = () => {
                 <span className="fab fa-react"></span>
               </div>
               <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
-              <p className="text-muted fw-light mb-2 h5">Peer-to-Peer Tools</p>
+              <p className="text-muted fw-light mb-4 h5">
+                Blockchain Made Easy
+              </p>
               <div className="d-flex align-items-center justify-content-center mb-4">
                 <Button
                   variant="secondary"
@@ -212,7 +214,7 @@ const Presentation = () => {
               <p className="mb-3 lead fw-bold">Fast and Cheap</p>
               <p className="mb-4">
                 Kalygo a hub of customizable contracts running on either the
-                Algorand, Ethereum, or Solana Blockchains
+                Algorand, Ethereum, Cardano, Avalanche or Solana Blockchains
               </p>
             </Col>
           </Row>

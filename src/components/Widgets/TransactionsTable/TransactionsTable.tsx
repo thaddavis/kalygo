@@ -34,10 +34,12 @@ async function fetchTxns(
   accountTxnsStateSetter: any
 ) {
   try {
+    console.log("__fetchTxns__");
+
     const accountTxnsResponse = await Algod.getIndexer(
-      settingsState.selectedNetwork
+      settingsState.selectedAlgorandNetwork
     )
-      .lookupAccountTransactions(settingsState.selectedAccount)
+      .lookupAccountTransactions(settingsState.selectedAlgorandAccount)
       .limit(21)
       .nextToken(nextToken)
       .do();

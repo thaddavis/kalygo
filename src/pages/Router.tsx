@@ -100,7 +100,7 @@ const RouteWithSidebar = (props: any) => {
 
         try {
           let accounts = await (window as any).AlgoSigner.accounts({
-            ledger: settings.selectedNetwork,
+            ledger: settings.selectedAlgorandNetwork,
           });
 
           dispatch(
@@ -114,7 +114,45 @@ const RouteWithSidebar = (props: any) => {
       }
     }
 
-    loadAlgoSigner();
+    async function loadMetamask() {
+      if (typeof (window as any).AlgoSigner !== "undefined") {
+        console.log("MetaMask is installed!");
+        console.log("window.ethereum", (window as any).ethereum);
+
+        try {
+          console.log("window.ethereum", (window as any).ethereum);
+
+          let accounts = await (window as any).ethereum.request({
+            method: "eth_requestAccounts",
+          });
+
+          console.log("accounts", accounts);
+
+          // let accounts = await (window as any).ethereum.accounts({
+          //   ledger: settings.selectedNetwork,
+          // });
+
+          dispatch(
+            updateState({
+              accounts: accounts,
+            })
+          );
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        console.error("NO Metamask");
+      }
+    }
+
+    switch (settings.selectedBlockchain) {
+      case "Ethereum":
+        loadMetamask();
+        break;
+      case "Algorand":
+        loadAlgoSigner();
+        break;
+    }
   }, []);
 
   const localStorageIsSettingsVisible = () => {

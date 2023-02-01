@@ -15,13 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/hooks";
 import { showErrorToast } from "../utility/errorToast";
+import settingsSlice from "../store/settings/settingsSlice";
 
 interface P {}
 
 const NavbarComponent = (props: P) => {
-  const network = useAppSelector(
-    (state: RootState) => state.settings.selectedNetwork
-  );
+  const settings = useAppSelector((state: RootState) => state.settings);
   const navigate = useNavigate();
 
   return (
@@ -52,24 +51,52 @@ const NavbarComponent = (props: P) => {
                 variant="secondary"
                 className="text-dark me-2"
                 onClick={() => {
-                  if (typeof (window as any).AlgoSigner !== "undefined") {
-                    (window as any).AlgoSigner.connect()
-                      .then(() =>
-                        (window as any).AlgoSigner.accounts({
-                          ledger: network,
-                        })
-                      )
-                      .then((accountData: any) => {
-                        console.log(accountData);
-                      })
-                      .catch((e: any) => {
-                        console.error(e);
-                      });
-                  } else {
-                    console.error("NO AlgoSigner");
-                    showErrorToast(
-                      "Make sure you have a compatible wallet installed on your browser"
-                    );
+                  switch (settings.selectedBlockchain) {
+                    case "Algorand":
+                      if (typeof (window as any).AlgoSigner !== "undefined") {
+                        (window as any).AlgoSigner.connect()
+                          .then(() =>
+                            (window as any).AlgoSigner.accounts({
+                              ledger: settings.selectedAlgorandNetwork,
+                            })
+                          )
+                          .then((accountData: any) => {
+                            console.log(accountData);
+                          })
+                          .catch((e: any) => {
+                            console.error(e);
+                          });
+                      } else {
+                        console.error("NO AlgoSigner");
+                        showErrorToast(
+                          "Make sure you have a compatible wallet installed on your browser"
+                        );
+                      }
+                      break;
+                    case "Ethereum":
+                      if (typeof (window as any).ethereum !== "undefined") {
+                        console.log("**-->> ETHEREUM <<--**");
+                        (window as any).ethereum.request({
+                          method: "eth_requestAccounts",
+                        });
+                        //   .then(() =>
+                        //     (window as any).AlgoSigner.accounts({
+                        //       ledger: settings.selectedNetwork,
+                        //     })
+                        //   )
+                        //   .then((accountData: any) => {
+                        //     console.log(accountData);
+                        //   })
+                        //   .catch((e: any) => {
+                        //     console.error(e);
+                        //   });
+                      } else {
+                        console.error("NO Ethereum");
+                        showErrorToast(
+                          "Make sure you have a compatible wallet installed on your browser"
+                        );
+                      }
+                      break;
                   }
                 }}
               >

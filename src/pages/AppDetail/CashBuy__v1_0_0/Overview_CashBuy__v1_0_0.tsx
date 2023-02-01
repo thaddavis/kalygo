@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import get from "lodash/get";
 
-import { SettingsForm } from "../../../components/Forms/SettingsForm";
 import { useForm } from "react-hook-form";
 import { Col, Row, Button, Dropdown, Modal } from "react-bootstrap";
 import { Buffer } from "buffer";
@@ -69,7 +68,9 @@ function Overview_CashBuy__v1_0_0() {
     const interval = setInterval(async () => {
       try {
         // STEP 1
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupApplications(Number.parseInt(id!))
           .do();
         setApp({
@@ -84,7 +85,9 @@ function Overview_CashBuy__v1_0_0() {
         const appAddress = await algosdk.getApplicationAddress(
           Number.parseInt(id!)
         );
-        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
+        const accountResponse = await Algod.getAlgod(
+          settings.selectedAlgorandNetwork
+        )
           .accountInformation(appAddress)
           .do();
         setAccount({
@@ -116,7 +119,9 @@ function Overview_CashBuy__v1_0_0() {
     async function fetch() {
       try {
         // STEP 1
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupApplications(Number.parseInt(id!))
           .do();
         setApp({
@@ -131,7 +136,9 @@ function Overview_CashBuy__v1_0_0() {
           Number.parseInt(id!)
         );
         // STEP 2
-        const accountResponse = await Algod.getAlgod(settings.selectedNetwork)
+        const accountResponse = await Algod.getAlgod(
+          settings.selectedAlgorandNetwork
+        )
           .accountInformation(appAddress)
           .do();
 
@@ -141,7 +148,7 @@ function Overview_CashBuy__v1_0_0() {
           error: null,
         });
         // STEP 3
-        let assetInfo = await Algod.getIndexer(settings.selectedNetwork)
+        let assetInfo = await Algod.getIndexer(settings.selectedAlgorandNetwork)
           .searchForAssets()
           .index(
             parseGlobalState(
@@ -167,7 +174,9 @@ function Overview_CashBuy__v1_0_0() {
         // STEP 5
         console.log("--- --- ---", Number.parseInt(id!));
         try {
-          let buyerBoxRes = await Algod.getAlgod(settings.selectedNetwork)
+          let buyerBoxRes = await Algod.getAlgod(
+            settings.selectedAlgorandNetwork
+          )
             .getApplicationBoxByName(
               Number.parseInt(id!),
               new Uint8Array(Buffer.from("Buyer" || "", "utf8"))
@@ -272,7 +281,7 @@ function Overview_CashBuy__v1_0_0() {
             )}
             buyer={get(app.val, "global_buyer", "Not Found")}
             seller={get(app.val, "global_seller", "Not Found")}
-            operator={settings.selectedAccount}
+            operator={settings.selectedAlgorandAccount}
             contractAddress={`${get(account.val, "address", "Not Found")}`}
             appId={Number.parseInt(id!)}
             firstEscrowAmount={get(app.val, "global_escrow_payment_1", -1)}

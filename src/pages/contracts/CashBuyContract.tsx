@@ -13,7 +13,6 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Button, Dropdown } from "react-bootstrap";
-import { SettingsForm } from "../../components/Forms/SettingsForm";
 
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -41,7 +40,7 @@ const CashBuyContract = () => {
         </Col>
 
         <Col xs={12} xl={8}>
-          <CashBuyContractForm accounts={settings.accounts} />
+          <CashBuyContractForm accounts={settings.accountsAlgorand} />
         </Col>
       </Row>
     </>

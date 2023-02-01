@@ -9,18 +9,21 @@ import { useForm } from "react-hook-form";
 import { RootState } from "../../store/store";
 import {
   fetchAlgoSignerNetworkAccounts,
+  fetchMetamaskNetworkAccounts,
   updateState,
 } from "../../store/settings/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Algod } from "../../services/algod";
 
 interface P {
-  accounts: string[];
+  // accounts: string[];
 }
 
-export const SettingsForm = (props: P) => {
+export const SettingsFormEthereum = (props: P) => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
+
+  console.log("settings.accountsEthereum", settings.accountsEthereum);
 
   const {
     register,
@@ -29,26 +32,27 @@ export const SettingsForm = (props: P) => {
     getValues,
     formState: { errors },
     setValue,
+    reset,
   } = useForm({
     defaultValues: {
       selectedBlockchain: settings.selectedBlockchain,
-      selectedNetwork: settings.selectedNetwork,
-      selectedAccount: settings.selectedAccount,
+      selectedEthereumNetwork: settings.selectedEthereumNetwork,
+      selectedEthereumAccount: settings.selectedEthereumAccount,
     },
   });
 
-  watch("selectedNetwork");
+  watch("selectedEthereumNetwork");
 
   useEffect(() => {
-    const accountIndex = settings.accounts.findIndex(
-      (item) => item.address === settings.selectedAccount
+    const accountIndex = settings.accountsEthereum.findIndex(
+      (item) => item.address === settings.selectedEthereumAccount
     );
 
     const selectedAccount =
-      accountIndex > -1 ? settings.accounts[accountIndex] : "";
+      accountIndex > -1 ? settings.accountsEthereum[accountIndex] : "";
 
-    setValue("selectedAccount", selectedAccount.address);
-  }, [settings.accounts]);
+    setValue("selectedEthereumAccount", selectedAccount.address);
+  }, [settings.accountsEthereum]);
 
   const onSubmit = (data: any) => {
     dispatch(updateState(data));
@@ -80,7 +84,26 @@ export const SettingsForm = (props: P) => {
                     console.warn(
                       "Need to populate network select with relevant networks for chosen blockchain"
                     );
-                    // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+
+                    // setValue("selectedEthereumAccount", "");
+                    // setValue("selectedEthereumNetwork", "");
+                    // setValue("selectedBlockchain", target.value);
+
+                    dispatch(
+                      updateState({
+                        selectedBlockchain: target.value,
+                      })
+                    );
+
+                    // switch (settings.selectedBlockchain) {
+                    // switch (target.value) {
+                    //   case "Algorand":
+                    //     dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                    //     break;
+                    //   case "Ethereum":
+                    //     dispatch(fetchMetamaskNetworkAccounts(target.value));
+                    //     break;
+                    // }
                   }}
                   style={{
                     paddingRight: "32px",
@@ -91,7 +114,9 @@ export const SettingsForm = (props: P) => {
                     return (
                       <option
                         key={i}
-                        disabled={i === "Algorand" ? false : true}
+                        disabled={
+                          ["Algorand", "Ethereum"].includes(i) ? false : true
+                        }
                         style={{
                           textOverflow: "ellipsis",
                         }}
@@ -111,37 +136,59 @@ export const SettingsForm = (props: P) => {
               <Form.Group id="network">
                 <Form.Label>
                   Network{" "}
-                  {errors.selectedNetwork && (
+                  {errors.selectedEthereumNetwork && (
                     <span style={{ color: "red" }}>*required</span>
                   )}
                 </Form.Label>
                 <Form.Select
-                  {...register("selectedNetwork", { required: true })}
+                  {...register("selectedEthereumNetwork", { required: true })}
                   onChange={(e: React.FormEvent<EventTarget>) => {
                     let target = e.target as HTMLSelectElement;
 
                     console.log("!@#!@#", target.value);
 
-                    dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                    setValue("selectedEthereumAccount", "");
+                    setValue("selectedEthereumNetwork", target.value);
+                    dispatch(fetchMetamaskNetworkAccounts());
                   }}
                   style={{
                     paddingRight: "32px",
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {settings.supportedNetworks.map((i: any, idx: number) => {
-                    return (
-                      <option
-                        key={i}
-                        style={{
-                          textOverflow: "ellipsis",
-                        }}
-                        value={i}
-                      >
-                        {i}
-                      </option>
-                    );
-                  })}
+                  {settings.selectedBlockchain === "Algorand" &&
+                    settings.supportedAlgorandNetworks.map(
+                      (i: any, idx: number) => {
+                        return (
+                          <option
+                            key={i}
+                            style={{
+                              textOverflow: "ellipsis",
+                            }}
+                            value={i}
+                          >
+                            {i}
+                          </option>
+                        );
+                      }
+                    )}
+
+                  {settings.selectedBlockchain === "Ethereum" &&
+                    settings.supportedEthereumNetworks.map(
+                      (i: any, idx: number) => {
+                        return (
+                          <option
+                            key={i}
+                            style={{
+                              textOverflow: "ellipsis",
+                            }}
+                            value={i}
+                          >
+                            {i}
+                          </option>
+                        );
+                      }
+                    )}
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -149,23 +196,20 @@ export const SettingsForm = (props: P) => {
               <Form.Group id="gender">
                 <Form.Label>
                   Account{" "}
-                  {errors.selectedAccount && (
+                  {errors.selectedEthereumAccount && (
                     <span style={{ color: "red" }}>*required</span>
                   )}
                   <FontAwesomeIcon
                     color="black"
                     icon={faRotate}
                     onClick={() => {
-                      dispatch(
-                        fetchAlgoSignerNetworkAccounts(
-                          getValues("selectedNetwork")
-                        )
-                      );
+                      dispatch(fetchMetamaskNetworkAccounts());
+                      console.log("___ ___ ___");
                     }}
                   />
                 </Form.Label>
                 <Form.Select
-                  {...register("selectedAccount", { required: true })}
+                  {...register("selectedEthereumAccount", { required: true })}
                   style={{
                     paddingRight: "32px",
                     textOverflow: "ellipsis",
@@ -180,16 +224,16 @@ export const SettingsForm = (props: P) => {
                   >
                     Select...
                   </option>
-                  {props.accounts.map((i: any, idx: number) => {
+                  {settings.accountsEthereum.map((i: any, idx: number) => {
                     return (
                       <option
-                        key={i.address}
+                        key={i}
                         style={{
                           textOverflow: "ellipsis",
                         }}
-                        value={i.address}
+                        value={i}
                       >
-                        {i.address}
+                        {i}
                       </option>
                     );
                   })}

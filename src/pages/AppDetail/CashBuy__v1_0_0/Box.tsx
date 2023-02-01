@@ -76,7 +76,7 @@ export function Box() {
   useEffect(() => {
     async function fetch() {
       try {
-        let boxValue = await Algod.getAlgod(settings.selectedNetwork)
+        let boxValue = await Algod.getAlgod(settings.selectedAlgorandNetwork)
           .getApplicationBoxByName(
             Number.parseInt(app_id!),
             new Uint8Array(Buffer.from(box || "", "utf8"))
@@ -98,7 +98,7 @@ export function Box() {
 
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
-      let params = await Algod.getAlgod(settings.selectedNetwork)
+      let params = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .getTransactionParams()
         .do();
 
@@ -106,7 +106,7 @@ export function Box() {
         appID: Number.parseInt(app_id!),
         method: contract.getMethodByName("add_key_to_buyer_note_box"),
         methodArgs: [note.padEnd(256, " ")] as ABIArgument[],
-        sender: settings.selectedAccount,
+        sender: settings.selectedAlgorandAccount,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: signer,
@@ -118,11 +118,13 @@ export function Box() {
         ],
       });
 
-      const tx_id = await atc.submit(Algod.getAlgod(settings.selectedNetwork));
+      const tx_id = await atc.submit(
+        Algod.getAlgod(settings.selectedAlgorandNetwork)
+      );
 
       showSuccessToast("Awaiting block confirmation...");
       await algosdk.waitForConfirmation(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         tx_id[0],
         32
       );

@@ -1,39 +1,58 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
-type SupportedNetworks = "MainNet" | "TestNet" | "localhost";
+type EmptyNetwork = "";
+type SupportedEthereumNetworks = "MainNet" | "TestNet" | "localhost";
+type SupportedAlgorandNetworks = "Mainnet" | "Sepolia" | "Goerli" | "localhost";
+type SupportedNetworks =
+  | EmptyNetwork
+  | SupportedEthereumNetworks
+  | SupportedAlgorandNetworks;
+
 type SupportedBlockchains = "Algorand" | "Ethereum" | "Solana";
 
 // Define a type for the slice state
 interface SettingsState {
-  selectedNetwork: SupportedNetworks;
-  supportedNetworks: string[];
+  selectedEthereumNetwork: string;
+  selectedAlgorandNetwork: string;
+  supportedAlgorandNetworks: string[];
+  supportedEthereumNetworks: string[];
   supportedBlockchains: string[];
-  accounts: any[];
-  selectedAccount: string;
+  accountsEthereum: any[];
+  accountsAlgorand: any[];
+  selectedEthereumAccount: string;
+  selectedAlgorandAccount: string;
   selectedBlockchain: string;
 }
 
 interface SettingsStateForSpread {
-  network?: SupportedNetworks;
+  network?: string[];
   supportedBlockchains?: string[];
   supportedNetworks?: string[];
   accounts?: any[];
   selectedAccount?: string;
+  selectedEthereumNetwork?: string;
+  selectedAlgorandNetwork?: string;
   selectedBlockchain?: string;
 }
 
 // Define the initial state using that type
 const initialState: SettingsState = {
-  selectedNetwork: "TestNet",
+  selectedEthereumNetwork: "Goerli",
+  selectedAlgorandNetwork: "TestNet",
   // selectedNetwork: "localhost",
-  supportedNetworks: ["MainNet", "TestNet", "localhost"],
+  supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
+  supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
   supportedBlockchains: ["Algorand", "Ethereum", "Solana"],
-  accounts: [],
+  accountsEthereum: [],
+  accountsAlgorand: [],
   // selectedAccount: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
-  selectedAccount: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
-  // selectedAccount: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
+  selectedAlgorandAccount:
+    "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  selectedEthereumAccount: "",
+  // selectedAlgorandAccount:
+  // "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A", // localhost
   selectedBlockchain: "Algorand",
   // selectedAccount: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
   // selectedAccount: "",
@@ -53,14 +72,14 @@ export const fetchAlgoSignerNetworkAccounts = createAsyncThunk(
         });
 
         return {
-          network,
+          // network,
           accounts,
         };
       } catch (e) {
         console.error(e);
 
         return {
-          network,
+          // network,
           accounts: [],
         };
       }
@@ -68,7 +87,45 @@ export const fetchAlgoSignerNetworkAccounts = createAsyncThunk(
       console.error("NO AlgoSigner");
 
       return {
-        network,
+        // network,
+        accounts: [],
+      };
+    }
+  }
+);
+
+export const fetchMetamaskNetworkAccounts = createAsyncThunk(
+  "metamask/fetchNetworkAccounts",
+  async (thunkAPI) => {
+    console.log("***--->>>", thunkAPI);
+
+    if (typeof (window as any).ethereum !== "undefined") {
+      // ethereum.request({ method: 'eth_requestAccounts' });
+
+      console.log("window.ethereum", (window as any).ethereum);
+      try {
+        let accounts = await (window as any).ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        console.log("accounts", accounts);
+
+        return {
+          // network,
+          accounts: accounts,
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          // network,
+          accounts: [],
+        };
+      }
+    } else {
+      console.error("NO Metamask");
+
+      return {
+        // network,
         accounts: [],
       };
     }
@@ -80,11 +137,17 @@ export const settingsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    changeNetwork: (
+    changeEthereumNetwork: (
       state: SettingsState,
       action: PayloadAction<SupportedNetworks>
     ) => {
-      state.selectedNetwork = action.payload;
+      state.selectedEthereumNetwork = action.payload;
+    },
+    changeAlgorandNetwork: (
+      state: SettingsState,
+      action: PayloadAction<SupportedNetworks>
+    ) => {
+      state.selectedAlgorandNetwork = action.payload;
     },
     updateState: (
       state: SettingsState,
@@ -105,7 +168,7 @@ export const settingsSlice = createSlice({
       (state, action) => {
         // Add user to the state array
         // state.entities.push(action.payload);
-        state.accounts = action.payload.accounts;
+        state.accountsAlgorand = action.payload.accounts;
         // state.selectedAccount =
         //   action.payload.accounts.length > 0
         //     ? action.payload.accounts[0].address
@@ -113,9 +176,21 @@ export const settingsSlice = createSlice({
         // state.selectedNetwork = action.payload.network as SupportedNetworks;
       }
     );
+
+    builder.addCase(fetchMetamaskNetworkAccounts.fulfilled, (state, action) => {
+      // Add user to the state array
+      // state.entities.push(action.payload);
+      state.accountsEthereum = action.payload.accounts;
+      // state.selectedAccount =
+      //   action.payload.accounts.length > 0
+      //     ? action.payload.accounts[0].address
+      //     : "";
+      // state.selectedNetwork = action.payload.network as SupportedNetworks;
+    });
   },
 });
 
-export const { changeNetwork, updateState } = settingsSlice.actions;
+export const { changeEthereumNetwork, changeAlgorandNetwork, updateState } =
+  settingsSlice.actions;
 
 export default settingsSlice.reducer;

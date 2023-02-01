@@ -34,8 +34,8 @@ export function Support() {
                   </li>
                   <li>
                     Ethereum{" "}
-                    <Card.Link href="https://ethereum.org/en/" target="_blank">
-                      Coming Soon...
+                    <Card.Link href="https://metamask.io/" target="_blank">
+                      MetaMask
                     </Card.Link>
                   </li>
                   <li>

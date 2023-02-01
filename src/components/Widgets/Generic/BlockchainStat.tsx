@@ -9,8 +9,6 @@ export const BlockchainStatWidget = (props: {
 }) => {
   const { field, value, loading } = props;
 
-  console.log("loading", loading);
-
   return (
     <Card border="light" className="shadow-sm">
       <Card.Body>

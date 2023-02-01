@@ -59,7 +59,9 @@ export const AssetInfoWidget = (props: P) => {
   useEffect(() => {
     async function fetch() {
       try {
-        const appResponse = await Algod.getIndexer(settings.selectedNetwork)
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
           .lookupAssetByID(Number.parseInt(id!))
           .do();
 

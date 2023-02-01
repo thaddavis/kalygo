@@ -48,7 +48,7 @@ export const FungibleTokenContractForm = (props: P) => {
     try {
       console.log("-> data <-", data);
 
-      let params = await Algod.getAlgod(settings.selectedNetwork)
+      let params = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .getTransactionParams()
         .do();
 
@@ -56,7 +56,7 @@ export const FungibleTokenContractForm = (props: P) => {
       params.fee = 1000;
 
       const account = {
-        addr: settings.selectedAccount,
+        addr: settings.selectedAlgorandAccount,
       };
 
       const total = Number.parseInt(data.totalSupply); // how many of this asset there will be
@@ -112,7 +112,7 @@ export const FungibleTokenContractForm = (props: P) => {
         return {};
       });
 
-      const res = await Algod.getAlgod(settings.selectedNetwork)
+      const res = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .sendRawTransaction(tmp[0].blob)
         .do();
 
@@ -123,7 +123,7 @@ export const FungibleTokenContractForm = (props: P) => {
       showSuccessToast("Awaiting block confirmation...");
 
       const waiting = await algosdk.waitForConfirmation(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         res.txId,
         32
       );

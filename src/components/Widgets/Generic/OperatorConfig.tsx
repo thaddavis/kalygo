@@ -57,13 +57,30 @@ export const OperatorConfig = () => {
           className="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4"
         /> */}
         <Card.Title>Operator Config</Card.Title>
-        <Card.Subtitle className="fw-normal">
-          {settings.selectedNetwork}
-        </Card.Subtitle>
-        <Card.Text className="text-gray mb-4">
-          {/* New York, USA */}
-          {settings.selectedAccount}
-        </Card.Text>
+
+        {settings.selectedBlockchain === "Ethereum" && (
+          <>
+            <Card.Subtitle className="fw-normal">
+              {settings.selectedEthereumNetwork}
+            </Card.Subtitle>
+            <Card.Text className="text-gray mb-4">
+              {/* New York, USA */}
+              {settings.selectedEthereumAccount}
+            </Card.Text>
+          </>
+        )}
+
+        {settings.selectedBlockchain === "Algorand" && (
+          <>
+            <Card.Subtitle className="fw-normal">
+              {settings.selectedAlgorandNetwork}
+            </Card.Subtitle>
+            <Card.Text className="text-gray mb-4">
+              {/* New York, USA */}
+              {settings.selectedAlgorandAccount}
+            </Card.Text>
+          </>
+        )}
 
         {/* <Button variant="primary" size="sm" className="me-2">
           <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Connect

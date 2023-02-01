@@ -74,7 +74,7 @@ export const FinancedDealContractForm = (props: P) => {
     try {
       console.log("-> data <-", data);
 
-      let params = await Algod.getAlgod(settings.selectedNetwork)
+      let params = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .getTransactionParams()
         .do();
 
@@ -84,11 +84,11 @@ export const FinancedDealContractForm = (props: P) => {
       let onComplete = algosdk.OnApplicationComplete.NoOpOC;
 
       let a_prog = await compileProgram(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         approval_program
       );
       let c_prog = await compileProgram(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         clear_state_program
       );
 
@@ -96,7 +96,7 @@ export const FinancedDealContractForm = (props: P) => {
       console.log("c_prog", c_prog);
 
       const appCreateTxn = algosdk.makeApplicationCreateTxn(
-        settings.selectedAccount,
+        settings.selectedAlgorandAccount,
         params,
         onComplete,
         a_prog,
@@ -189,7 +189,7 @@ export const FinancedDealContractForm = (props: P) => {
         return {};
       });
 
-      const res = await Algod.getAlgod(settings.selectedNetwork)
+      const res = await Algod.getAlgod(settings.selectedAlgorandNetwork)
         .sendRawTransaction(tmp[0].blob)
         .do();
 
@@ -200,7 +200,7 @@ export const FinancedDealContractForm = (props: P) => {
       showSuccessToast("Awaiting block confirmation...");
 
       const waiting = await algosdk.waitForConfirmation(
-        Algod.getAlgod(settings.selectedNetwork),
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
         res.txId,
         32
       );

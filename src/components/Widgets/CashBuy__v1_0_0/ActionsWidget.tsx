@@ -67,10 +67,7 @@ export const ActionsWidget = (props: P) => {
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  // console.log(
-  //   "stablecoinIssuerClawbackAddress ->",
-  //   stablecoinIssuerClawbackAddress
-  // );
+  console.log("operator", operator);
 
   return (
     <Card border="light" className="text-center p-0 mb-4">
@@ -95,10 +92,10 @@ export const ActionsWidget = (props: P) => {
                   let mbr = 200000 + mbrForBuyerNotes 
 
                   fundMinimumBalance(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     mbr // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
                   );
                 }}>Fund Minimum Balance</Button> : <Button size="sm" className="m-1" disabled> Fund Minimum Balance{" "} </Button>
@@ -110,10 +107,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="secondary" size="sm" className="m-1"
                 onClick={() => {
                   firstEscrowAmount(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     fungibleTokenId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     escrowAmount1
                   );
                 }}>Send 1st Escrow</Button> : <Button size="sm" className="m-1" disabled>Send 1st Escrow</Button>
@@ -126,10 +123,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="secondary" size="sm" className="m-1"
                 onClick={() => {
                   secondEscrowAmount(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     fungibleTokenId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     escrowAmount2
                   );
                 }}>Send 2nd Escrow</Button> : <Button size="sm" className="m-1" disabled>Send 2nd Escrow</Button>
@@ -143,10 +140,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
                   buyerArbitration(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Buyer Arbitration</Button> : <Button size="sm" className="m-1" disabled>Buyer Arbitration</Button>
             }
@@ -157,9 +154,9 @@ export const ActionsWidget = (props: P) => {
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
                   buyerPullOut(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Buyer Pullout</Button> : <Button size="sm" className="m-1" disabled>Buyer Pullout</Button>
             }
@@ -175,10 +172,10 @@ export const ActionsWidget = (props: P) => {
                   className="m-1"
                   onClick={() => {
                     withdrawEscrow(
-                      settings.selectedAccount,
+                      settings.selectedAlgorandAccount,
                       appId,
                       fungibleTokenId,
-                      settings.selectedNetwork
+                      settings.selectedAlgorandNetwork
                     );
                   }}>Buyer Withdraw ASA</Button> : <Button size="sm" className="m-1" disabled>Buyer Withdraw ASA</Button>
             }
@@ -189,10 +186,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="secondary" size="sm" className="m-1"
                 onClick={() => {
                   withdrawBalance(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Buyer Withdraw Balance</Button> : <Button size="sm" className="m-1" disabled>Buyer Withdraw Balance</Button>
             }
@@ -204,10 +201,10 @@ export const ActionsWidget = (props: P) => {
                 <Button variant="success" size="sm" className="m-1"
                   onClick={() => {
                     optinContractToASA(
-                      settings.selectedAccount,
+                      settings.selectedAlgorandAccount,
                       contractAddress,
                       appId,
-                      settings.selectedNetwork,
+                      settings.selectedAlgorandNetwork,
                       fungibleTokenId,
                       200000 // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
                     );
@@ -223,10 +220,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="info" size="sm" className="m-1"
                 onClick={() => {
                   optoutContractFromASA(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     fungibleTokenId
                   );
                 }}>Buyer Optout from ASA</Button> : <Button size="sm" className="m-1" disabled>Buyer Optout from ASA </Button>
@@ -238,10 +235,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="danger" size="sm" className="m-1"
                 onClick={() => {
                   deleteApp(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Buyer Delete App</Button> : <Button size="sm" className="m-1" disabled>Buyer Delete App</Button>
             }
@@ -270,10 +267,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
                   sellerArbitration(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Seller Arbitration</Button> : <Button size="sm" className="m-1" disabled>Seller Arbitration</Button>
             }
@@ -288,10 +285,10 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   withdrawEscrow(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     appId,
                     fungibleTokenId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}
               >
@@ -309,10 +306,10 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   withdrawBalance(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Seller Withdraw Balance</Button> : <Button size="sm" className="m-1" disabled>Seller Withdraw Balance</Button>
             }
@@ -327,10 +324,10 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   optoutContractFromASA(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     fungibleTokenId
                   );
                 }}
@@ -345,10 +342,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="danger" size="sm" className="m-1"
                 onClick={() => {
                   deleteApp(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Seller Delete App</Button> : <Button size="sm" className="m-1" disabled>Seller Delete App</Button>
             }
@@ -373,10 +370,10 @@ export const ActionsWidget = (props: P) => {
                   console.log('Clawback to Buyer')
 
                   stablecoinClawback(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     buyer,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     fungibleTokenId,
                     fungibleTokenBalance
                   );
@@ -393,10 +390,10 @@ export const ActionsWidget = (props: P) => {
                 onClick={() => {
                   console.log('Clawback to Seller')
                   stablecoinClawback(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     seller,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     fungibleTokenId,
                     fungibleTokenBalance
                   );
@@ -416,10 +413,10 @@ export const ActionsWidget = (props: P) => {
               <Button variant="danger" size="sm" className="m-1"
                 onClick={() => {
                   deleteApp(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Delete App</Button> : <Button size="sm" className="m-1" disabled>Delete App</Button>
             }
@@ -433,10 +430,10 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   optoutContractFromASA(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork,
+                    settings.selectedAlgorandNetwork,
                     fungibleTokenId
                   );
                 }}
@@ -454,10 +451,10 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   withdrawBalance(
-                    settings.selectedAccount,
+                    settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedNetwork
+                    settings.selectedAlgorandNetwork
                   );
                 }}>Withdraw Balance</Button> : <Button size="sm" className="m-1" disabled>Withdraw Balance</Button>
             }

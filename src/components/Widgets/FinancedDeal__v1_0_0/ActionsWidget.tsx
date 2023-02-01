@@ -142,10 +142,10 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               onClick={() => {
                 fundMinimumBalance(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork
+                  settings.selectedAlgorandNetwork
                 );
               }}
             >
@@ -159,10 +159,10 @@ export const ActionsWidget = (props: P) => {
                 console.log("___ Send 1st Escrow ___");
 
                 firstEscrowAmount(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork,
+                  settings.selectedAlgorandNetwork,
                   escrowAmount1
                 );
               }}
@@ -177,10 +177,10 @@ export const ActionsWidget = (props: P) => {
                 console.log("___ Send 1st Escrow ___");
 
                 secondEscrowAmount(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork,
+                  settings.selectedAlgorandNetwork,
                   escrowAmount2
                 );
               }}
@@ -195,10 +195,10 @@ export const ActionsWidget = (props: P) => {
                 console.log("(_)___(_)");
 
                 signalArbitration(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork
+                  settings.selectedAlgorandNetwork
                 );
               }}
             >
@@ -212,10 +212,10 @@ export const ActionsWidget = (props: P) => {
                 console.log("_)_(_");
 
                 signalPullOut(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork
+                  settings.selectedAlgorandNetwork
                 );
               }}
             >
@@ -227,10 +227,10 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               onClick={() => {
                 buyerWithdrawEscrow(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork
+                  settings.selectedAlgorandNetwork
                 );
               }}
             >
@@ -255,10 +255,10 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               onClick={() => {
                 deleteApp(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork
+                  settings.selectedAlgorandNetwork
                 );
               }}
             >
@@ -277,10 +277,10 @@ export const ActionsWidget = (props: P) => {
                 console.log("___");
 
                 sendHoldingsToBuyer(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork,
+                  settings.selectedAlgorandNetwork,
                   buyer
                 );
               }}
@@ -293,10 +293,10 @@ export const ActionsWidget = (props: P) => {
               className="m-1"
               onClick={() => {
                 sendHoldingsToSeller(
-                  settings.selectedAccount,
+                  settings.selectedAlgorandAccount,
                   contractAddress,
                   appId,
-                  settings.selectedNetwork,
+                  settings.selectedAlgorandNetwork,
                   seller
                 );
               }}
