@@ -23,8 +23,8 @@ import {
 import { Link } from "react-router-dom";
 
 import { RoutesData } from "../routes";
-import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
+import Hive from "../assets/img/icons/hive.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 
 const Sidebar = (props = {}) => {
@@ -127,7 +127,7 @@ const Sidebar = (props = {}) => {
           as={Link}
           to={RoutesData.DashboardOverview.path}
         >
-          <Image src={ReactHero} className="navbar-brand-light" />
+          <Image src={Hive} className="navbar-brand-light" />
         </Navbar.Brand>
         <Navbar.Toggle
           as={Button}
@@ -175,7 +175,7 @@ const Sidebar = (props = {}) => {
               <NavItem
                 title="KALYGO"
                 link={RoutesData.Presentation.path}
-                image={ReactHero}
+                image={Hive}
               />
 
               <NavItem

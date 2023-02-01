@@ -174,7 +174,7 @@ const Presentation = () => {
               </div>
               <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
               <p className="text-muted fw-light mb-4 h5">
-                Blockchain Made Easy
+                Smart Contract Marketplace
               </p>
               <div className="d-flex align-items-center justify-content-center mb-4">
                 <Button
@@ -183,7 +183,7 @@ const Presentation = () => {
                   to={RoutesData.DashboardOverview.path}
                   className="text-dark me-3"
                 >
-                  Explore App{" "}
+                  Explore Dapp{" "}
                   <FontAwesomeIcon
                     icon={faExternalLinkAlt}
                     className="d-none d-sm-inline ms-1"
@@ -277,7 +277,7 @@ const Presentation = () => {
                   <Image src={ReactHero} />
                   <span className="ms-2 brand-text">Kalygo</span>
                 </Navbar.Brand> */}
-                <p>Kalygo is a free and open source platform</p>
+                <p>Kalygo is an open source platform</p>
               </div>
             </Col>
             {/* <Col xs={6} md={2} className="mb-5 mb-lg-0">
