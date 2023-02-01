@@ -14,9 +14,8 @@ export function Support() {
                 </h1>
 
                 <p>
-                  Kalygo is a free and open source project for hands-on
-                  interaction with the world's most popular smart contract
-                  blockchains.
+                  Kalygo is an open source marketplace for hands-on interaction
+                  with the world's most popular smart contract blockchains.
                 </p>
                 <p>
                   This product is designed for the following blockchains and
