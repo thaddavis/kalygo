@@ -181,7 +181,7 @@ const Presentation = () => {
                   to={RoutesData.DashboardOverview.path}
                   className="text-dark me-3"
                 >
-                  Explore Dapp{" "}
+                  Enter Dapp{" "}
                   <FontAwesomeIcon
                     icon={faExternalLinkAlt}
                     className="d-none d-sm-inline ms-1"
