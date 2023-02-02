@@ -92,9 +92,12 @@ export function Governance() {
                   Governance{" "}
                 </h1>
                 <p>
-                  Kalygo is a free to use platform. All revenue generated from
-                  government partnerships are distributed to holders of the
-                  ERC-20 token linked below.
+                  Kalygo is an open source platform. A 0.3% fees is ADDED to all
+                  sales service through Kalygo.io. All revenue generated from
+                  the platform are distributed to holders of the ERC-20 token
+                  linked below and standard jurisdictional fees (ie: 3% realtor
+                  commissions/1-2% titling fees/etc.) are applied to and
+                  distribute to members of the official DAO.
                 </p>
                 <p>
                   <a
