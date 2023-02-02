@@ -45,7 +45,7 @@ import CashBuyContract from "./contracts/CashBuyContract";
 
 // components
 import Sidebar from "../components/Sidebar";
-// import { NavbarComponent } from "../components/Navbar";
+import { NavbarComponent } from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 
@@ -320,7 +320,8 @@ const RouteWithSidebar = (props: any) => {
       <Preloader show={loaded ? false : true} />
       <Sidebar />
       <main className="content">
-        <Navbar />
+        {/* <Navbar /> */}
+        <NavbarComponent />
         <Outlet />
       </main>
     </>

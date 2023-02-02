@@ -62,8 +62,13 @@ const Presentation = () => {
               <div className="react-big-icon d-none d-lg-block">
                 <span className="fab fa-react"></span>
               </div>
-              <h1 className="fw-bolder text-secondary display-1">KALYGO</h1>
-              <p className="text-muted fw-light mb-4 h5">Real Estate Escrow</p>
+              <h1 className="fw-bolder text-secondary display-1 mb-0">
+                KALYGO
+              </h1>
+              <h2 className=" text-secondary">Real Estate Escrow</h2>
+              <p className="text-muted fw-light mb-4 h5">
+                "Because what you put in is what you get out"
+              </p>
               <div className="d-flex align-items-center justify-content-center mb-4">
                 <Button
                   variant="secondary"

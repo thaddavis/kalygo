@@ -40,14 +40,23 @@ interface SettingsStateForSpread {
 const initialState: SettingsState = {
   selectedEthereumNetwork: "Goerli",
   selectedAlgorandNetwork: "TestNet",
-  // selectedNetwork: "localhost",
+  // selectedAlgorandNetwork: "localhost",
   supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
   supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
-  supportedBlockchains: ["Algorand", "Ethereum", "Solana"],
+  supportedBlockchains: [
+    "Ethereum",
+    // "Polygon",
+    // "Cardano",
+    "Algorand",
+    // "Avalanche",
+    // "Solana",
+  ],
   accountsEthereum: [],
   accountsAlgorand: [],
   // selectedAccount: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
+  // selectedAlgorandAccount:
+  //   "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
   selectedAlgorandAccount:
     "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
   selectedEthereumAccount: "",
