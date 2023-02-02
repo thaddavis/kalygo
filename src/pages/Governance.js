@@ -91,13 +91,19 @@ export function Governance() {
                 <h1 className="h2" id="governance">
                   Governance{" "}
                 </h1>
+                <p>Kalygo is an open source platform.</p>
                 <p>
-                  Kalygo is an open source platform. A 0.3% fees is ADDED to all
-                  sales service through Kalygo.io. All revenue generated from
-                  the platform are distributed to holders of the ERC-20 token
-                  linked below and standard jurisdictional fees (ie: 3% realtor
-                  commissions/1-2% titling fees/etc.) are applied to and
-                  distribute to members of the official DAO.
+                  Standard jurisdictional fees (ie: 3% realtor commissions/1-2%
+                  title fees/etc.) are applied and distributed to members of the
+                  official Kalygo DAO.
+                </p>
+                <p>
+                  Additionally, a 0.3% fee is ADDED to all sales serviced
+                  through Kalygo.io.
+                </p>
+                <p>
+                  All revenue generated from the platform is distributed to
+                  holders of the ERC-20 token linked below
                 </p>
                 <p>
                   <a
