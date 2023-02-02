@@ -19,7 +19,7 @@ import settingsSlice from "../store/settings/settingsSlice";
 
 interface P {}
 
-const NavbarComponent = (props: P) => {
+export const NavbarComponent = (props: P) => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const navigate = useNavigate();
 
@@ -148,5 +148,3 @@ const NavbarComponent = (props: P) => {
     </Navbar>
   );
 };
-
-export default NavbarComponent;

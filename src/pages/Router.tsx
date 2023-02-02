@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { RoutesData } from "../routes";
-
+import {
+  Col,
+  Row,
+  Card,
+  Image,
+  Button,
+  Container,
+  Navbar,
+  Nav,
+  Badge,
+  ListGroup,
+} from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+import { HashLink } from "react-router-hash-link";
 
 // pages
 import Presentation from "./Presentation";
@@ -11,14 +25,14 @@ import BlockchainOverview from "./BlockchainOverview";
 import Settings from "./Settings";
 import FinanceDealContract from "./contracts/FinanceDealContract";
 import CashBuyContract from "./contracts/CashBuyContract";
-import BootstrapTables from "./tables/BootstrapTables";
-import Signin from "./examples/Signin";
-import Signup from "./examples/Signup";
-import ForgotPassword from "./examples/ForgotPassword";
-import ResetPassword from "./examples/ResetPassword";
-import Lock from "./examples/Lock";
-import NotFoundPage from "./examples/NotFound";
-import ServerError from "./examples/ServerError";
+// import BootstrapTables from "./tables/BootstrapTables";
+// import Signin from "./examples/Signin";
+// import Signup from "./examples/Signup";
+// import ForgotPassword from "./examples/ForgotPassword";
+// import ResetPassword from "./examples/ResetPassword";
+// import Lock from "./examples/Lock";
+// import NotFoundPage from "./examples/NotFound";
+// import ServerError from "./examples/ServerError";
 
 // documentation pages
 // import DocsOverview from "./documentation/DocsOverview";
@@ -31,7 +45,7 @@ import ServerError from "./examples/ServerError";
 
 // components
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+// import { NavbarComponent } from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 
@@ -66,9 +80,11 @@ import Overview_CashBuy__v1_0_0 from "./AppDetail/CashBuy__v1_0_0/Overview_CashB
 import OverviewAsset from "./AppDetail/AssetDetail/OverviewAsset";
 import { Support } from "./documentation/Support";
 import { Box } from "./AppDetail/CashBuy__v1_0_0/Box";
+import { Governance } from "./Governance";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 1000);
@@ -77,8 +93,137 @@ const RouteWithLoader = (props: any) => {
 
   return (
     <>
+      <Navbar
+        variant="dark"
+        expand="lg"
+        bg="dark"
+        className="navbar-transparent navbar-theme-primary sticky-top"
+      >
+        <Container className="position-relative justify-content-between px-3">
+          <Navbar.Brand
+            as={HashLink}
+            to="/"
+            className="me-lg-3 d-flex align-items-center"
+          >
+            <span className="ms-2 brand-text d-none d-md-inline">Kalygo</span>
+          </Navbar.Brand>
+
+          <div className="d-flex align-items-center">
+            <Navbar.Collapse id="navbar-default-primary">
+              <Nav className="navbar-nav-hover align-items-lg-center"></Nav>
+            </Navbar.Collapse>
+          </div>
+        </Container>
+      </Navbar>
       <Preloader show={loaded ? false : true} />
       <Outlet />
+      <footer className="footer py-6 bg-dark text-white">
+        <Container>
+          <Row className="justify-content-center text-center">
+            <Col xs={12} sm={4}>
+              <ul className="d-flex flex-column">
+                <li
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    console.log("___ ___ ___");
+                    navigate(`/governance`);
+                  }}
+                >
+                  Governance
+                </li>
+                <li
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  Privacy Policy
+                </li>
+              </ul>
+            </Col>
+            <Col xs={12} sm={4}>
+              <ul className="d-flex flex-column">
+                <li>
+                  <a href="#">
+                    <i className="fab fa-twitter"></i> Twitter
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i className="fab fa-instagram"></i> Instagram
+                  </a>
+                </li>
+              </ul>
+            </Col>
+          </Row>
+          <hr className="bg-gray my-5" />
+          {/* <Row>
+            <Col md={12}>
+              <div className="d-flex text-center justify-content-center align-items-center">
+                <p>Kalygo is an open source platform</p>
+              </div>
+            </Col>
+          </Row> */}
+          <Row>
+            <Col>
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                role="contentinfo"
+              >
+                <p className="">
+                  © Kalygo{" "}
+                  <span className="current-year">
+                    {new Date().getFullYear()}
+                  </span>
+                  . All rights reserved.
+                </p>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            {/* <Col className="mb-md-2"> */}
+            <Col className="">
+              <br />
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.open("https://github.com/thaddavis/kalygo", "_blank");
+                }}
+              >
+                Frontend
+                {/* -&nbsp; */}
+                {/* <FontAwesomeIcon
+                  style={{ height: 32, width: 32 }}
+                  icon={faGithub}
+                /> */}
+              </div>
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  window.open(
+                    "https://github.com/thaddavis/kalygo_contracts",
+                    "_blank"
+                  );
+                }}
+              >
+                Contracts
+                {/* -&nbsp; */}
+                {/* <FontAwesomeIcon
+                  style={{ height: 32, width: 32 }}
+                  icon={faGithub}
+                /> */}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </footer>
     </>
   );
 };
@@ -182,11 +327,20 @@ const RouteWithSidebar = (props: any) => {
   );
 };
 
+// const RouteWithNavAndFooter = (props: any) => {
+//   return (
+//     <>
+//       <Outlet />
+//     </>
+//   );
+// };
+
 const Router = () => (
   <>
     <Routes>
       <Route path="/" element={<RouteWithLoader />}>
         <Route path={""} element={<Presentation />} />
+        <Route path={"governance"} element={<Governance />} />
       </Route>
       {/* <Route
       path={RoutesData.Signin.path}

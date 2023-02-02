@@ -9,8 +9,8 @@ export function Support() {
           <Card>
             <Card.Body>
               <article>
-                <h1 className="h2" id="overview">
-                  Overview{" "}
+                <h1 className="h2" id="support">
+                  Support{" "}
                 </h1>
 
                 <p>
