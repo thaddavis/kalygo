@@ -53,6 +53,7 @@ const initialState: SettingsState = {
   selectedEthereumAccount: "",
   // selectedAlgorandAccount:
   // "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A", // localhost
+  // selectedBlockchain: "Algorand",
   selectedBlockchain: "Algorand",
   // selectedAccount: "QHGMAMCTEHZ2RQV2DRXSPAKIIT3REVK46CHNDJSW6WNXJLSJ7BB76NHDGY",
   // selectedAccount: "",

@@ -209,10 +209,10 @@ const Presentation = () => {
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
               <h2>Powered by Blockchain</h2>
-              <p className="mb-3 lead fw-bold">Fast and Cheap</p>
+              <p className="mb-3 lead fw-bold">Fast, Secure, and Cheap</p>
               <p className="mb-4">
-                Kalygo a hub of customizable contracts running on either the
-                Algorand, Ethereum, Cardano, Avalanche or Solana Blockchains
+                Kalygo facilitates stablecoin escrow in a peer-to-peer manner
+                using the world's premier blockchains
               </p>
             </Col>
           </Row>
@@ -227,8 +227,7 @@ const Presentation = () => {
                 <span className="fw-bold">time for you</span>
               </h2>
               <p className="lead px-lg-8">
-                Enhance your Blockchain experience with Kalygo. Peer-to-Peer
-                tools running on the world's biggest smart-contract platforms
+                Enhance your Real Estate experience with Kalygo
               </p>
             </Col>
           </Row>
@@ -245,8 +244,8 @@ const Presentation = () => {
                 </p>
                 <p className="mb-4">
                   Kalygo prioritizes rigorously vetted contracts and excellent
-                  UI/UX. Explore Kalygo's premium selection of contracts
-                  available for you to use for FREE
+                  UI/UX. Enter the Dapp to explore Kalygo's premium selection of
+                  contracts
                 </p>
               </div>
             </Col>
@@ -256,7 +255,7 @@ const Presentation = () => {
           <Row className="justify-content-between align-items-center">
             <Col xs={12} lg={8}>
               <h2 className="fw-light mb-3">
-                Peer-2-Peer with arbitration fallback
+                Peer-to-Peer with arbitration fallback
               </h2>
               <p className="lead mb-4 me-lg-6">
                 In the case of a dispute, Kalygo smart contracts offer
