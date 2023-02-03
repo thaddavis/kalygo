@@ -12,6 +12,10 @@
         li{
             display: inline-block;
 
+            &:hover {
+                color: $footer-link-hover-color;
+            }
+
             a {
                 text-decoration: none;
                 position: relative;
@@ -19,7 +23,7 @@
                 color: $gray-700;
 
                 &:hover {
-                    color: $primary;
+                    color: $footer-link-hover-color;
                 }
             }
 
