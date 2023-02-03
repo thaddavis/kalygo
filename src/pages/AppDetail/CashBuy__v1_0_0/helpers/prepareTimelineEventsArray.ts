@@ -4,7 +4,7 @@ export function prepareTimelineEventsArray(app: object) {
   const now = {
     title: "Now",
     time: new Date().getTime(),
-    color: "red ",
+    color: "#60dafb",
   };
 
   const inspectionPeriodStart = {

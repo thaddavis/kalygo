@@ -65,7 +65,7 @@ export const TimelineWidget = (props: P) => {
                     {i.title === "Free Funds Date" &&
                       " - Extension for response arbitration flag"}
                     {i.title === "Inspection Extension" &&
-                      " - On pullout buyer funds freed (if no arbitration)"}
+                      " - (For extending pullout deadline)"}
                   </i>
                 </td>
                 <td style={{ color: i.color }}>

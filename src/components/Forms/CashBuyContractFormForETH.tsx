@@ -25,7 +25,6 @@ import algosdk, {
 } from "algosdk";
 
 import { formatCurrency } from "./helpers/formatCurrency";
-import { supportedStablecoins } from "./helpers/supportedStablecoins";
 
 import ABI from "../../contractExports/contracts/cashBuy/application.json";
 import { signer } from "../../contractActions/helpers/signers/AlgoSigner";
@@ -195,11 +194,6 @@ export const CashBuyContractForm = (props: P) => {
   console.log("errors", errors);
   console.log("isValid", isValid);
 
-  let stablecoinOptions =
-    supportedStablecoins.Algorand[settings.selectedAlgorandNetwork] || [];
-
-  console.log("stablecoinOptions", stablecoinOptions);
-
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
@@ -332,7 +326,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row className="align-items-center">
             <Col sm={12} className="mb-3">
               <Form.Group id="seller">
-                <Form.Label>Stablecoin</Form.Label>
+                <Form.Label>Stablecoin (ie: USDC)</Form.Label>
                 {/* <Form.Control
                   {...register("asaId", {
                     required: true,
@@ -342,21 +336,62 @@ export const CashBuyContractForm = (props: P) => {
                 /> */}
                 <Form.Select
                   {...register("asaId", { required: true })}
+                  onChange={(e: React.FormEvent<EventTarget>) => {
+                    let target = e.target as HTMLSelectElement;
+
+                    // console.log("!@#!@#", target.value);
+                    // console.warn(
+                    //   "Need to populate network select with relevant networks for chosen blockchain"
+                    // );
+
+                    // setValue("selectedAlgorandAccount", "");
+                    // setValue("selectedAlgorandNetwork", "");
+                    // setValue("selectedBlockchain", target.value);
+
+                    // console.log(
+                    //   "___ ___ ___",
+                    //   settings.selectedAlgorandNetwork
+                    // );
+
+                    // dispatch(
+                    //   updateState({
+                    //     selectedBlockchain: target.value,
+                    //   })
+                    // );
+
+                    // switch (target.value) {
+                    //   case "Ethereum":
+                    //     break;
+                    //   case "Algorand":
+                    //     // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                    //     break;
+                    // }
+                  }}
                   style={{
                     paddingRight: "32px",
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {stablecoinOptions.map((i: any, idx: number) => {
+                  {[
+                    {
+                      symbol: "USDC",
+                      tokenId: 12,
+                    },
+                    "Tether",
+                    "DAI",
+                  ].map((i: any, idx: number) => {
                     return (
                       <option
-                        key={i.symbol}
+                        key={i}
+                        disabled={
+                          ["USDC", "Tether", "DAI"].includes(i) ? false : true
+                        }
                         style={{
                           textOverflow: "ellipsis",
                         }}
-                        value={i.tokenId}
+                        value={i}
                       >
-                        {i.symbol}
+                        {i}
                       </option>
                     );
                   })}
