@@ -15,12 +15,6 @@ interface ContractOption {
 
 let AlgorandContracts: ContractOption[] = [
   {
-    title: "Tokenized Asset",
-    desc: "Allows you to create a fungible token",
-    pathTo: RoutesData.FungibleTokenContract.path,
-    disabled: false,
-  },
-  {
     title: "Cash Buy",
     desc: "Buyer purchases property with 100% 'cash'",
     pathTo: RoutesData.CashBuy.path,
@@ -32,6 +26,12 @@ let AlgorandContracts: ContractOption[] = [
   //   pathTo: RoutesData.NewFinanceDealContract.path,
   //   disabled: false,
   // },
+  {
+    title: "Rental Deposit",
+    desc: "Coming Soon...",
+    pathTo: RoutesData.FungibleTokenContract.path,
+    disabled: true,
+  },
   {
     title: "Financed Deal",
     desc: "Coming soon...",

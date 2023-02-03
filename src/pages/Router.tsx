@@ -16,6 +16,13 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+
 import { HashLink } from "react-router-hash-link";
 
 // pages
@@ -119,9 +126,9 @@ const RouteWithLoader = (props: any) => {
       <Outlet />
       <footer className="footer py-6 bg-dark text-white">
         <Container>
-          <Row className="justify-content-center text-center">
-            <Col xs={12} sm={4}>
-              <ul className="d-flex flex-column">
+          <Row className="align-items-center justify-content-center text-center">
+            <Col xs={12} sm={12}>
+              <ul className="d-flex flex-row justify-content-evenly py-4">
                 <li
                   style={{
                     cursor: "pointer",
@@ -143,21 +150,35 @@ const RouteWithLoader = (props: any) => {
               </ul>
             </Col>
             <Col xs={12} sm={4}>
-              <ul className="d-flex flex-column">
+              <ul className="d-flex flex-row justify-content-evenly py-4">
                 <li>
                   <a href="#">
-                    <i className="fab fa-twitter"></i> Twitter
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faTwitter}
+                    />
                   </a>
                 </li>
                 <li>
                   <a href="#">
-                    <i className="fab fa-instagram"></i> Instagram
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faInstagram}
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faYoutube}
+                    />
                   </a>
                 </li>
               </ul>
             </Col>
           </Row>
-          <hr className="bg-gray my-5" />
+          {/* <hr className="bg-gray my-4" /> */}
           {/* <Row>
             <Col md={12}>
               <div className="d-flex text-center justify-content-center align-items-center">
@@ -167,17 +188,18 @@ const RouteWithLoader = (props: any) => {
           </Row> */}
           <Row>
             <Col>
+              <br />
               <div
-                className="d-flex text-center justify-content-center align-items-center"
+                className="d-flex flex-column text-center justify-content-center align-items-center"
                 role="contentinfo"
               >
-                <p className="">
+                <span className="">
                   © Kalygo{" "}
                   <span className="current-year">
                     {new Date().getFullYear()}
                   </span>
                   . All rights reserved.
-                </p>
+                </span>
               </div>
             </Col>
           </Row>

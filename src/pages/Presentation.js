@@ -65,11 +65,11 @@ const Presentation = () => {
               <h1 className="fw-bolder text-secondary display-1 mb-0">
                 KALYGO
               </h1>
-              <h2 className=" text-secondary">Real Estate Escrow</h2>
-              <p className="text-muted fw-light mb-4 h5">
+              {/* <h3 className=" text-secondary mb-2">Real Estate Escrow</h3> */}
+              <p className="text-muted fw-light mb-3 h5">
                 "Because what you put in is what you get out"
               </p>
-              <div className="d-flex align-items-center justify-content-center mb-4">
+              <div className="d-flex align-items-center justify-content-center mb-0">
                 <Button
                   variant="secondary"
                   as={Link}
@@ -97,7 +97,7 @@ const Presentation = () => {
       <section className="section section-md bg-soft" id="features">
         <Container>
           <Row className="justify-content-between align-items-center">
-            <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
+            <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <h2>Powered by Blockchain</h2>
               <p className="mb-3 lead fw-bold">Fast, Secure, and Cheap</p>
               <p className="mb-4">
@@ -126,7 +126,7 @@ const Presentation = () => {
       <section className="section section-md bg-white" id="download">
         <Container>
           <Row className="justify-content-end align-items-center">
-            <Col lg={5} className="order-lg-2 mb-5 mb-lg-0">
+            <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <div className="text-right">
                 <h2>Only the finest</h2>
                 <p className="mb-3 lead fw-bold">
@@ -142,94 +142,6 @@ const Presentation = () => {
           </Row>
         </Container>
       </section>
-      {/* <footer className="footer py-6 bg-dark text-white">
-        <Container>
-          <Row className="justify-content-center text-center">
-            <Col xs={12} sm={4}>
-              <ul className="d-flex flex-column">
-                <li
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    navigate(`/governance`);
-                  }}
-                >
-                  Governance
-                </li>
-                <li
-                  style={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Privacy Policy
-                </li>
-              </ul>
-            </Col>
-            <Col xs={12} sm={4}>
-              <ul className="d-flex flex-column">
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i> Twitter
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-instagram"></i> Instagram
-                  </a>
-                </li>
-              </ul>
-            </Col>
-          </Row>
-          <hr className="bg-gray my-5" />
-          <Row>
-            <Col>
-              <div
-                className="d-flex text-center justify-content-center align-items-center"
-                role="contentinfo"
-              >
-                <p className="">
-                  © Kalygo{" "}
-                  <span className="current-year">
-                    {new Date().getFullYear()}
-                  </span>
-                  . All rights reserved.
-                </p>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="">
-              <br />
-              <div
-                className="d-flex text-center justify-content-center align-items-center"
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  window.open("https://github.com/thaddavis/kalygo", "_blank");
-                }}
-              >
-                Frontend
-              </div>
-              <div
-                className="d-flex text-center justify-content-center align-items-center"
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  window.open(
-                    "https://github.com/thaddavis/kalygo_contracts",
-                    "_blank"
-                  );
-                }}
-              >
-                Contracts
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </footer> */}
     </>
   );
 };

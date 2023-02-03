@@ -29,6 +29,12 @@ export function Support() {
                     </Card.Link>
                   </li>
                   <li>
+                    Polygon{" "}
+                    <Card.Link href="https://metamask.io/" target="_blank">
+                      MetaMask
+                    </Card.Link>
+                  </li>
+                  <li>
                     Algorand{" "}
                     <Card.Link
                       href="https://www.purestake.com/technology/algosigner/"
