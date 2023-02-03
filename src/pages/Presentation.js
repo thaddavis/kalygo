@@ -98,7 +98,7 @@ const Presentation = () => {
         <Container>
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
-              <h2>Powered by Blockchain</h2>
+              <h2>Stablecoin Escrow</h2>
               <p className="mb-3 lead fw-bold">Fast, Secure, and Cheap</p>
               <p className="mb-4">
                 Kalygo facilitates stablecoin escrow in a peer-to-peer manner
