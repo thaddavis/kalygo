@@ -160,7 +160,7 @@ const RouteWithLoader = (props: any) => {
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://www.instagram.com/kalygo.io">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
                       icon={faInstagram}

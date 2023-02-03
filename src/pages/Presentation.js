@@ -62,7 +62,7 @@ const Presentation = () => {
               <div className="react-big-icon d-none d-lg-block">
                 <span className="fab fa-react"></span>
               </div>
-              <h1 className="fw-bolder text-secondary display-1 mb-0">
+              <h1 className="fw-bolder text-secondary display-1 mb-0 ls-6">
                 KALYGO
               </h1>
               {/* <h3 className=" text-secondary mb-4">Escrow</h3> */}

@@ -27,6 +27,9 @@
 .ls-1 { letter-spacing: .0625rem; }
 .ls-2 { letter-spacing: .09375rem; }
 .ls-3 { letter-spacing: 0.125rem; }
+.ls-4 { letter-spacing: 0.25rem; }
+.ls-5 { letter-spacing: 0.35rem; }
+.ls-6 { letter-spacing: 0.8rem; }
 
 // Responsive alignment
 @each $breakpoint in map-keys($grid-breakpoints) {
