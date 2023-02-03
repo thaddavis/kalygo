@@ -65,10 +65,10 @@ const Presentation = () => {
               <h1 className="fw-bolder text-secondary display-1 mb-0">
                 KALYGO
               </h1>
-              {/* <h3 className=" text-secondary mb-2">Real Estate Escrow</h3> */}
-              <p className="text-muted fw-light mb-3 h5">
+              <h3 className=" text-secondary mb-4">Escrow</h3>
+              {/* <p className="text-muted fw-light mb-3 h5">
                 "Because what you put in is what you get out"
-              </p>
+              </p> */}
               <div className="d-flex align-items-center justify-content-center mb-0">
                 <Button
                   variant="secondary"
@@ -76,11 +76,11 @@ const Presentation = () => {
                   to={RoutesData.DashboardOverview.path}
                   className="text-dark me-3"
                 >
-                  Enter Dapp{" "}
-                  <FontAwesomeIcon
+                  Enter Dapp
+                  {/* <FontAwesomeIcon
                     icon={faExternalLinkAlt}
                     className="d-none d-sm-inline ms-1"
-                  />
+                  /> */}
                 </Button>
               </div>
               <div>
