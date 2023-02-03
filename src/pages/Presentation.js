@@ -69,7 +69,7 @@ const Presentation = () => {
               {/* <p className="text-muted fw-light mb-3 h5">
                 "Because what you put in is what you get out"
               </p> */}
-              <div className="d-flex align-items-center justify-content-center mb-0">
+              <div className="d-flex align-items-center justify-content-center py-2">
                 <Button
                   variant="secondary"
                   as={Link}
@@ -87,7 +87,7 @@ const Presentation = () => {
                 <FontAwesomeIcon
                   style={{ height: 192, width: 192 }}
                   icon={faHive}
-                  className="d-block mx-auto py-3 px-4"
+                  className="d-block mx-auto py-0 px-4"
                 />
               </div>
             </Col>
