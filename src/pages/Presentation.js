@@ -65,7 +65,7 @@ const Presentation = () => {
               <h1 className="fw-bolder text-secondary display-1 mb-0">
                 KALYGO
               </h1>
-              <h3 className=" text-secondary mb-4">Escrow</h3>
+              {/* <h3 className=" text-secondary mb-4">Escrow</h3> */}
               {/* <p className="text-muted fw-light mb-3 h5">
                 "Because what you put in is what you get out"
               </p> */}
