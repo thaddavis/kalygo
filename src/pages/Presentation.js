@@ -69,14 +69,14 @@ const Presentation = () => {
               {/* <p className="text-muted fw-light mb-3 h5">
                 "Because what you put in is what you get out"
               </p> */}
-              <div className="d-flex align-items-center justify-content-center py-2">
+              <div className="d-flex align-items-center justify-content-center py-4">
                 <Button
                   variant="secondary"
                   as={Link}
                   to={RoutesData.DashboardOverview.path}
                   className="text-dark me-3"
                 >
-                  Enter Dapp
+                  Enter App
                   {/* <FontAwesomeIcon
                     icon={faExternalLinkAlt}
                     className="d-none d-sm-inline ms-1"
