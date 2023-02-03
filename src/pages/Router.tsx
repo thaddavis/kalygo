@@ -152,7 +152,7 @@ const RouteWithLoader = (props: any) => {
             <Col xs={12} sm={4}>
               <ul className="d-flex flex-row justify-content-evenly py-4">
                 <li>
-                  <a href="#">
+                  <a href="https://twitter.com/kalygo_io">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
                       icon={faTwitter}

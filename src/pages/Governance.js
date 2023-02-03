@@ -108,7 +108,6 @@ export function Governance() {
                     Official Kalygo ERC-20
                   </a>
                 </p>
-
                 <ListGroup className="list-group-flush list my--3">
                   <CustomRow
                     theKey={"Token Name"}
@@ -127,6 +126,18 @@ export function Governance() {
                     }
                   />
                 </ListGroup>
+                <p>
+                  Backup legal team for settling escrow disputes for Kalygo
+                  users when their local jurisdictions are not up to par
+                </p>
+                <p>
+                  <a
+                    href="https://thirdweb.com/ethereum/0xC3FA41FeEeb230734F55A5577Cda4b458F7323Fd/"
+                    target="_blank"
+                  >
+                    Official KalygoDAO
+                  </a>
+                </p>
               </article>
 
               <article className="py-4">

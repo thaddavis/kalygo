@@ -57,10 +57,13 @@ export const CashBuyContractForm = (props: P) => {
       asaId: 12,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
-      inspectionPeriodExtension: moment().add("3", "m").toString(),
-      movingDate: moment().add("3", "m").add("30", "s").toString(),
-      closingDate: moment().add("4", "m").toString(),
-      freeFundsDate: moment().add("4", "m").add("30", "s").toString(),
+      inspectionPeriodExtension: moment()
+        .add("2", "m")
+        .add("30", "s")
+        .toString(),
+      movingDate: moment().add("3", "m").add("0", "s").toString(),
+      closingDate: moment().add("3", "m").add("30", "s").toString(),
+      freeFundsDate: moment().add("4", "m").add("0", "s").toString(),
       // inspectionPeriodStart: moment().add("30", "s").toString(),
       // inspectionPeriodEnd: moment().add("60", "s").toString(),
       // inspectionPeriodExtension: moment().add("90", "s").toString(),
