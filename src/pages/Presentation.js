@@ -85,9 +85,9 @@ const Presentation = () => {
               </div>
               <div>
                 <FontAwesomeIcon
-                  style={{ height: 256, width: 256 }}
+                  style={{ height: 192, width: 192 }}
                   icon={faHive}
-                  className="d-block mx-auto py-4 px-4"
+                  className="d-block mx-auto py-3 px-4"
                 />
               </div>
             </Col>
