@@ -168,7 +168,7 @@ const RouteWithLoader = (props: any) => {
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://www.youtube.com/channel/UCho0SXnGBfEabvHdvaaz9oQ">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
                       icon={faYoutube}
