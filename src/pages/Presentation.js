@@ -117,7 +117,7 @@ const Presentation = () => {
                 <span className="fw-bold">time for you</span>
               </h2>
               <p className="lead px-lg-8">
-                Enhance your Real Estate experience with Kalygo
+                Enhance your escrow experience with Kalygo
               </p>
             </Col>
           </Row>
