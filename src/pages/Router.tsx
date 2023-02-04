@@ -140,13 +140,6 @@ const RouteWithLoader = (props: any) => {
                 >
                   Governance
                 </li>
-                <li
-                  style={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Privacy Policy
-                </li>
               </ul>
             </Col>
             <Col xs={12} sm={4}>
