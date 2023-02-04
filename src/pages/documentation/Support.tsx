@@ -14,7 +14,7 @@ export function Support() {
                 </h1>
 
                 <p>
-                  Kalygo is an open source marketplace for hands-on interaction
+                  Kalygo is an open source platform for hands-on interaction
                   with the world's most popular smart contract blockchains.
                 </p>
                 <p>
