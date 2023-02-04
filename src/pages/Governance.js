@@ -18,10 +18,10 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { get } from "lodash";
 
-// {
-//   theKey: string,
-//   value: string,
-// }
+/*
+ * @param {theKey} string
+ * @param {value} string
+ */
 const CustomRow = (props) => {
   const { theKey, value } = props;
 
@@ -47,7 +47,6 @@ export function Governance() {
   });
 
   useEffect(() => {
-    console.log("Governance");
     async function fetch() {
       try {
         console.log("fetch");
@@ -76,11 +75,6 @@ export function Governance() {
       }
     }
 
-    // setTokenMetadata({
-    //   val: tokenMetadata,
-    //   loading: true,
-    //   error: null,
-    // });
     fetch();
   }, []);
 
