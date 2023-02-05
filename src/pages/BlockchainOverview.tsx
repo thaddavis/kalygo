@@ -100,14 +100,12 @@ const BlockchainOverview = () => {
     <>
       <Row className="justify-content-md-center py-4">
         <Col className="mb-4">
-          {/* <h1>{settings.selectedBlockchain}</h1> */}
-          <h1>Ethereum</h1>
+          <h1>{settings.selectedBlockchain}</h1>
           {settings.selectedBlockchain === "Ethereum" && (
             <h3>Network: {settings.selectedEthereumNetwork}</h3>
           )}
           {settings.selectedBlockchain === "Algorand" && (
-            <h3>Network: Mainnet</h3>
-            // <h3>Network: {settings.selectedAlgorandNetwork}</h3>
+            <h3>Network: {settings.selectedAlgorandNetwork}</h3>
           )}
         </Col>
       </Row>

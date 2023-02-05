@@ -102,9 +102,20 @@ export function Box() {
         .getTransactionParams()
         .do();
 
+      let method = ``;
+      switch (box) {
+        case "Buyer":
+          method = `add_key_to_buyer_note_box`;
+          break;
+        case "Seller":
+          method = `add_key_to_seller_note_box`;
+          break;
+        default:
+      }
+
       atc.addMethodCall({
         appID: Number.parseInt(app_id!),
-        method: contract.getMethodByName("add_key_to_buyer_note_box"),
+        method: contract.getMethodByName(method),
         methodArgs: [note.padEnd(256, " ")] as ABIArgument[],
         sender: settings.selectedAlgorandAccount,
         suggestedParams: params,

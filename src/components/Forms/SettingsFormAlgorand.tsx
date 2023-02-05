@@ -114,16 +114,14 @@ export const SettingsFormAlgorand = (props: P) => {
                   {settings.supportedBlockchains.map((i: any, idx: number) => {
                     return (
                       <option
-                        key={i}
-                        disabled={
-                          ["Algorand", "Ethereum"].includes(i) ? false : true
-                        }
+                        key={i.name}
+                        disabled={!i.enabled}
                         style={{
                           textOverflow: "ellipsis",
                         }}
-                        value={i}
+                        value={i.name}
                       >
-                        {i}
+                        {i.name}
                       </option>
                     );
                   })}
