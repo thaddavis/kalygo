@@ -256,7 +256,7 @@ const RouteWithSidebar = (props: any) => {
   useEffect(() => {
     async function loadAlgoSigner() {
       if (typeof (window as any).AlgoSigner !== "undefined") {
-        console.log("window.AlgoSigner", (window as any).AlgoSigner);
+        // console.log("window.AlgoSigner", (window as any).AlgoSigner);
 
         try {
           let accounts = await (window as any).AlgoSigner.accounts({
@@ -391,7 +391,7 @@ const Router = () => (
       <Route path="/dashboard/" element={<RouteWithSidebar />}>
         <Route path={"overview"} element={<BlockchainOverview />} />
         <Route path={"transactions"} element={<TransactionsOverview />} />
-        <Route path={"box/:app_id/:box"} element={<Box />} />
+        <Route path={"box/:app_id/:box/:role_address"} element={<Box />} />
         <Route path={"app/"} element={<AppDetail />}>
           <Route
             path={"cashBuy__v1_0_0/:id/"}

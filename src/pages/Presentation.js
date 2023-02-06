@@ -30,28 +30,6 @@ const Presentation = () => {
 
   return (
     <>
-      {/* <Navbar
-        variant="dark"
-        expand="lg"
-        bg="dark"
-        className="navbar-transparent navbar-theme-primary sticky-top"
-      >
-        <Container className="position-relative justify-content-between px-3">
-          <Navbar.Brand
-            as={HashLink}
-            to="#home"
-            className="me-lg-3 d-flex align-items-center"
-          >
-            <span className="ms-2 brand-text d-none d-md-inline">Kalygo</span>
-          </Navbar.Brand>
-
-          <div className="d-flex align-items-center">
-            <Navbar.Collapse id="navbar-default-primary">
-              <Nav className="navbar-nav-hover align-items-lg-center"></Nav>
-            </Navbar.Collapse>
-          </div>
-        </Container>
-      </Navbar> */}
       <section
         className="section-header overflow-hidden pt-5 pt-lg-6 pb-4 pb-lg-6 bg-primary text-white"
         id="home"

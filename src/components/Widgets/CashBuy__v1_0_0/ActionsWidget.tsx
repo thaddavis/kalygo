@@ -16,6 +16,8 @@ import { fundMinimumBalance } from "../../../contractActions/CashBuy__v1_0_0/fun
 import { optoutContractFromASA } from "../../../contractActions/CashBuy__v1_0_0/optoutContractFromASA";
 import { stablecoinClawback } from "../../../contractActions/CashBuy__v1_0_0/stablecoinClawback";
 
+import { useNavigate } from "react-router-dom";
+
 interface P {
   stablecoinIssuerClawbackAddress: string;
   buyer: string;
@@ -66,8 +68,19 @@ export const ActionsWidget = (props: P) => {
   } = props;
 
   const settings = useAppSelector((state: RootState) => state.settings);
+  const navigate = useNavigate();
 
-  console.log("operator", operator);
+  console.log("ACTIONS WIDGET TEST");
+  console.log("balance", balance);
+  console.log("freeFundsDate", freeFundsDate);
+  console.log("now", now);
+  console.log(
+    "--__--",
+    fungibleTokenBalance > 0 &&
+      balance > 0 &&
+      sellerArbitrationFlag > 0 &&
+      buyerArbitrationFlag > 0
+  );
 
   return (
     <Card border="light" className="text-center p-0 mb-4">
@@ -86,10 +99,12 @@ export const ActionsWidget = (props: P) => {
                 className="m-1"
                 onClick={() => {
                   // let byteCount = getValues("title").length + getValues("note").length;
-                  let byteCount = 1000
-                  let mbrForBuyerNotes = 2500 + 400 * byteCount || -1; // for Buyer Notes
+                  let buyerByteCount = 1029
+                  let sellerByteCount = 1030
+                  let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
+                  let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
 
-                  let mbr = 200000 + mbrForBuyerNotes 
+                  let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
 
                   fundMinimumBalance(
                     settings.selectedAlgorandAccount,
@@ -240,6 +255,8 @@ export const ActionsWidget = (props: P) => {
                     appId,
                     settings.selectedAlgorandNetwork
                   );
+
+                  navigate("/dashboard/transactions")
                 }}>Buyer Delete App</Button> : <Button size="sm" className="m-1" disabled>Buyer Delete App</Button>
             }
 
@@ -347,6 +364,8 @@ export const ActionsWidget = (props: P) => {
                     appId,
                     settings.selectedAlgorandNetwork
                   );
+
+                  navigate("/dashboard/transactions")
                 }}>Seller Delete App</Button> : <Button size="sm" className="m-1" disabled>Seller Delete App</Button>
             }
           </>
@@ -418,6 +437,8 @@ export const ActionsWidget = (props: P) => {
                     appId,
                     settings.selectedAlgorandNetwork
                   );
+
+                  navigate("/dashboard/transactions")
                 }}>Delete App</Button> : <Button size="sm" className="m-1" disabled>Delete App</Button>
             }
 

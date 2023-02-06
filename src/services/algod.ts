@@ -91,7 +91,7 @@ export class Algod {
     if (Algod.algodInstance) {
       return Algod.algodInstance;
     } else {
-      console.log("connectAlgod");
+      // console.log("connectAlgod");
 
       Algod.connectAlgod(network);
       return Algod.algodInstance;
@@ -102,7 +102,7 @@ export class Algod {
     if (Algod.indexerInstance) {
       return Algod.indexerInstance;
     } else {
-      console.log("connectIndexer");
+      // console.log("connectIndexer");
 
       Algod.connectIndexer(network);
       return Algod.indexerInstance;

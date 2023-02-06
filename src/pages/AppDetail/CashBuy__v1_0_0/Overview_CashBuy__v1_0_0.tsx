@@ -22,8 +22,35 @@ import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/Escrow
 import algosdk from "algosdk";
 import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
 import { prepareTimelineEventsArray } from "./helpers/prepareTimelineEventsArray";
-import { BoxesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/BoxesWidget";
+import { RoleBoxWidget } from "../../../components/Widgets/CashBuy__v1_0_0/RoleBoxWidget";
 import { arrayBufferToString } from "./helpers/arrayBufferToString";
+
+async function fetchTxnHistory(network: string, app_address: string) {
+  try {
+    // console.log("fetch");
+
+    let txnHistoryForContract = await Algod.getIndexer(
+      // settings.selectedAlgorandNetwork
+      network
+    )
+      .searchForTransactions()
+      .address(
+        // id!
+        app_address
+      )
+      .limit(25)
+      // .nextToken("1wYAAAAAAAAAAAAA")
+      // .txType("appl")
+      .do();
+
+    console.log("=> Txn History =>", txnHistoryForContract);
+
+    // setValue("note", arrayBufferToString(boxValue.value).trimEnd());
+  } catch (e) {
+    console.log("* e *", e);
+    // setValue("note", "");
+  }
+}
 
 function Overview_CashBuy__v1_0_0() {
   const [app, setApp] = useState<any>({
@@ -65,55 +92,58 @@ function Overview_CashBuy__v1_0_0() {
   let { id } = useParams();
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        // STEP 1
-        const appResponse = await Algod.getIndexer(
-          settings.selectedAlgorandNetwork
-        )
-          .lookupApplications(Number.parseInt(id!))
-          .do();
-        setApp({
-          val: parseGlobalState(
-            appResponse?.application?.params &&
-              appResponse.application.params["global-state"]
-          ),
-          loading: false,
-          error: null,
-        });
-        // STEP 2
-        const appAddress = await algosdk.getApplicationAddress(
-          Number.parseInt(id!)
-        );
-        const accountResponse = await Algod.getAlgod(
-          settings.selectedAlgorandNetwork
-        )
-          .accountInformation(appAddress)
-          .do();
-        setAccount({
-          val: accountResponse,
-          loading: false,
-          error: null,
-        });
-        // STEP 3 Skipping retrieving stablecoin ASA info because is static
-      } catch (e) {
-        console.log("error!!", e);
-
-        setApp({
-          val: null,
-          loading: false,
-          error: e,
-        });
-
-        setAccount({
-          val: null,
-          loading: false,
-          error: e,
-        });
-      }
-    }, 5000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(async () => {
+    //   try {
+    //     // STEP 1
+    //     const appResponse = await Algod.getIndexer(
+    //       settings.selectedAlgorandNetwork
+    //     )
+    //       .lookupApplications(Number.parseInt(id!))
+    //       .do();
+    //     setApp({
+    //       val: parseGlobalState(
+    //         appResponse?.application?.params &&
+    //           appResponse.application.params["global-state"]
+    //       ),
+    //       loading: false,
+    //       error: null,
+    //     });
+    //     // STEP 2
+    //     const appAddress = await algosdk.getApplicationAddress(
+    //       Number.parseInt(id!)
+    //     );
+    //     const accountResponse = await Algod.getAlgod(
+    //       settings.selectedAlgorandNetwork
+    //     )
+    //       .accountInformation(appAddress)
+    //       .do();
+    //     setAccount({
+    //       val: accountResponse,
+    //       loading: false,
+    //       error: null,
+    //     });
+    //     // STEP 3
+    //     fetchTxnHistory(settings.selectedAlgorandNetwork, appAddress);
+    //   } catch (e) {
+    //     console.log("error!!", e);
+    //     setApp({
+    //       val: null,
+    //       loading: false,
+    //       error: e,
+    //     });
+    //     setAccount({
+    //       val: null,
+    //       loading: false,
+    //       error: e,
+    //     });
+    //   }
+    // }, 5000);
+    // return () => clearInterval(interval);
   }, []);
+
+  // useEffect(() => {
+
+  // }, []);
 
   useEffect(() => {
     async function fetch() {
@@ -172,7 +202,7 @@ function Overview_CashBuy__v1_0_0() {
         //   error: null,
         // });
         // STEP 5
-        console.log("--- --- ---", Number.parseInt(id!));
+        // console.log("--- --- ---", Number.parseInt(id!));
         try {
           let buyerBoxRes = await Algod.getAlgod(
             settings.selectedAlgorandNetwork
@@ -299,16 +329,26 @@ function Overview_CashBuy__v1_0_0() {
             )}
             showNoteModal={handleShow}
           />
-          <BoxesWidget
+          <RoleBoxWidget
+            rolesWithBoxes={{
+              Buyer: get(app.val, "global_buyer", "Not Found"),
+              Seller: get(app.val, "global_seller", "Not Found"),
+              Arbiter: get(asset.val, "assets.0.params.clawback", "Not Found"),
+            }}
+            appAddress={get(account.val, "address")}
             boxKey={"Buyer"}
-            boxes={get(buyerBox.val, "boxes", [])}
             appId={Number.parseInt(id!)}
-          ></BoxesWidget>
-          <BoxesWidget
+          ></RoleBoxWidget>
+          <RoleBoxWidget
+            rolesWithBoxes={{
+              Buyer: get(app.val, "global_buyer", "Not Found"),
+              Seller: get(app.val, "global_seller", "Not Found"),
+              Arbiter: get(asset.val, "assets.0.params.clawback", "Not Found"),
+            }}
+            appAddress={get(account.val, "address")}
             boxKey={"Seller"}
-            boxes={get(buyerBox.val, "boxes", [])}
             appId={Number.parseInt(id!)}
-          ></BoxesWidget>
+          ></RoleBoxWidget>
         </Col>
         <Col xs={12} xl={8} className="mb-4">
           <Row>

@@ -1,17 +1,27 @@
 import { get } from "lodash";
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Card, ListGroup, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { RoutesData } from "../../../routes";
 
 interface P {
-  boxes: any[];
   appId: number;
   boxKey: string;
+  appAddress: string;
+  rolesWithBoxes: Record<string, string>;
 }
 
-export function BoxesWidget({ boxes, appId, boxKey }: P) {
+export function RoleBoxWidget({
+  appAddress,
+  rolesWithBoxes,
+  appId,
+  boxKey,
+}: P) {
   let navigate = useNavigate();
+
+  // useEffect(() => {
+  //   console.log("___ ___ ___");
+  // });
 
   return (
     <Card border="light" className="shadow-sm mb-4">
@@ -21,7 +31,9 @@ export function BoxesWidget({ boxes, appId, boxKey }: P) {
           variant="primary"
           type="submit"
           onClick={() => {
-            navigate(`/dashboard/box/${appId}/${boxKey}`);
+            navigate(
+              `/dashboard/box/${appId}/${boxKey}/${rolesWithBoxes[boxKey]}`
+            );
           }}
         >
           View/Edit

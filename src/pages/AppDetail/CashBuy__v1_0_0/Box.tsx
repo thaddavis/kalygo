@@ -15,6 +15,47 @@ import { Buffer } from "buffer";
 import { supportedContracts } from "../../../data/supportedContracts";
 import { signer } from "../../../contractActions/helpers/signers/AlgoSigner";
 
+import { buildTsxForAppl } from "./helpers/TsxForTxnTypes/appl";
+import { buildTsxForPay } from "./helpers/TsxForTxnTypes/pay";
+
+async function fetchTxns(
+  app_id: string,
+  settings: any,
+  role_address: string,
+  stateSetter: any
+) {
+  try {
+    console.log("fetch txn history for", Number.parseInt(app_id!));
+
+    let txnHistoryForContract = await Algod.getIndexer(
+      settings.selectedAlgorandNetwork
+    )
+      .searchForTransactions()
+      .address(role_address!)
+      .applicationID(Number.parseInt(app_id!))
+      // .limit(25)
+      // .nextToken("1wYAAAAAAAAAAAAA")
+      // .txType("appl")
+      .do();
+
+    // console.log("=>=>", txnHistoryForContract);
+
+    stateSetter({
+      val: txnHistoryForContract,
+      error: null,
+      loading: false,
+    });
+  } catch (e) {
+    // console.log("e", e);
+
+    stateSetter({
+      val: null,
+      error: e,
+      loading: false,
+    });
+  }
+}
+
 const ListGroupItem = ({
   boxKey,
   value,
@@ -48,7 +89,9 @@ function arrayBufferToString(buffer: any) {
 }
 
 export function Box() {
-  let { app_id, box } = useParams();
+  let { app_id, box, role_address } = useParams();
+
+  let [boxTxns, setBoxTxns] = useState();
 
   const {
     register,
@@ -67,8 +110,8 @@ export function Box() {
 
   const settings = useAppSelector((state: RootState) => state.settings);
 
-  const [note, setNote] = useState<any>({
-    val: undefined,
+  const [roleTxns, setRoleTxns] = useState<any>({
+    val: [],
     loading: false,
     error: undefined,
   });
@@ -83,6 +126,8 @@ export function Box() {
           )
           .do();
 
+        console.log("boxValue", boxValue);
+
         setValue("note", arrayBufferToString(boxValue.value).trimEnd());
       } catch (e) {
         setValue("note", "");
@@ -90,6 +135,10 @@ export function Box() {
     }
 
     fetch();
+  }, []);
+
+  useEffect(() => {
+    fetchTxns(app_id!, settings, role_address!, setRoleTxns);
   }, []);
 
   const onSubmit = async (data: { note: string }) => {
@@ -105,18 +154,21 @@ export function Box() {
       let method = ``;
       switch (box) {
         case "Buyer":
-          method = `add_key_to_buyer_note_box`;
+          method = `edit_buyer_note_box`;
           break;
         case "Seller":
-          method = `add_key_to_seller_note_box`;
+          method = `edit_seller_note_box`;
           break;
         default:
       }
 
+      // vvv BOX RELATED TXN vvv
+
+      let boxSizeInBytes = 1024;
       atc.addMethodCall({
         appID: Number.parseInt(app_id!),
         method: contract.getMethodByName(method),
-        methodArgs: [note.padEnd(256, " ")] as ABIArgument[],
+        methodArgs: [note.padEnd(boxSizeInBytes, " ")] as ABIArgument[],
         sender: settings.selectedAlgorandAccount,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
@@ -138,6 +190,73 @@ export function Box() {
         Algod.getAlgod(settings.selectedAlgorandNetwork),
         tx_id[0],
         32
+      );
+
+      // vvv NON-BOX RELATED vvv
+
+      showSuccessToast("Successfully updated note");
+
+      setTimeout(
+        () => fetchTxns(app_id!, settings, role_address!, setRoleTxns),
+        1000
+      );
+    } catch (e) {
+      showErrorToast("Something unexpected happened.");
+      console.error(e);
+    }
+  };
+
+  const deleteBoxData = async () => {
+    try {
+      const contract = new algosdk.ABIContract(ABI.contract);
+      let atc = new AtomicTransactionComposer();
+      let params = await Algod.getAlgod(settings.selectedAlgorandNetwork)
+        .getTransactionParams()
+        .do();
+
+      let method = ``;
+      switch (box) {
+        case "Buyer":
+          method = `delete_buyer_note_box`;
+          break;
+        case "Seller":
+          method = `delete_seller_note_box`;
+          break;
+        default:
+      }
+
+      atc.addMethodCall({
+        appID: Number.parseInt(app_id!),
+        method: contract.getMethodByName(method),
+        methodArgs: [] as ABIArgument[],
+        sender: settings.selectedAlgorandAccount,
+        suggestedParams: params,
+        note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
+        signer: signer,
+        boxes: [
+          {
+            appIndex: Number.parseInt(app_id!),
+            name: new Uint8Array(Buffer.from(box!, "utf8")),
+          },
+        ],
+      });
+
+      const tx_id = await atc.submit(
+        Algod.getAlgod(settings.selectedAlgorandNetwork)
+      );
+
+      showSuccessToast("Awaiting block confirmation...");
+      await algosdk.waitForConfirmation(
+        Algod.getAlgod(settings.selectedAlgorandNetwork),
+        tx_id[0],
+        32
+      );
+
+      showSuccessToast("Successfully deleted note data");
+      setValue("note", "");
+      setTimeout(
+        () => fetchTxns(app_id!, settings, role_address!, setRoleTxns),
+        1000
       );
     } catch (e) {
       showErrorToast("Something unexpected happened.");
@@ -174,10 +293,31 @@ export function Box() {
           <Card.Footer>
             <Button variant="primary" type="submit">
               Save
+            </Button>{" "}
+            <Button variant="danger" onClick={() => deleteBoxData()}>
+              Delete
             </Button>
           </Card.Footer>
         </Form>
       </Card>
+      <section>
+        <h3>Contract Interaction History</h3>
+
+        {get(roleTxns, "val.transactions", []).map((i: any, idx: number) => {
+          // let tsx = <div>Unsupported Txn Type</div>;
+
+          console.log("___", get(i, "tx-type"));
+
+          switch (get(i, "tx-type")) {
+            case "appl":
+              return buildTsxForAppl(i);
+            case "pay":
+              return buildTsxForPay(i);
+          }
+
+          return null;
+        })}
+      </section>
     </>
   );
 }

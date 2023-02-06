@@ -54,7 +54,7 @@ export const CashBuyContractForm = (props: P) => {
       escrowAmount2: "$100,000.00",
       escrowTotal: "$200,000.00",
       // asaId: 95939489,
-      asaId: 12,
+      asaId: 23,
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
       inspectionPeriodExtension: moment()
@@ -70,8 +70,8 @@ export const CashBuyContractForm = (props: P) => {
       // movingDate: moment().add("120", "s").toString(),
       // closingDate: moment().add("150", "s").toString(),
       // freeFundsDate: moment().add("180", "s").toString(),
-      buyer: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
-      seller: "F2BLSIT7DMRXBVE6OT53U3UNTN7KAF36LW5AW6SOBKJSKTMCMXRATIU64A",
+      buyer: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
+      seller: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -201,7 +201,7 @@ export const CashBuyContractForm = (props: P) => {
   let stablecoinOptions =
     supportedStablecoins.Algorand[settings.selectedAlgorandNetwork] || [];
 
-  console.log("stablecoinOptions", stablecoinOptions);
+  // console.log("stablecoinOptions", stablecoinOptions);
 
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
