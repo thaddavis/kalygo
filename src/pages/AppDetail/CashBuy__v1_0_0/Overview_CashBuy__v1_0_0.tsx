@@ -71,18 +71,6 @@ function Overview_CashBuy__v1_0_0() {
     error: undefined,
   });
 
-  // const [boxes, setBoxes] = useState<any>({
-  //   val: undefined,
-  //   loading: false,
-  //   error: undefined,
-  // });
-
-  const [buyerBox, setBuyerBox] = useState<any>({
-    val: undefined,
-    loading: false,
-    error: undefined,
-  });
-
   const [showNoteModal, setShowNoteModal] = useState(false);
   const handleClose = () => setShowNoteModal(false);
   const handleShow = () => setShowNoteModal(true);
@@ -92,58 +80,54 @@ function Overview_CashBuy__v1_0_0() {
   let { id } = useParams();
 
   useEffect(() => {
-    // const interval = setInterval(async () => {
-    //   try {
-    //     // STEP 1
-    //     const appResponse = await Algod.getIndexer(
-    //       settings.selectedAlgorandNetwork
-    //     )
-    //       .lookupApplications(Number.parseInt(id!))
-    //       .do();
-    //     setApp({
-    //       val: parseGlobalState(
-    //         appResponse?.application?.params &&
-    //           appResponse.application.params["global-state"]
-    //       ),
-    //       loading: false,
-    //       error: null,
-    //     });
-    //     // STEP 2
-    //     const appAddress = await algosdk.getApplicationAddress(
-    //       Number.parseInt(id!)
-    //     );
-    //     const accountResponse = await Algod.getAlgod(
-    //       settings.selectedAlgorandNetwork
-    //     )
-    //       .accountInformation(appAddress)
-    //       .do();
-    //     setAccount({
-    //       val: accountResponse,
-    //       loading: false,
-    //       error: null,
-    //     });
-    //     // STEP 3
-    //     fetchTxnHistory(settings.selectedAlgorandNetwork, appAddress);
-    //   } catch (e) {
-    //     console.log("error!!", e);
-    //     setApp({
-    //       val: null,
-    //       loading: false,
-    //       error: e,
-    //     });
-    //     setAccount({
-    //       val: null,
-    //       loading: false,
-    //       error: e,
-    //     });
-    //   }
-    // }, 5000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(async () => {
+      try {
+        // STEP 1
+        const appResponse = await Algod.getIndexer(
+          settings.selectedAlgorandNetwork
+        )
+          .lookupApplications(Number.parseInt(id!))
+          .do();
+        setApp({
+          val: parseGlobalState(
+            appResponse?.application?.params &&
+              appResponse.application.params["global-state"]
+          ),
+          loading: false,
+          error: null,
+        });
+        // STEP 2
+        const appAddress = await algosdk.getApplicationAddress(
+          Number.parseInt(id!)
+        );
+        const accountResponse = await Algod.getAlgod(
+          settings.selectedAlgorandNetwork
+        )
+          .accountInformation(appAddress)
+          .do();
+        setAccount({
+          val: accountResponse,
+          loading: false,
+          error: null,
+        });
+        // STEP 3
+        fetchTxnHistory(settings.selectedAlgorandNetwork, appAddress);
+      } catch (e) {
+        console.log("error!!", e);
+        setApp({
+          val: null,
+          loading: false,
+          error: e,
+        });
+        setAccount({
+          val: null,
+          loading: false,
+          error: e,
+        });
+      }
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
-
-  // useEffect(() => {
-
-  // }, []);
 
   useEffect(() => {
     async function fetch() {
@@ -192,51 +176,6 @@ function Overview_CashBuy__v1_0_0() {
           loading: false,
           error: null,
         });
-        // STEP 4
-        // let boxInfo = await Algod.getAlgod(settings.selectedNetwork)
-        //   .getApplicationBoxes(Number.parseInt(id!))
-        //   .do();
-        // setBoxes({
-        //   val: boxInfo,
-        //   loading: false,
-        //   error: null,
-        // });
-        // STEP 5
-        // console.log("--- --- ---", Number.parseInt(id!));
-        try {
-          let buyerBoxRes = await Algod.getAlgod(
-            settings.selectedAlgorandNetwork
-          )
-            .getApplicationBoxByName(
-              Number.parseInt(id!),
-              new Uint8Array(Buffer.from("Buyer" || "", "utf8"))
-            )
-            .do();
-
-          arrayBufferToString(buyerBoxRes.value);
-
-          setBuyerBox({
-            val: arrayBufferToString(buyerBoxRes.value),
-            loading: false,
-            error: null,
-          });
-
-          console.log("buyerBoxRes", buyerBoxRes);
-        } catch (e) {}
-
-        // let buyerBoxRes = await Algod.getAlgod(settings.selectedNetwork)
-        //   .getApplicationBoxByName(
-        //     Number.parseInt(id!),
-        //     new Uint8Array(Buffer.from("Buyer", "utf8"))
-        //   )
-        //   .do();
-        // console.log("buyerBoxRes", buyerBoxRes);
-
-        // setBoxes({
-        //   val: buyerBox,
-        //   loading: false,
-        //   error: null,
-        // });
       } catch (e) {
         console.log("e", e);
 
@@ -283,12 +222,15 @@ function Overview_CashBuy__v1_0_0() {
     }
   }
 
+  console.log("app --->>>", account);
+
   return app.error ? (
     <h1>ERROR</h1>
   ) : (
     <ErrorBoundary>
       <div className="d-flex flex-column flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Cash Buy</h1>
+        <h6>{get(account, "val.address", "")}</h6>
       </div>
 
       <Row>
@@ -296,6 +238,7 @@ function Overview_CashBuy__v1_0_0() {
           <OperatorConfig />
           <ActionsWidget
             now={timelineEvents.now}
+            inspectionPeriodStart={timelineEvents.inspectionPeriodStart}
             inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
             inspectionPeriodExtension={timelineEvents.inspectionExtension}
             closingDate={timelineEvents.closingDate}

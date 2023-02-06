@@ -74,6 +74,7 @@ export function prepareTimelineEventsArray(app: object) {
   return {
     timeline: timelineEvents,
     now: now.time,
+    inspectionPeriodStart: inspectionPeriodStart.time,
     inspectionPeriodEnd: inspectionPeriodEnd.time,
     inspectionExtension: inspectionExtension.time,
     closingDate: closingDate.time,

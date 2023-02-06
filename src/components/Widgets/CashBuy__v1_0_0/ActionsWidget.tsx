@@ -31,6 +31,7 @@ interface P {
   fungibleTokenBalance: number;
   balance: number;
   now: number;
+  inspectionPeriodStart: number;
   inspectionPeriodEnd: number;
   inspectionPeriodExtension: number;
   movingDate: number;
@@ -56,6 +57,7 @@ export const ActionsWidget = (props: P) => {
     fungibleTokenBalance,
     balance,
     now,
+    inspectionPeriodStart,
     inspectionPeriodEnd,
     inspectionPeriodExtension,
     movingDate,
@@ -106,6 +108,8 @@ export const ActionsWidget = (props: P) => {
 
                   let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
 
+                  console.log('mbr', mbr)
+
                   fundMinimumBalance(
                     settings.selectedAlgorandAccount,
                     contractAddress,
@@ -149,9 +153,10 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-
-              (inspectionPeriodEnd <= now && now <= closingDate && buyerArbitrationFlag < 1 && buyerPulloutFlag < 1 && balance > 0 && fungibleTokenBalance > 0)  ||
-              (closingDate < now && now < freeFundsDate && sellerArbitrationFlag === 1 && buyerArbitrationFlag < 1)?
+              (inspectionPeriodEnd <= now && now <= closingDate && buyerArbitrationFlag < 1 && buyerPulloutFlag < 1 && balance > 0 && fungibleTokenBalance > 0) ||
+              (inspectionPeriodStart <= now && now <= closingDate && buyerArbitrationFlag < 1 && sellerArbitrationFlag === 1 && balance > 0 && fungibleTokenBalance > 0) ||
+              (closingDate < now && now < freeFundsDate && sellerArbitrationFlag === 1 && buyerArbitrationFlag < 1) ||
+              (buyerPulloutFlag === 1 && inspectionPeriodEnd <= now && now <= closingDate && buyerPulloutFlag < 1 && sellerArbitrationFlag === 1) ?
               <Button variant="warning" size="sm" className="m-1"
                 onClick={() => {
                   buyerArbitration(
@@ -253,10 +258,8 @@ export const ActionsWidget = (props: P) => {
                     settings.selectedAlgorandAccount,
                     contractAddress,
                     appId,
-                    settings.selectedAlgorandNetwork
+                    settings.selectedAlgorandNetwork,
                   );
-
-                  navigate("/dashboard/transactions")
                 }}>Buyer Delete App</Button> : <Button size="sm" className="m-1" disabled>Buyer Delete App</Button>
             }
 
@@ -278,7 +281,8 @@ export const ActionsWidget = (props: P) => {
             {
               /* prettier-ignore */
               (now < closingDate && sellerArbitrationFlag < 1 && balance > 0 && fungibleTokenBalance > 0 && buyerPulloutFlag < 1) ||
-              (closingDate < now && now < freeFundsDate && buyerArbitrationFlag === 1 && sellerArbitrationFlag < 1 && buyerPulloutFlag < 1)
+              (closingDate < now && now < freeFundsDate && buyerArbitrationFlag === 1 && sellerArbitrationFlag < 1 && buyerPulloutFlag < 1) ||
+              (now < inspectionPeriodExtension && buyerPulloutFlag === 1 && sellerArbitrationFlag < 1 && balance > 0 && fungibleTokenBalance > 0)
 
               ?
               <Button variant="warning" size="sm" className="m-1"
