@@ -13,6 +13,7 @@ import { withdrawEscrow } from "../../../contractActions/CashBuy__v1_0_0/withdra
 import { withdrawBalance } from "../../../contractActions/CashBuy__v1_0_0/withdrawBalance";
 import { deleteApp } from "../../../contractActions/CashBuy__v1_0_0/deleteApp";
 import { fundMinimumBalance } from "../../../contractActions/CashBuy__v1_0_0/fundMinimumBalance";
+import { fundBuyerBox } from "../../../contractActions/CashBuy__v1_0_0/fundBuyerBox";
 import { optoutContractFromASA } from "../../../contractActions/CashBuy__v1_0_0/optoutContractFromASA";
 import { stablecoinClawback } from "../../../contractActions/CashBuy__v1_0_0/stablecoinClawback";
 
@@ -92,24 +93,15 @@ export const ActionsWidget = (props: P) => {
         <br />
         {operator === buyer && (
           <>
-            {
-              /* prettier-ignore */
+            {/* {
               balance === 0 && now < inspectionPeriodEnd ? 
               <Button
                 variant="secondary"
                 size="sm"
                 className="m-1"
                 onClick={() => {
-                  // let byteCount = getValues("title").length + getValues("note").length;
-                  let buyerByteCount = 1029
-                  let sellerByteCount = 1030
-                  let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
-                  let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
-
-                  let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
-
+                  let mbr = 200000
                   console.log('mbr', mbr)
-
                   fundMinimumBalance(
                     settings.selectedAlgorandAccount,
                     contractAddress,
@@ -117,8 +109,33 @@ export const ActionsWidget = (props: P) => {
                     settings.selectedAlgorandNetwork,
                     mbr // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
                   );
-                }}>Fund Minimum Balance</Button> : <Button size="sm" className="m-1" disabled> Fund Minimum Balance{" "} </Button>
-            }
+                }}>Fund Minimum Balance</Button> : <Button size="sm" className="m-1" disabled>Fund Minimum Balance{" "} </Button>
+            } */}
+
+            {/* {
+              balance === 0 && now < inspectionPeriodEnd ? 
+              <Button
+                variant="secondary"
+                size="sm"
+                className="m-1"
+                onClick={() => {
+                  let buyerByteCount = 1029
+                  let sellerByteCount = 1030
+                  let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
+                  let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
+                  let mbr = mbrForBuyerNotes + mbrForSellerNotes
+                  
+                  console.log('mbr', mbr)
+                  
+                  fundBuyerBox(
+                    settings.selectedAlgorandAccount,
+                    contractAddress,
+                    appId,
+                    settings.selectedAlgorandNetwork,
+                    mbr // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
+                  );
+                }}>Fund Buyer Box</Button> : <Button size="sm" className="m-1" disabled>Fund Buyer Box</Button>
+            } */}
 
             {
               /* prettier-ignore */
@@ -430,6 +447,33 @@ export const ActionsWidget = (props: P) => {
         <br />
         {true && (
           <>
+            {
+              /* prettier-ignore */
+              balance === 0 && now < inspectionPeriodEnd ? 
+              <Button
+                variant="secondary"
+                size="sm"
+                className="m-1"
+                onClick={() => {
+                  let buyerByteCount = 1029
+                  let sellerByteCount = 1030
+                  let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
+                  let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
+
+                  let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
+
+                  console.log('mbr', mbr)
+
+                  fundMinimumBalance(
+                    settings.selectedAlgorandAccount,
+                    contractAddress,
+                    appId,
+                    settings.selectedAlgorandNetwork,
+                    mbr // 100,000 mAlgos for optin to ASA + 100,000 mAlgos for being able to issue calls from the contract
+                  );
+                }}>Fund MBR</Button> : <Button size="sm" className="m-1" disabled>Fund MBR</Button>
+            }
+
             {
               /* prettier-ignore */
               (balance === 0 && freeFundsDate < now) ?

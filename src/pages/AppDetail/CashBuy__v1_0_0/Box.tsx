@@ -279,11 +279,11 @@ export function Box() {
                     {...register("note", {
                       required: true,
                       min: 0,
-                      max: 256,
+                      max: 1024,
                     })}
                     as="textarea"
                     rows={4}
-                    maxLength={256}
+                    maxLength={1024}
                     placeholder="Note"
                   />
                 </Form.Group>
