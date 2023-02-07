@@ -5,7 +5,7 @@ LIVE SITE: https://kalygo.io
 # Kalygo.io
 This is the front end for the kalygo.io website. Kalygo facilitates stablecoin escrow on multiple blockchains.
 
-Contract code here: https://github.com/thaddavis/kalygo_contracts
+Contract code here: https://github.com/thaddavis/kalygo-contracts-with-beaker
 
 ## Additional technical information
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
