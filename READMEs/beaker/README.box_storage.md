@@ -2,10 +2,10 @@
 
 ## MBR breakdown
 
-100,000 reserved for being able to use address on the blockchain
-100,000 per ASA opted-into by address
-822,100 mAlgos for Buyer box
-822,500 mAlgos for Seller box
+- 100,000 reserved for being able to use address on the blockchain
+- 100,000 per ASA opted-into by address
+- 822,100 mAlgos for Buyer box
+- 822,500 mAlgos for Seller box
 =================================================
 1.8446 ALGO
 
