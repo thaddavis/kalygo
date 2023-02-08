@@ -134,7 +134,6 @@ const RouteWithLoader = (props: any) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    console.log("___ ___ ___");
                     navigate(`/governance`);
                   }}
                 >
@@ -223,7 +222,7 @@ const RouteWithLoader = (props: any) => {
                 }}
                 onClick={() => {
                   window.open(
-                    "https://github.com/thaddavis/kalygo_contracts",
+                    "https://github.com/thaddavis/kalygo-contracts-with-beaker",
                     "_blank"
                   );
                 }}
