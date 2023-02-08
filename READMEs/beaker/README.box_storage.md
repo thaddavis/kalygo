@@ -11,11 +11,11 @@
 
 ## Breakdown of buyer box and seller box
 
-let buyerByteCount = 2049
-let sellerByteCount = 2050
-let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
-let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
-let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
+- let buyerByteCount = 2049
+- let sellerByteCount = 2050
+- let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
+- let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
+- let mbr = 200000 + mbrForBuyerNotes + mbrForSellerNotes
 
 ## FORMULA FOR CALCULATING REQUIRED MBR FOR PER BOX
 
