@@ -163,17 +163,20 @@ export function Box() {
       }
 
       // vvv BOX RELATED TXN vvv
-
-      let boxSizeInBytes = 1024;
+      let maxBoxWritePerTxn = 2042;
       atc.addMethodCall({
         appID: Number.parseInt(app_id!),
         method: contract.getMethodByName(method),
-        methodArgs: [note.padEnd(boxSizeInBytes, " ")] as ABIArgument[],
+        methodArgs: [note.padEnd(maxBoxWritePerTxn, " ")] as ABIArgument[],
         sender: settings.selectedAlgorandAccount,
         suggestedParams: params,
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: signer,
         boxes: [
+          {
+            appIndex: Number.parseInt(app_id!),
+            name: new Uint8Array(Buffer.from(box!, "utf8")),
+          },
           {
             appIndex: Number.parseInt(app_id!),
             name: new Uint8Array(Buffer.from(box!, "utf8")),
@@ -238,6 +241,10 @@ export function Box() {
             appIndex: Number.parseInt(app_id!),
             name: new Uint8Array(Buffer.from(box!, "utf8")),
           },
+          {
+            appIndex: Number.parseInt(app_id!),
+            name: new Uint8Array(Buffer.from(box!, "utf8")),
+          },
         ],
       });
 
@@ -279,11 +286,11 @@ export function Box() {
                     {...register("note", {
                       required: true,
                       min: 0,
-                      max: 1024,
+                      max: 2042,
                     })}
                     as="textarea"
                     rows={4}
-                    maxLength={1024}
+                    maxLength={2042}
                     placeholder="Note"
                   />
                 </Form.Group>

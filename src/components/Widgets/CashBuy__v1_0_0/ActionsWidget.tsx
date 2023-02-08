@@ -455,8 +455,8 @@ export const ActionsWidget = (props: P) => {
                 size="sm"
                 className="m-1"
                 onClick={() => {
-                  let buyerByteCount = 1029
-                  let sellerByteCount = 1030
+                  let buyerByteCount = 2049
+                  let sellerByteCount = 2050
                   let mbrForBuyerNotes = 2500 + 400 * buyerByteCount || -1; // for Buyer Notes
                   let mbrForSellerNotes = 2500 + 400 * sellerByteCount || -1; // for Seller Notes
 
