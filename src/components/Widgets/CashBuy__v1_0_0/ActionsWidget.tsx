@@ -386,7 +386,7 @@ export const ActionsWidget = (props: P) => {
                     settings.selectedAlgorandNetwork
                   );
 
-                  navigate("/dashboard/transactions")
+                  // navigate("/dashboard/transactions")
                 }}>Seller Delete App</Button> : <Button size="sm" className="m-1" disabled>Seller Delete App</Button>
             }
           </>
@@ -486,7 +486,7 @@ export const ActionsWidget = (props: P) => {
                     settings.selectedAlgorandNetwork
                   );
 
-                  navigate("/dashboard/transactions")
+                  // navigate("/dashboard/transactions")
                 }}>Delete App</Button> : <Button size="sm" className="m-1" disabled>Delete App</Button>
             }
 

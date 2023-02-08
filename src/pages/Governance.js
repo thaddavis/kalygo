@@ -18,6 +18,8 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { get } from "lodash";
 
+import AlgoHelper from "../assets/img/icons/AlgoHelper.svg";
+
 /*
  * @param {theKey} string
  * @param {value} string
@@ -135,13 +137,22 @@ export function Governance() {
               </article>
 
               <article className="py-4">
+                <h1 id="getting-support">Open Source Verification</h1>
+                <p>3rd-party OSV performed by AlgoHelper</p>
+                <p>
+                  <Card.Link href="" target="_blank">
+                    <Image src={AlgoHelper} className="img-fluid w-50" />
+                  </Card.Link>
+                </p>
+              </article>
+
+              <article className="py-4">
                 <h1 id="getting-support">Getting support</h1>
                 <p>
                   Please{" "}
                   <Card.Link href="https://cmdlabs.io" target="_blank">
                     contact us
-                  </Card.Link>{" "}
-                  !
+                  </Card.Link>
                 </p>
               </article>
             </Card.Body>

@@ -3,43 +3,31 @@ export const supportedStablecoins: any = {
     MainNet: [
       {
         symbol: "USDCa",
-        tokenId: 23,
-      },
-      {
-        symbol: "USDTa",
-        tokenId: 23,
+        tokenId: "31566704",
       },
       {
         symbol: "Other",
-        tokenId: -1,
+        tokenId: "-1",
       },
     ],
     TestNet: [
       {
         symbol: "USDCa",
-        tokenId: 23,
-      },
-      {
-        symbol: "USDTa",
-        tokenId: 23,
+        tokenId: "23",
       },
       {
         symbol: "Other",
-        tokenId: -1,
+        tokenId: "-1",
       },
     ],
     localhost: [
       {
         symbol: "USDCa",
-        tokenId: 23,
-      },
-      {
-        symbol: "USDTa",
-        tokenId: 23,
+        tokenId: "23",
       },
       {
         symbol: "Other",
-        tokenId: -1,
+        tokenId: "-1",
       },
     ],
   },

@@ -23,24 +23,24 @@ export function Support() {
                 </p>
                 <ul className="docs-list">
                   <li>
-                    Ethereum{" "}
-                    <Card.Link href="https://metamask.io/" target="_blank">
-                      MetaMask
-                    </Card.Link>
-                  </li>
-                  <li>
-                    Polygon{" "}
-                    <Card.Link href="https://metamask.io/" target="_blank">
-                      MetaMask
-                    </Card.Link>
-                  </li>
-                  <li>
                     Algorand{" "}
                     <Card.Link
                       href="https://www.purestake.com/technology/algosigner/"
                       target="_blank"
                     >
                       AlgoSigner
+                    </Card.Link>
+                  </li>
+                  <li>
+                    Ethereum{" "}
+                    <Card.Link href="https://metamask.io/" target="_blank">
+                      Coming Soon...
+                    </Card.Link>
+                  </li>
+                  <li>
+                    Polygon{" "}
+                    <Card.Link href="https://metamask.io/" target="_blank">
+                      Coming Soon...
                     </Card.Link>
                   </li>
                   <li>
@@ -68,8 +68,7 @@ export function Support() {
                   Please{" "}
                   <Card.Link href="https://cmdlabs.io" target="_blank">
                     contact us
-                  </Card.Link>{" "}
-                  !
+                  </Card.Link>
                 </p>
               </article>
             </Card.Body>

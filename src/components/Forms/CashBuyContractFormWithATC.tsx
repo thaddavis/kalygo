@@ -42,6 +42,7 @@ export const CashBuyContractForm = (props: P) => {
   const {
     register,
     trigger,
+    watch,
     handleSubmit,
     getValues,
     formState: { errors, isValid },
@@ -54,7 +55,8 @@ export const CashBuyContractForm = (props: P) => {
       escrowAmount2: "$100,000.00",
       escrowTotal: "$200,000.00",
       // asaId: 95939489,
-      asaId: 23,
+      asaId: "23",
+      customAsaId: "",
       inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectionPeriodEnd: moment().add("2", "m").toString(),
       inspectionPeriodExtension: moment()
@@ -72,11 +74,18 @@ export const CashBuyContractForm = (props: P) => {
       // freeFundsDate: moment().add("180", "s").toString(),
       buyer: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
       seller: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
+      titleCompany:
+        "A3326WI7EK3RVOQ4JRZSLY3HO26JCVGT7HGU2RBBFAX3KOVG4XFA4XCTOQ",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
     },
   });
+
+  const asaId = watch("asaId");
+
+  console.log("asaId", asaId);
+  console.log("--->>>", asaId === "-1");
 
   const onSubmit = async (data: any) => {
     try {
@@ -98,6 +107,7 @@ export const CashBuyContractForm = (props: P) => {
         propertyAddress,
         propertyName,
         asaId,
+        customAsaId,
       } = data;
 
       // console.log(
@@ -156,7 +166,7 @@ export const CashBuyContractForm = (props: P) => {
           moment(movingDate).unix(), // global_moving_date: "",
           moment(closingDate).unix(), // global_closing_date: "",
           moment(freeFundsDate).unix(), // global_free_funds_date: "",
-          Math.floor(asaId), // global_asa_id: ""
+          asaId === "-1" ? Math.floor(customAsaId) : Number.parseInt(asaId), // global_asa_id: ""
         ] as ABIArgument[],
         approvalProgram: a_prog,
         clearProgram: c_prog,
@@ -195,8 +205,11 @@ export const CashBuyContractForm = (props: P) => {
     }
   };
 
-  console.log("errors", errors);
-  console.log("isValid", isValid);
+  // console.log("errors", errors);
+  // console.log("isValid", isValid);
+
+  console.log("asaId", asaId);
+  console.log("asaId ===", asaId === "-1");
 
   let stablecoinOptions =
     supportedStablecoins.Algorand[settings.selectedAlgorandNetwork] || [];
@@ -334,7 +347,7 @@ export const CashBuyContractForm = (props: P) => {
 
           <Row className="align-items-center">
             <Col sm={12} className="mb-3">
-              <Form.Group id="seller">
+              <Form.Group id="asaId">
                 <Form.Label>Stablecoin</Form.Label>
                 {/* <Form.Control
                   {...register("asaId", {
@@ -367,6 +380,23 @@ export const CashBuyContractForm = (props: P) => {
               </Form.Group>
             </Col>
           </Row>
+
+          {asaId === "-1" && (
+            <Row className="align-items-center">
+              <Col sm={12} className="mb-3">
+                <Form.Group id="customAsaId">
+                  <Form.Label>Custom ASA</Form.Label>
+                  <Form.Control
+                    {...register("customAsaId", {
+                      required: true,
+                    })}
+                    type="number"
+                    placeholder="ASA"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          )}
 
           <Row className="align-items-center">
             <Col md={6} className="mb-3">
@@ -534,7 +564,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
             <Col md={6} className="mb-3">
               <Form.Group id="closing-date">
-                <Form.Label>Free Funds Date (without Arbitration)</Form.Label>
+                <Form.Label>Free Funds Date</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
@@ -589,6 +619,21 @@ export const CashBuyContractForm = (props: P) => {
                   })}
                   type="text"
                   placeholder="Seller Wallet Address"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} className="mb-3">
+              <Form.Group id="titleCompany">
+                <Form.Label>Title Company</Form.Label>
+                <Form.Control
+                  {...register("titleCompany", {
+                    required: true,
+                  })}
+                  type="text"
+                  placeholder="Title Company Address"
                 />
               </Form.Group>
             </Col>

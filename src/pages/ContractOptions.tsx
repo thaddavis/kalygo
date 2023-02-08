@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row, Image } from "react-bootstrap";
 import { RoutesData } from "../routes";
 
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
+import AlgoHelper_Gear from "../assets/img/icons/AlgoHelper_Gear.svg";
 
 interface ContractOption {
   title: string;
@@ -77,7 +78,15 @@ export default function ContractOptions() {
             <Col key={i.title} xs={12} sm={6} xl={4} className="mb-4">
               <Card>
                 <Card.Body>
-                  <Card.Title>{i.title}</Card.Title>
+                  <Card.Title className="d-flex justify-content-between">
+                    {i.title}{" "}
+                    <Image
+                      width={32}
+                      height={32}
+                      src={AlgoHelper_Gear}
+                      className="img-fluid"
+                    />
+                  </Card.Title>
                   <Card.Text>{i.desc}</Card.Text>
                   <Button
                     disabled={i.disabled}

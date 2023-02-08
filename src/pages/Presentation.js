@@ -112,7 +112,7 @@ const Presentation = () => {
                 </p>
                 <p className="mb-4">
                   Kalygo prioritizes rigorously vetted contracts and excellent
-                  UI/UX. Enter the Dapp to explore Kalygo's premium selection of
+                  UI/UX. Enter the app to explore Kalygo's premium selection of
                   contracts
                 </p>
               </div>
