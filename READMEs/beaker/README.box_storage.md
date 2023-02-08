@@ -6,8 +6,8 @@
 - 100,000 per ASA opted-into by address
 - 822,100 mAlgos for Buyer box
 - 822,500 mAlgos for Seller box
-=================================================
-1.8446 ALGO
+
+- RESULT: 1.8446 ALGO
 
 ## Breakdown of buyer box and seller box
 
