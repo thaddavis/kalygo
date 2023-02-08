@@ -355,6 +355,9 @@ const Router = () => (
     <Routes>
       <Route path="/" element={<RouteWithLoader />}>
         <Route path={""} element={<Presentation />} />
+      </Route>
+
+      <Route path="/" element={<RouteWithSidebar />}>
         <Route path={"governance"} element={<Governance />} />
       </Route>
       {/* <Route

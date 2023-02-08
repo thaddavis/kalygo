@@ -125,7 +125,7 @@ const Sidebar = (props = {}) => {
         <Navbar.Brand
           className="me-lg-5"
           as={Link}
-          to={RoutesData.DashboardOverview.path}
+          to={RoutesData.Presentation.path}
         >
           <Image src={Hive} className="navbar-brand-light" />
         </Navbar.Brand>
