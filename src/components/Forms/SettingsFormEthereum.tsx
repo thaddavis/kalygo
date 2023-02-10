@@ -113,16 +113,14 @@ export const SettingsFormEthereum = (props: P) => {
                   {settings.supportedBlockchains.map((i: any, idx: number) => {
                     return (
                       <option
-                        key={i}
-                        disabled={
-                          ["Algorand", "Ethereum"].includes(i) ? false : true
-                        }
+                        key={i.name}
+                        disabled={i.disabled}
                         style={{
                           textOverflow: "ellipsis",
                         }}
-                        value={i}
+                        value={i.name}
                       >
-                        {i}
+                        {i.name}
                       </option>
                     );
                   })}
