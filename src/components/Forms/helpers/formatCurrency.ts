@@ -12,7 +12,8 @@ export function formatNumber(n: string, removeLeadingZeroes: boolean = true) {
 
 export function formatCurrency(
   input: any,
-  blur: boolean = true
+  blur: boolean = true,
+  removeLeadingZeroes: boolean = true
 ): {
   input_val: string;
   caret_pos: number;
@@ -48,7 +49,10 @@ export function formatCurrency(
     var right_side = input_val.substring(decimal_pos);
 
     // add commas to left side of number
-    left_side = formatNumber(left_side) === "0" ? "0" : formatNumber(left_side);
+    left_side =
+      formatNumber(left_side, removeLeadingZeroes) === "0"
+        ? "0"
+        : formatNumber(left_side, removeLeadingZeroes);
 
     // validate right side
     right_side = formatNumber(right_side, false);
@@ -81,47 +85,4 @@ export function formatCurrency(
   caret_pos = updated_len - original_len + caret_pos;
   input.setSelectionRange(caret_pos, caret_pos);
   return { input_val, caret_pos };
-}
-
-export function formatNumberFromString(value: any): string {
-  // appends $ to value, validates decimal side
-  // and puts cursor back in right position.
-  // get input value
-  let input_val: string = value;
-
-  // don't validate empty input
-  if (input_val === "") {
-    return input_val;
-  }
-
-  // check for decimal
-  if (input_val.indexOf(".") >= 0) {
-    // get position of first decimal
-    // this prevents multiple decimals from
-    // being entered
-    var decimal_pos = input_val.indexOf(".");
-
-    // split number by decimal point
-    var left_side = input_val.substring(0, decimal_pos);
-    var right_side = input_val.substring(decimal_pos);
-
-    // add commas to left side of number
-    left_side = formatNumber(left_side) === "0" ? "0" : formatNumber(left_side);
-
-    // validate right side
-    right_side = formatNumber(right_side, false);
-
-    // Limit decimal to only 2 digits
-    right_side = right_side.substring(0, 2);
-
-    // join number by .
-    input_val = left_side + "." + right_side;
-  } else {
-    // no decimal entered
-    // add commas to number
-    // remove all non-digits
-    input_val = formatNumber(input_val);
-  }
-
-  return input_val;
 }

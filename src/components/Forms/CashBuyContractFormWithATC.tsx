@@ -238,7 +238,7 @@ export const CashBuyContractForm = (props: P) => {
                     trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    let result = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false, false);
                     event.target.value = result.input_val;
                     event.target.setSelectionRange(
                       result.caret_pos,
@@ -264,7 +264,7 @@ export const CashBuyContractForm = (props: P) => {
                     trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    let result = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false, false);
                     event.target.value = result.input_val;
                     event.target.setSelectionRange(
                       result.caret_pos,
@@ -330,7 +330,7 @@ export const CashBuyContractForm = (props: P) => {
                     trigger("escrowTotal");
                   }}
                   onChange={(event) => {
-                    let result = formatCurrency(event.target, false);
+                    let result = formatCurrency(event.target, false, false);
                     event.target.value = result.input_val;
                     event.target.setSelectionRange(
                       result.caret_pos,
