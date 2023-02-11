@@ -403,7 +403,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row className="align-items-center">
             <Col md={6} className="mb-3">
               <Form.Group id="inspection-period-start">
-                <Form.Label>Inpection Period Start</Form.Label>
+                <Form.Label>Inspection Period Start</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
@@ -434,7 +434,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
             <Col md={6} className="mb-3">
               <Form.Group id="inspection-period-end">
-                <Form.Label>Inpection Period End</Form.Label>
+                <Form.Label>Inspection Period End</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
@@ -468,7 +468,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row>
             <Col md={6} className="mb-3">
               <Form.Group id="inspection-period-end">
-                <Form.Label>Inpection Period Extension</Form.Label>
+                <Form.Label>Inspection Period Extension</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
