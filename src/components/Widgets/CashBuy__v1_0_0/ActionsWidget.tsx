@@ -200,7 +200,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (buyerPulloutFlag === 1 && closingDate < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0)
+              (buyerPulloutFlag === 1 && movingDate < now && buyerArbitrationFlag < 1 && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0)
               ||
               (buyerArbitrationFlag === 1 && freeFundsDate < now && sellerArbitrationFlag < 1 && fungibleTokenBalance > 0) ?
               <Button
@@ -268,7 +268,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (balance === 0 /* && freeFundsDate < now */) ?
+              (balance === 0 && freeFundsDate < now) ?
               <Button variant="danger" size="sm" className="m-1"
                 onClick={() => {
                   deleteApp(
@@ -376,7 +376,7 @@ export const ActionsWidget = (props: P) => {
 
             {
               /* prettier-ignore */
-              (balance === 0 /* && freeFundsDate < now */) ?
+              (balance === 0 && freeFundsDate < now) ?
               <Button variant="danger" size="sm" className="m-1"
                 onClick={() => {
                   deleteApp(

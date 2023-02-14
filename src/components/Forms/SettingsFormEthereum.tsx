@@ -23,8 +23,6 @@ export const SettingsFormEthereum = (props: P) => {
   const settings = useAppSelector((state: RootState) => state.settings);
   const dispatch = useAppDispatch();
 
-  console.log("settings.accountsEthereum", settings.accountsEthereum);
-
   const {
     register,
     handleSubmit,
@@ -37,6 +35,7 @@ export const SettingsFormEthereum = (props: P) => {
     defaultValues: {
       selectedBlockchain: settings.selectedBlockchain,
       selectedEthereumNetwork: settings.selectedEthereumNetwork,
+      selectedAlgorandAccount: settings.selectedAlgorandAccount,
       selectedEthereumAccount: settings.selectedEthereumAccount,
     },
   });
@@ -45,7 +44,7 @@ export const SettingsFormEthereum = (props: P) => {
 
   useEffect(() => {
     const accountIndex = settings.accountsEthereum.findIndex(
-      (item) => item.address === settings.selectedEthereumAccount
+      (item: any) => item.address === settings.selectedEthereumAccount
     );
 
     const selectedAccount =
@@ -85,25 +84,27 @@ export const SettingsFormEthereum = (props: P) => {
                       "Need to populate network select with relevant networks for chosen blockchain"
                     );
 
-                    // setValue("selectedEthereumAccount", "");
-                    // setValue("selectedEthereumNetwork", "");
-                    // setValue("selectedBlockchain", target.value);
+                    setValue("selectedAlgorandAccount", "");
+                    setValue("selectedEthereumAccount", "");
+                    setValue("selectedEthereumNetwork", "");
+                    setValue("selectedBlockchain", target.value);
 
-                    dispatch(
-                      updateState({
-                        selectedBlockchain: target.value,
-                      })
-                    );
+                    // dispatch(
+                    //   updateState({
+                    //     selectedBlockchain: target.value,
+                    //     selectedNetwork: "",
+                    //   })
+                    // );
 
                     // switch (settings.selectedBlockchain) {
-                    // switch (target.value) {
-                    //   case "Algorand":
-                    //     dispatch(fetchAlgoSignerNetworkAccounts(target.value));
-                    //     break;
-                    //   case "Ethereum":
-                    //     dispatch(fetchMetamaskNetworkAccounts(target.value));
-                    //     break;
-                    // }
+                    switch (target.value) {
+                      case "Algorand":
+                        dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                        break;
+                      case "Ethereum":
+                        dispatch(fetchMetamaskNetworkAccounts(target.value));
+                        break;
+                    }
                   }}
                   style={{
                     paddingRight: "32px",
@@ -113,14 +114,16 @@ export const SettingsFormEthereum = (props: P) => {
                   {settings.supportedBlockchains.map((i: any, idx: number) => {
                     return (
                       <option
-                        key={i.name}
-                        disabled={i.disabled}
+                        key={i}
+                        disabled={
+                          ["Algorand", "Ethereum"].includes(i) ? false : true
+                        }
                         style={{
                           textOverflow: "ellipsis",
                         }}
-                        value={i.name}
+                        value={i}
                       >
-                        {i.name}
+                        {i}
                       </option>
                     );
                   })}
@@ -145,9 +148,19 @@ export const SettingsFormEthereum = (props: P) => {
 
                     console.log("!@#!@#", target.value);
 
+                    setValue("selectedAlgorandAccount", "");
                     setValue("selectedEthereumAccount", "");
                     setValue("selectedEthereumNetwork", target.value);
-                    dispatch(fetchMetamaskNetworkAccounts());
+
+                    // switch (target.value) {
+                    switch (settings.selectedBlockchain) {
+                      case "Algorand":
+                        dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                        break;
+                      case "Ethereum":
+                        dispatch(fetchMetamaskNetworkAccounts(target.value));
+                        break;
+                    }
                   }}
                   style={{
                     paddingRight: "32px",
@@ -190,10 +203,13 @@ export const SettingsFormEthereum = (props: P) => {
                 </Form.Select>
               </Form.Group>
             </Col>
-            <Col md={6} className="mb-3">
+            {/* <Col md={6} className="mb-3">
               <Form.Group id="gender">
                 <Form.Label>
                   Account{" "}
+                  {errors.selectedAlgorandAccount && (
+                    <span style={{ color: "red" }}>*required</span>
+                  )}
                   {errors.selectedEthereumAccount && (
                     <span style={{ color: "red" }}>*required</span>
                   )}
@@ -201,13 +217,31 @@ export const SettingsFormEthereum = (props: P) => {
                     color="black"
                     icon={faRotate}
                     onClick={() => {
-                      dispatch(fetchMetamaskNetworkAccounts());
+                      switch (settings.selectedBlockchain) {
+                        case "Ethereum":
+                          console.log("_+_ Ethereum _+_");
+                          dispatch(
+                            fetchMetamaskNetworkAccounts(
+                              getValues("selectedNetwork")
+                            )
+                          );
+                          break;
+                        case "Algorand":
+                          console.log("_+_ Algorand _+_");
+                          dispatch(
+                            fetchAlgoSignerNetworkAccounts(
+                              getValues("selectedNetwork")
+                            )
+                          );
+                          break;
+                      }
+
                       console.log("___ ___ ___");
                     }}
                   />
                 </Form.Label>
                 <Form.Select
-                  {...register("selectedEthereumAccount", { required: true })}
+                  {...register("selectedAlgorandAccount", { required: true })}
                   style={{
                     paddingRight: "32px",
                     textOverflow: "ellipsis",
@@ -222,22 +256,37 @@ export const SettingsFormEthereum = (props: P) => {
                   >
                     Select...
                   </option>
-                  {settings.accountsEthereum.map((i: any, idx: number) => {
-                    return (
-                      <option
-                        key={i}
-                        style={{
-                          textOverflow: "ellipsis",
-                        }}
-                        value={i}
-                      >
-                        {i}
-                      </option>
-                    );
-                  })}
+                  {settings.selectedBlockchain === "Algorand" &&
+                    settings.accounts.map((i: any, idx: number) => {
+                      return (
+                        <option
+                          key={i.address}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i.address}
+                        >
+                          {i.address}
+                        </option>
+                      );
+                    })}
+                  {settings.selectedBlockchain === "Ethereum" &&
+                    settings.accounts.map((i: any, idx: number) => {
+                      return (
+                        <option
+                          key={i}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i}
+                        >
+                          {i}
+                        </option>
+                      );
+                    })}
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
 
           <div className="mt-3">

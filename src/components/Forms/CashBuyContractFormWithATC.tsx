@@ -74,8 +74,8 @@ export const CashBuyContractForm = (props: P) => {
       // freeFundsDate: moment().add("180", "s").toString(),
       buyer: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
       seller: "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY",
-      titleCompany:
-        "A3326WI7EK3RVOQ4JRZSLY3HO26JCVGT7HGU2RBBFAX3KOVG4XFA4XCTOQ",
+      // titleCompany:
+      //   "A3326WI7EK3RVOQ4JRZSLY3HO26JCVGT7HGU2RBBFAX3KOVG4XFA4XCTOQ",
       propertyAddress: "3717 Royal Palm Ave.",
       propertyName: "Yellow House On Mid Miami Beach",
       enableTimeChecks: true,
@@ -600,7 +600,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="buyer">
-                <Form.Label>Buyer</Form.Label>
+                <Form.Label>Buyer (multisig w/ Realtor)</Form.Label>
                 <Form.Control
                   {...register("buyer", {
                     required: true,
@@ -624,7 +624,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="titleCompany">
                 <Form.Label>Title Company</Form.Label>
@@ -637,7 +637,7 @@ export const CashBuyContractForm = (props: P) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
 
           {/* <h5 className="my-4">Property</h5>
           <Row>

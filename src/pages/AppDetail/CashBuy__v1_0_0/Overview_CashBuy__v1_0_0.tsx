@@ -18,6 +18,7 @@ import { RolesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/RolesWi
 import { TimelineWidget } from "../../../components/Widgets/CashBuy__v1_0_0/TimelineWidget";
 import { FlagsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/FlagsWidget";
 import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/EscrowWidget";
+import { UpdateContractWidget } from "../../../components/Widgets/CashBuy__v1_0_0/UpdateContractWidget";
 
 import algosdk from "algosdk";
 import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
@@ -292,6 +293,7 @@ function Overview_CashBuy__v1_0_0() {
             boxKey={"Seller"}
             appId={Number.parseInt(id!)}
           ></RoleBoxWidget>
+          <UpdateContractWidget appId={Number.parseInt(id!)} />
         </Col>
         <Col xs={12} xl={8} className="mb-4">
           <Row>
