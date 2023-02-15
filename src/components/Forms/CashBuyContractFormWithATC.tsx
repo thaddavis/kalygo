@@ -608,7 +608,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
             <Col sm={12} className="mb-3">
               <Form.Group id="seller">
-                <Form.Label>Seller</Form.Label>
+                <Form.Label>Seller (multisig w/ Realtor)</Form.Label>
                 <Form.Control
                   {...register("seller", {
                     required: true,
