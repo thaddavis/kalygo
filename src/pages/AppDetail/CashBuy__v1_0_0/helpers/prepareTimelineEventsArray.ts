@@ -7,53 +7,49 @@ export function prepareTimelineEventsArray(app: object) {
     color: "#60dafb",
   };
 
-  const inspectionPeriodStart = {
+  const inspectPeriodStart = {
     title: "Inspection Begins",
-    time: new Date(
-      get(app, "val.global_inspection_start_date", 0) * 1000
-    ).getTime(),
+    time: new Date(get(app, "val.glbl_inspect_start_date", 0) * 1000).getTime(),
     color: "rgba(0, 0, 0, 0.1)",
   };
 
-  const inspectionPeriodEnd = {
+  const inspectPeriodEnd = {
     title: "Inspection Ends",
-    time: new Date(
-      get(app, "val.global_inspection_end_date", 0) * 1000
-    ).getTime(),
+    time: new Date(get(app, "val.glbl_inspect_end_date", 0) * 1000).getTime(),
     color: "rgba(0, 0, 0, 0.3)",
   };
 
-  const inspectionExtension = {
+  const inspectExtension = {
     title: "Inspection Extension",
     time: new Date(
-      get(app, "val.global_inspection_extension_date", 0) * 1000
+      get(app, "val.glbl_inspect_extension_date", 0) * 1000
     ).getTime(),
     color: "rgba(0, 0, 0, 0.4)",
   };
 
   const movingDate = {
     title: "Moving Date",
-    time: new Date(get(app, "val.global_moving_date", 0) * 1000).getTime(),
+    time: new Date(get(app, "val.glbl_moving_date", 0) * 1000).getTime(),
     color: "rgba(0, 0, 0, 0.5)",
   };
 
   const closingDate = {
     title: "Closing Date",
-    time: new Date(get(app, "val.global_closing_date", 0) * 1000).getTime(),
+    time: new Date(get(app, "val.glbl_closing_date", 0) * 1000).getTime(),
     color: "rgba(0, 0, 0, 0.9)",
   };
 
   const freeFundsDate = {
     title: "Free Funds Date",
-    time: new Date(get(app, "val.global_free_funds_date", 0) * 1000).getTime(),
+    time: new Date(get(app, "val.glbl_free_funds_date", 0) * 1000).getTime(),
     color: "rgba(0, 0, 0, 9.0)",
   };
 
   let timelineEvents = [
     now,
-    inspectionPeriodStart,
-    inspectionPeriodEnd,
-    inspectionExtension,
+    inspectPeriodStart,
+    inspectPeriodEnd,
+    inspectExtension,
     movingDate,
     closingDate,
     freeFundsDate,
@@ -74,9 +70,9 @@ export function prepareTimelineEventsArray(app: object) {
   return {
     timeline: timelineEvents,
     now: now.time,
-    inspectionPeriodStart: inspectionPeriodStart.time,
-    inspectionPeriodEnd: inspectionPeriodEnd.time,
-    inspectionExtension: inspectionExtension.time,
+    inspectPeriodStart: inspectPeriodStart.time,
+    inspectPeriodEnd: inspectPeriodEnd.time,
+    inspectExtension: inspectExtension.time,
     closingDate: closingDate.time,
     movingDate: movingDate.time,
     freeFundsDate: freeFundsDate.time,

@@ -72,10 +72,10 @@ export function UpdateContract() {
           val: parseGlobalState(
             appResponse?.application?.params &&
               appResponse.application.params["global-state"],
-            ["global_buyer_update", "global_seller_update"],
+            ["glbl_buyer_update", "glbl_seller_update"],
             {
-              global_seller_update: "(address,address,uint64,uint64,uint64)",
-              global_buyer_update: "(address,address,uint64,uint64,uint64)",
+              glbl_seller_update: "(address,address,uint64,uint64,uint64)",
+              glbl_buyer_update: "(address,address,uint64,uint64,uint64)",
             }
           ),
           loading: false,

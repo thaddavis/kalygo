@@ -40,10 +40,10 @@ export const FinancedDealContractForm = (props: P) => {
       escrowAmount1: 100000,
       escrowAmount2: 100000,
       escrowTotal: 1000000,
-      // inspectionPeriodStart: moment().add("2", "m").toString(),
-      // inspectionPeriodEnd: moment().add("4", "m").toString(),
-      inspectionPeriodStart: moment().add("1", "m").add("30", "s").toString(),
-      inspectionPeriodEnd: moment().add("3", "m").toString(),
+      // inspectPeriodStart: moment().add("2", "m").toString(),
+      // inspectPeriodEnd: moment().add("4", "m").toString(),
+      inspectPeriodStart: moment().add("1", "m").add("30", "s").toString(),
+      inspectPeriodEnd: moment().add("3", "m").toString(),
       closingDate: moment().add("5", "m").toString(),
       buyer: "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
       seller: "CMC7AD2G4MXIN46LBMP6WOO5O4SA3RVBWYNMPIHPMUDYKNYE4XS2Y3BOIM",
@@ -106,11 +106,9 @@ export const FinancedDealContractForm = (props: P) => {
         14, // ints
         11, // byte_slices
         [
-          /* 0 */ algosdk.encodeUint64(
-            moment(data.inspectionPeriodStart).unix()
-          ), // IP begin
-          /* 1 */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP end
-          // /* */ algosdk.encodeUint64(moment(data.inspectionPeriodEnd).unix()), // IP extension
+          /* 0 */ algosdk.encodeUint64(moment(data.inspectPeriodStart).unix()), // IP begin
+          /* 1 */ algosdk.encodeUint64(moment(data.inspectPeriodEnd).unix()), // IP end
+          // /* */ algosdk.encodeUint64(moment(data.inspectPeriodEnd).unix()), // IP extension
           /* 2 */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
           // /* */ algosdk.encodeUint64(moment(data.closingDate).unix()), //
           /*  3 */ algosdk.encodeUint64(1100000), // # sale_price
@@ -266,14 +264,14 @@ export const FinancedDealContractForm = (props: P) => {
 
           <Row className="align-items-center">
             <Col md={6} className="mb-3">
-              <Form.Group id="inspection-period-start">
+              <Form.Group id="inspect-period-start">
                 <Form.Label>Inspection Period Start</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
                     // console.log("e", e.unix());
 
-                    setValue("inspectionPeriodStart", e.toString());
+                    setValue("inspectPeriodStart", e.toString());
                   }}
                   renderInput={(props, openCalendar) => (
                     <InputGroup>
@@ -281,11 +279,11 @@ export const FinancedDealContractForm = (props: P) => {
                         <FontAwesomeIcon icon={faCalendarAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                        {...register("inspectionPeriodStart", {
+                        {...register("inspectPeriodStart", {
                           required: true,
                         })}
                         type="text"
-                        value={getValues("inspectionPeriodStart")}
+                        value={getValues("inspectPeriodStart")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();
@@ -298,14 +296,14 @@ export const FinancedDealContractForm = (props: P) => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group id="inspection-period-end">
+              <Form.Group id="inspect-period-end">
                 <Form.Label>Inspection Period End</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
                     // console.log("e", e.unix());
 
-                    setValue("inspectionPeriodEnd", e.toString());
+                    setValue("inspectPeriodEnd", e.toString());
                   }}
                   renderInput={(props, openCalendar) => (
                     <InputGroup>
@@ -313,11 +311,11 @@ export const FinancedDealContractForm = (props: P) => {
                         <FontAwesomeIcon icon={faCalendarAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                        {...register("inspectionPeriodEnd", {
+                        {...register("inspectPeriodEnd", {
                           required: true,
                         })}
                         type="text"
-                        value={getValues("inspectionPeriodEnd")}
+                        value={getValues("inspectPeriodEnd")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();

@@ -47,10 +47,10 @@ export function ProposedRevisionDiff(props: P) {
         const gState = parseGlobalState(
           appResponse?.application?.params &&
             appResponse.application.params["global-state"],
-          [`global_buyer_update`, `global_seller_update`],
+          [`glbl_buyer_update`, `glbl_seller_update`],
           {
-            [`global_buyer_update`]: "(address,address,uint64,uint64,uint64)",
-            [`global_seller_update`]: "(address,address,uint64,uint64,uint64)",
+            [`glbl_buyer_update`]: "(address,address,uint64,uint64,uint64)",
+            [`glbl_seller_update`]: "(address,address,uint64,uint64,uint64)",
           }
         );
 
@@ -84,15 +84,15 @@ export function ProposedRevisionDiff(props: P) {
   console.log(`globalState.val`, globalState.val);
 
   let roleRequestedRevision =
-    globalState.val && globalState.val[`global_${role}_update`];
+    globalState.val && globalState.val[`glbl_${role}_update`];
 
   if (roleRequestedRevision && globalState.val) {
-    console.log(globalState.val["global_escrow_payment_1"]);
+    console.log(globalState.val["glbl_escrow_1"]);
     console.log(roleRequestedRevision[2]);
     console.log(typeof roleRequestedRevision[2]);
 
     console.log(
-      BigInt(globalState.val["global_escrow_payment_1"]) !==
+      BigInt(globalState.val["glbl_escrow_1"]) !==
         toObject(roleRequestedRevision[2])
     );
   }
@@ -109,12 +109,12 @@ export function ProposedRevisionDiff(props: P) {
             <span
               style={{
                 color:
-                  globalState.val["global_buyer"] !== roleRequestedRevision[0]
+                  globalState.val["glbl_buyer"] !== roleRequestedRevision[0]
                     ? "green"
                     : "#4A5073",
               }}
             >
-              {globalState.val["global_buyer"]}
+              {globalState.val["glbl_buyer"]}
               {" > "}
               {roleRequestedRevision[0]}
             </span>
@@ -125,12 +125,12 @@ export function ProposedRevisionDiff(props: P) {
             <span
               style={{
                 color:
-                  globalState.val["global_seller"] !== roleRequestedRevision[0]
+                  globalState.val["glbl_seller"] !== roleRequestedRevision[0]
                     ? "green"
                     : "#4A5073",
               }}
             >
-              {globalState.val["global_seller"]}
+              {globalState.val["glbl_seller"]}
               {" > "}
               {roleRequestedRevision[1]}
             </span>
@@ -138,12 +138,12 @@ export function ProposedRevisionDiff(props: P) {
           {/*  */}
           <div>
             <b>Escrow Amount 1 </b>
-            <span>{globalState.val["global_escrow_payment_1"]}</span>
+            <span>{globalState.val["glbl_escrow_1"]}</span>
             {" > "}
             <span
               style={{
                 color:
-                  BigInt(globalState.val["global_escrow_payment_1"]) !==
+                  BigInt(globalState.val["glbl_escrow_1"]) !==
                   roleRequestedRevision[2]
                     ? "green"
                     : "#4A5073",
@@ -155,12 +155,12 @@ export function ProposedRevisionDiff(props: P) {
           {/*  */}
           <div>
             <b>Escrow Amount 2 </b>
-            <span>{globalState.val["global_escrow_payment_2"]}</span>
+            <span>{globalState.val["glbl_escrow_2"]}</span>
             {" > "}
             <span
               style={{
                 color:
-                  BigInt(globalState.val["global_escrow_payment_2"]) !==
+                  BigInt(globalState.val["glbl_escrow_2"]) !==
                   roleRequestedRevision[3]
                     ? "green"
                     : "#4A5073",
@@ -172,12 +172,12 @@ export function ProposedRevisionDiff(props: P) {
           {/*  */}
           <div>
             <b>Escrow Total </b>
-            <span>{globalState.val["global_total_price"]}</span>
+            <span>{globalState.val["glbl_total"]}</span>
             {" > "}
             <span
               style={{
                 color:
-                  BigInt(globalState.val["global_total_price"]) !==
+                  BigInt(globalState.val["glbl_total"]) !==
                   roleRequestedRevision[4]
                     ? "green"
                     : "#4A5073",

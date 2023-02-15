@@ -9,7 +9,7 @@ interface P {
   fungibleTokenBalance: number;
   fungibleTokenDecimals: number;
   now: number;
-  inspectionPeriodEnd: number;
+  inspectPeriodEnd: number;
   closingDate: number;
 }
 
@@ -31,7 +31,7 @@ export const EscrowWidget = (props: P) => {
     fungibleTokenBalance,
     fungibleTokenDecimals,
     now,
-    inspectionPeriodEnd,
+    inspectPeriodEnd,
     closingDate,
   } = props;
 

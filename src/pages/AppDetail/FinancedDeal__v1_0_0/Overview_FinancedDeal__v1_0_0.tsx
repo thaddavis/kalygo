@@ -183,12 +183,12 @@ function AppDetail() {
     },
     {
       title: "Inspection Ends",
-      time: new Date(get(app, "val.inspection_end", 0) * 1000).getTime(),
+      time: new Date(get(app, "val.inspect_end", 0) * 1000).getTime(),
       color: "orange",
     },
     {
       title: "Inspection Begins",
-      time: new Date(get(app, "val.inspection_begin", 0) * 1000).getTime(),
+      time: new Date(get(app, "val.inspect_begin", 0) * 1000).getTime(),
       color: "red",
     },
   ];

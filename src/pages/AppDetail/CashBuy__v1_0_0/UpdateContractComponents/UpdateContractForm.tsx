@@ -108,12 +108,11 @@ export function UpdateContractForm(props: P) {
       );
 
       let methodByName = ``;
-      if (
-        settings.selectedAlgorandAccount === get(globalState, `global_buyer`)
-      ) {
-        methodByName = `buyer_request_contract_update`;
+      if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
+        // methodByName = `buyer_request_contract_update`;
+        methodByName = `seller_request_contract_update`;
       } else if (
-        settings.selectedAlgorandAccount === get(globalState, `global_seller`)
+        settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
       ) {
         methodByName = `seller_request_contract_update`;
       } else {
@@ -125,18 +124,18 @@ export function UpdateContractForm(props: P) {
         appID: Number.parseInt(id!),
         method: contract.getMethodByName(methodByName),
         methodArgs: [
-          buyer, // global_buyer: "",
-          seller, // global_seller: "",
-          Math.floor(escrowAmount1AsInt), // global_escrow_payment_1: "",
-          Math.floor(escrowAmount2AsInt), // global_escrow_payment_2: "",
-          Math.floor(escrowTotalAsInt), // global_total_price: "",
-          // moment(inspectionPeriodStart).unix(), // global_inspection_start_date: "",
-          // moment(inspectionPeriodEnd).unix(), // global_inspection_end_date: "",
-          // moment(inspectionPeriodExtension).unix(), // global_inspection_extension_date: "",
-          // moment(movingDate).unix(), // global_moving_date: "",
-          // moment(closingDate).unix(), // global_closing_date: "",
-          // moment(freeFundsDate).unix(), // global_free_funds_date: "",
-          // asaId === "-1" ? Math.floor(customAsaId) : Number.parseInt(asaId), // global_asa_id: ""
+          buyer, // glbl_buyer: "",
+          seller, // glbl_seller: "",
+          Math.floor(escrowAmount1AsInt), // glbl_escrow_1: "",
+          Math.floor(escrowAmount2AsInt), // glbl_escrow_2: "",
+          Math.floor(escrowTotalAsInt), // glbl_total: "",
+          // moment(inspectPeriodStart).unix(), // glbl_inspect_start_date: "",
+          // moment(inspectPeriodEnd).unix(), // glbl_inspect_end_date: "",
+          // moment(inspectPeriodExtension).unix(), // glbl_inspect_extension_date: "",
+          // moment(movingDate).unix(), // glbl_moving_date: "",
+          // moment(closingDate).unix(), // glbl_closing_date: "",
+          // moment(freeFundsDate).unix(), // glbl_free_funds_date: "",
+          // asaId === "-1" ? Math.floor(customAsaId) : Number.parseInt(asaId), // glbl_asa_id: ""
         ] as ABIArgument[],
         sender: settings.selectedAlgorandAccount,
         suggestedParams: params,
@@ -166,10 +165,11 @@ export function UpdateContractForm(props: P) {
   };
 
   let role = ``;
-  if (settings.selectedAlgorandAccount === get(globalState, `global_buyer`)) {
-    role = `Buyer`;
+  if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
+    // role = `Buyer`;
+    role = `Seller`;
   } else if (
-    settings.selectedAlgorandAccount === get(globalState, `global_seller`)
+    settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
   ) {
     role = `Seller`;
   } else {
@@ -189,19 +189,47 @@ export function UpdateContractForm(props: P) {
             variant="info"
             className="m-1"
             onClick={() => {
-              if (globalState["global_buyer_update"]) {
+              if (globalState) {
                 const escrow1FORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_buyer_update"][2], 2)
+                  moveDecimal(BigInt(globalState["glbl_escrow_1"]), 2)
                 )}`;
                 const escrow2FORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_buyer_update"][3], 2)
+                  moveDecimal(BigInt(globalState["glbl_escrow_2"]), 2)
                 )}`;
                 const escrowTotalFORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_buyer_update"][4], 2)
+                  moveDecimal(BigInt(globalState["glbl_total"]), 2)
                 )}`;
 
-                setValue("buyer", globalState["global_buyer_update"][0]);
-                setValue("seller", globalState["global_buyer_update"][1]);
+                setValue("buyer", globalState["glbl_buyer"]);
+                setValue("seller", globalState["glbl_seller"]);
+                setValue("escrowAmount1", escrow1FORMATTED);
+                setValue("escrowAmount2", escrow2FORMATTED);
+                setValue("escrowTotal", escrowTotalFORMATTED);
+              } else {
+                showErrorToast("No Buyer Proposed Revision");
+              }
+            }}
+          >
+            Load Current State
+          </Button>
+          <br />
+          <Button
+            variant="info"
+            className="m-1"
+            onClick={() => {
+              if (globalState["glbl_buyer_update"]) {
+                const escrow1FORMATTED = `$${formatter.format(
+                  moveDecimal(globalState["glbl_buyer_update"][2], 2)
+                )}`;
+                const escrow2FORMATTED = `$${formatter.format(
+                  moveDecimal(globalState["glbl_buyer_update"][3], 2)
+                )}`;
+                const escrowTotalFORMATTED = `$${formatter.format(
+                  moveDecimal(globalState["glbl_buyer_update"][4], 2)
+                )}`;
+
+                setValue("buyer", globalState["glbl_buyer_update"][0]);
+                setValue("seller", globalState["glbl_buyer_update"][1]);
                 setValue("escrowAmount1", escrow1FORMATTED);
                 setValue("escrowAmount2", escrow2FORMATTED);
                 setValue("escrowTotal", escrowTotalFORMATTED);
@@ -217,19 +245,19 @@ export function UpdateContractForm(props: P) {
             variant="info"
             className="m-1"
             onClick={() => {
-              if (globalState["global_seller_update"]) {
+              if (globalState["glbl_seller_update"]) {
                 const escrow1FORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_seller_update"][2], 2)
+                  moveDecimal(globalState["glbl_seller_update"][2], 2)
                 )}`;
                 const escrow2FORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_seller_update"][3], 2)
+                  moveDecimal(globalState["glbl_seller_update"][3], 2)
                 )}`;
                 const escrowTotalFORMATTED = `$${formatter.format(
-                  moveDecimal(globalState["global_seller_update"][4], 2)
+                  moveDecimal(globalState["glbl_seller_update"][4], 2)
                 )}`;
 
-                setValue("buyer", globalState["global_seller_update"][0]);
-                setValue("seller", globalState["global_seller_update"][1]);
+                setValue("buyer", globalState["glbl_seller_update"][0]);
+                setValue("seller", globalState["glbl_seller_update"][1]);
                 setValue("escrowAmount1", escrow1FORMATTED);
                 setValue("escrowAmount2", escrow2FORMATTED);
                 setValue("escrowTotal", escrowTotalFORMATTED);
@@ -303,9 +331,6 @@ export function UpdateContractForm(props: P) {
                     {...register("escrowTotal", {
                       // required: true,
                       validate: (value, formValues) => {
-                        // console.log("value", value);
-                        // console.log("formValues", formValues);
-
                         let escrowAmount1AsInt;
                         try {
                           escrowAmount1AsInt =
