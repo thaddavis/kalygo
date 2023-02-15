@@ -54,15 +54,15 @@ export const CashBuyContractForm = (props: P) => {
       escrowTotal: "$200,000.00",
       // asaId: 95939489,
       asaId: 12,
-      inspectionPeriodStart: moment().add("1", "m").add("0", "s").toString(),
-      inspectionPeriodEnd: moment().add("2", "m").toString(),
-      inspectionPeriodExtension: moment().add("3", "m").toString(),
+      inspectPeriodStart: moment().add("1", "m").add("0", "s").toString(),
+      inspectPeriodEnd: moment().add("2", "m").toString(),
+      inspectPeriodExtension: moment().add("3", "m").toString(),
       movingDate: moment().add("3", "m").add("30", "s").toString(),
       closingDate: moment().add("4", "m").toString(),
       freeFundsDate: moment().add("4", "m").add("30", "s").toString(),
-      // inspectionPeriodStart: moment().add("30", "s").toString(),
-      // inspectionPeriodEnd: moment().add("60", "s").toString(),
-      // inspectionPeriodExtension: moment().add("90", "s").toString(),
+      // inspectPeriodStart: moment().add("30", "s").toString(),
+      // inspectPeriodEnd: moment().add("60", "s").toString(),
+      // inspectPeriodExtension: moment().add("90", "s").toString(),
       // movingDate: moment().add("120", "s").toString(),
       // closingDate: moment().add("150", "s").toString(),
       // freeFundsDate: moment().add("180", "s").toString(),
@@ -84,9 +84,9 @@ export const CashBuyContractForm = (props: P) => {
         escrowAmount1,
         escrowAmount2,
         escrowTotal,
-        inspectionPeriodStart,
-        inspectionPeriodEnd,
-        inspectionPeriodExtension,
+        inspectPeriodStart,
+        inspectPeriodEnd,
+        inspectPeriodExtension,
         movingDate,
         closingDate,
         freeFundsDate,
@@ -141,18 +141,18 @@ export const CashBuyContractForm = (props: P) => {
         appID: 0,
         method: contract.getMethodByName("create"),
         methodArgs: [
-          buyer, // global_buyer: "",
-          seller, // global_seller: "",
-          Math.floor(escrowAmount1AsInt), // global_escrow_payment_1: "",
-          Math.floor(escrowAmount2AsInt), // global_escrow_payment_2: "",
-          Math.floor(escrowTotalAsInt), // global_total_price: "",
-          moment(inspectionPeriodStart).unix(), // global_inspection_start_date: "",
-          moment(inspectionPeriodEnd).unix(), // global_inspection_end_date: "",
-          moment(inspectionPeriodExtension).unix(), // global_inspection_extension_date: "",
-          moment(movingDate).unix(), // global_moving_date: "",
-          moment(closingDate).unix(), // global_closing_date: "",
-          moment(freeFundsDate).unix(), // global_free_funds_date: "",
-          Math.floor(asaId), // global_asa_id: ""
+          buyer, // glbl_buyer: "",
+          seller, // glbl_seller: "",
+          Math.floor(escrowAmount1AsInt), // glbl_escrow_1: "",
+          Math.floor(escrowAmount2AsInt), // glbl_escrow_2: "",
+          Math.floor(escrowTotalAsInt), // glbl_total: "",
+          moment(inspectPeriodStart).unix(), // glbl_inspect_start_date: "",
+          moment(inspectPeriodEnd).unix(), // glbl_inspect_end_date: "",
+          moment(inspectPeriodExtension).unix(), // glbl_inspect_extension_date: "",
+          moment(movingDate).unix(), // glbl_moving_date: "",
+          moment(closingDate).unix(), // glbl_closing_date: "",
+          moment(freeFundsDate).unix(), // glbl_free_funds_date: "",
+          Math.floor(asaId), // glbl_asa_id: ""
         ] as ABIArgument[],
         approvalProgram: a_prog,
         clearProgram: c_prog,
@@ -402,14 +402,14 @@ export const CashBuyContractForm = (props: P) => {
 
           <Row className="align-items-center">
             <Col md={6} className="mb-3">
-              <Form.Group id="inspection-period-start">
+              <Form.Group id="inspect-period-start">
                 <Form.Label>Inspection Period Start</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
                     // console.log("e", e.unix());
 
-                    setValue("inspectionPeriodStart", e.toString());
+                    setValue("inspectPeriodStart", e.toString());
                   }}
                   renderInput={(props, openCalendar) => (
                     <InputGroup>
@@ -417,11 +417,11 @@ export const CashBuyContractForm = (props: P) => {
                         <FontAwesomeIcon icon={faCalendarAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                        {...register("inspectionPeriodStart", {
+                        {...register("inspectPeriodStart", {
                           required: true,
                         })}
                         type="text"
-                        value={getValues("inspectionPeriodStart")}
+                        value={getValues("inspectPeriodStart")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();
@@ -433,14 +433,14 @@ export const CashBuyContractForm = (props: P) => {
               </Form.Group>
             </Col>
             <Col md={6} className="mb-3">
-              <Form.Group id="inspection-period-end">
+              <Form.Group id="inspect-period-end">
                 <Form.Label>Inspection Period End</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
                     // console.log("e", e.unix());
 
-                    setValue("inspectionPeriodEnd", e.toString());
+                    setValue("inspectPeriodEnd", e.toString());
                   }}
                   renderInput={(props, openCalendar) => (
                     <InputGroup>
@@ -448,11 +448,11 @@ export const CashBuyContractForm = (props: P) => {
                         <FontAwesomeIcon icon={faCalendarAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                        {...register("inspectionPeriodEnd", {
+                        {...register("inspectPeriodEnd", {
                           required: true,
                         })}
                         type="text"
-                        value={getValues("inspectionPeriodEnd")}
+                        value={getValues("inspectPeriodEnd")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();
@@ -467,14 +467,14 @@ export const CashBuyContractForm = (props: P) => {
 
           <Row>
             <Col md={6} className="mb-3">
-              <Form.Group id="inspection-period-end">
+              <Form.Group id="inspect-period-end">
                 <Form.Label>Inspection Period Extension</Form.Label>
                 <Datetime
                   timeFormat={true}
                   onChange={(e: any) => {
                     // console.log("e", e.unix());
 
-                    setValue("inspectionPeriodExtension", e.toString());
+                    setValue("inspectPeriodExtension", e.toString());
                   }}
                   renderInput={(props, openCalendar) => (
                     <InputGroup>
@@ -482,11 +482,11 @@ export const CashBuyContractForm = (props: P) => {
                         <FontAwesomeIcon icon={faCalendarAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                        {...register("inspectionPeriodExtension", {
+                        {...register("inspectPeriodExtension", {
                           required: true,
                         })}
                         type="text"
-                        value={getValues("inspectionPeriodExtension")}
+                        value={getValues("inspectPeriodExtension")}
                         placeholder="mm/dd/yyyy"
                         onFocus={(e: any) => {
                           openCalendar();

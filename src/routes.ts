@@ -24,7 +24,7 @@ export const RoutesData = {
   ForgotPassword: { path: "/examples/forgot-password" },
   ResetPassword: { path: "/examples/reset-password" },
   Lock: { path: "/examples/lock" },
-  NotFound: { path: "/examples/404" },
+  NotFound: { path: "/*" },
   ServerError: { path: "/examples/500" },
 
   // docs

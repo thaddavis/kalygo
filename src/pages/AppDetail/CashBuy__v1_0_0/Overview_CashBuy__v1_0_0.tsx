@@ -18,6 +18,7 @@ import { RolesWidget } from "../../../components/Widgets/CashBuy__v1_0_0/RolesWi
 import { TimelineWidget } from "../../../components/Widgets/CashBuy__v1_0_0/TimelineWidget";
 import { FlagsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/FlagsWidget";
 import { EscrowWidget } from "../../../components/Widgets/CashBuy__v1_0_0/EscrowWidget";
+import { UpdateContractWidget } from "../../../components/Widgets/CashBuy__v1_0_0/UpdateContractWidget";
 
 import algosdk from "algosdk";
 import { ActionsWidget } from "../../../components/Widgets/CashBuy__v1_0_0/ActionsWidget";
@@ -168,7 +169,7 @@ function Overview_CashBuy__v1_0_0() {
             parseGlobalState(
               appResponse?.application?.params &&
                 appResponse.application.params["global-state"]
-            )["global_asa_id"]
+            )["glbl_asa_id"]
           )
           .do();
         setAsset({
@@ -195,9 +196,9 @@ function Overview_CashBuy__v1_0_0() {
     : {
         timeline: [],
         now: new Date().getTime(),
-        inspectionPeriodStart: new Date().getTime(),
-        inspectionPeriodEnd: new Date().getTime(),
-        inspectionExtension: new Date().getTime(),
+        inspectPeriodStart: new Date().getTime(),
+        inspectPeriodEnd: new Date().getTime(),
+        inspectExtension: new Date().getTime(),
         movingDate: new Date().getTime(),
         closingDate: new Date().getTime(),
         freeFundsDate: new Date().getTime(),
@@ -238,9 +239,9 @@ function Overview_CashBuy__v1_0_0() {
           <OperatorConfig />
           <ActionsWidget
             now={timelineEvents.now}
-            inspectionPeriodStart={timelineEvents.inspectionPeriodStart}
-            inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
-            inspectionPeriodExtension={timelineEvents.inspectionExtension}
+            inspectPeriodStart={timelineEvents.inspectPeriodStart}
+            inspectPeriodEnd={timelineEvents.inspectPeriodEnd}
+            inspectPeriodExtension={timelineEvents.inspectExtension}
             closingDate={timelineEvents.closingDate}
             freeFundsDate={timelineEvents.freeFundsDate}
             movingDate={timelineEvents.movingDate}
@@ -252,30 +253,30 @@ function Overview_CashBuy__v1_0_0() {
               "assets.0.params.clawback",
               "Not Found"
             )}
-            buyer={get(app.val, "global_buyer", "Not Found")}
-            seller={get(app.val, "global_seller", "Not Found")}
+            buyer={get(app.val, "glbl_buyer", "Not Found")}
+            seller={get(app.val, "glbl_seller", "Not Found")}
             operator={settings.selectedAlgorandAccount}
             contractAddress={`${get(account.val, "address", "Not Found")}`}
             appId={Number.parseInt(id!)}
-            firstEscrowAmount={get(app.val, "global_escrow_payment_1", -1)}
-            secondEscrowAmount={get(app.val, "global_escrow_payment_2", -1)}
-            buyerPulloutFlag={get(app.val, "global_buyer_pullout_flag", -1)}
+            firstEscrowAmount={get(app.val, "glbl_escrow_1", -1)}
+            secondEscrowAmount={get(app.val, "glbl_escrow_2", -1)}
+            buyerPulloutFlag={get(app.val, "glbl_buyer_pullout_flag", -1)}
             buyerArbitrationFlag={get(
               app.val,
-              "global_buyer_arbitration_flag",
+              "glbl_buyer_arbitration_flag",
               -1
             )}
             sellerArbitrationFlag={get(
               app.val,
-              "global_seller_arbitration_flag",
+              "glbl_seller_arbitration_flag",
               -1
             )}
             showNoteModal={handleShow}
           />
           <RoleBoxWidget
             rolesWithBoxes={{
-              Buyer: get(app.val, "global_buyer", "Not Found"),
-              Seller: get(app.val, "global_seller", "Not Found"),
+              Buyer: get(app.val, "glbl_buyer", "Not Found"),
+              Seller: get(app.val, "glbl_seller", "Not Found"),
               Arbiter: get(asset.val, "assets.0.params.clawback", "Not Found"),
             }}
             appAddress={get(account.val, "address")}
@@ -284,42 +285,43 @@ function Overview_CashBuy__v1_0_0() {
           ></RoleBoxWidget>
           <RoleBoxWidget
             rolesWithBoxes={{
-              Buyer: get(app.val, "global_buyer", "Not Found"),
-              Seller: get(app.val, "global_seller", "Not Found"),
+              Buyer: get(app.val, "glbl_buyer", "Not Found"),
+              Seller: get(app.val, "glbl_seller", "Not Found"),
               Arbiter: get(asset.val, "assets.0.params.clawback", "Not Found"),
             }}
             appAddress={get(account.val, "address")}
             boxKey={"Seller"}
             appId={Number.parseInt(id!)}
           ></RoleBoxWidget>
+          <UpdateContractWidget appId={Number.parseInt(id!)} />
         </Col>
         <Col xs={12} xl={8} className="mb-4">
           <Row>
             <Col xs={12} lg={6} className="mb-4">
               <EscrowWidget
                 now={timelineEvents.now}
-                inspectionPeriodEnd={timelineEvents.inspectionPeriodEnd}
+                inspectPeriodEnd={timelineEvents.inspectPeriodEnd}
                 closingDate={timelineEvents.closingDate}
                 fungibleTokenName={escrowTokenName}
                 fungibleTokenBalance={escrowTokenBalance}
                 fungibleTokenDecimals={escrowTokenDecimals}
                 balance={get(account.val, "amount", -1)}
-                escrowAmount1={get(app.val, "global_escrow_payment_1", -1)}
-                escrowAmount2={get(app.val, "global_escrow_payment_2", -1)}
-                totalValue={get(app.val, "global_total_price", -1)}
+                escrowAmount1={get(app.val, "glbl_escrow_1", -1)}
+                escrowAmount2={get(app.val, "glbl_escrow_2", -1)}
+                totalValue={get(app.val, "glbl_total", -1)}
               />
             </Col>
             <Col xs={12} lg={6} className="mb-4">
               <FlagsWidget
-                buyerPullout={get(app.val, "global_buyer_pullout_flag", -1)}
+                buyerPullout={get(app.val, "glbl_buyer_pullout_flag", -1)}
                 buyerArbitration={get(
                   app.val,
-                  "global_buyer_arbitration_flag",
+                  "glbl_buyer_arbitration_flag",
                   -1
                 )}
                 sellerArbitration={get(
                   app.val,
-                  "global_seller_arbitration_flag",
+                  "glbl_seller_arbitration_flag",
                   -1
                 )}
               />
@@ -329,8 +331,8 @@ function Overview_CashBuy__v1_0_0() {
             </Col>
             <Col xs={12} className="mb-4">
               <RolesWidget
-                buyer={get(app.val, "global_buyer", "Not Found")}
-                seller={get(app.val, "global_seller", "Not Found")}
+                buyer={get(app.val, "glbl_buyer", "Not Found")}
+                seller={get(app.val, "glbl_seller", "Not Found")}
                 clawbackAddress={get(
                   asset.val,
                   "assets.0.params.clawback",

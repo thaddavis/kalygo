@@ -38,7 +38,7 @@ import CashBuyContract from "./contracts/CashBuyContract";
 // import ForgotPassword from "./examples/ForgotPassword";
 // import ResetPassword from "./examples/ResetPassword";
 // import Lock from "./examples/Lock";
-// import NotFoundPage from "./examples/NotFound";
+import NotFoundPage from "./examples/NotFound";
 // import ServerError from "./examples/ServerError";
 
 // documentation pages
@@ -88,6 +88,7 @@ import OverviewAsset from "./AppDetail/AssetDetail/OverviewAsset";
 import { Support } from "./documentation/Support";
 import { Box } from "./AppDetail/CashBuy__v1_0_0/Box";
 import { Governance } from "./Governance";
+import { UpdateContract } from "./AppDetail/CashBuy__v1_0_0/UpdateContract";
 
 const RouteWithLoader = (props: any) => {
   const [loaded, setLoaded] = useState(false);
@@ -396,9 +397,14 @@ const Router = () => (
         <Route path={"box/:app_id/:box/:role_address"} element={<Box />} />
         <Route path={"app/"} element={<AppDetail />}>
           <Route
+            path={"cashBuy__v1_0_0/:id/update"}
+            element={<UpdateContract />}
+          />
+          <Route
             path={"cashBuy__v1_0_0/:id/"}
             element={<Overview_CashBuy__v1_0_0 />}
           />
+
           <Route path={"asa/:id"} element={<OverviewAsset />} />
         </Route>
         <Route path={"support"} element={<Support />} />
@@ -418,6 +424,10 @@ const Router = () => (
         />
         <Route path={"settings"} element={<Settings />} />
       </Route>
+      {/* <Route
+        path={RoutesData.NotFound.path}
+        element={<RouteWithLoader component={NotFoundPage} />}
+      /> */}
       {/* <Route exact path={RoutesData.DashboardOverview.path} element={<RouteWithSidebar component={DashboardOverview} />} />
     <Route exact path={RoutesData.Upgrade.path} element={<RouteWithSidebar component={Upgrade} />} />
     <Route exact path={RoutesData.Transactions.path} element={<RouteWithSidebar component={Transactions} />} />
