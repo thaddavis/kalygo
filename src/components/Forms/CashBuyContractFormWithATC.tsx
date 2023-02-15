@@ -170,7 +170,7 @@ export const CashBuyContractForm = (props: P) => {
         ] as ABIArgument[],
         approvalProgram: a_prog,
         clearProgram: c_prog,
-        numGlobalByteSlices: 3,
+        numGlobalByteSlices: 5,
         numGlobalInts: 13,
         numLocalByteSlices: 0,
         numLocalInts: 0,
@@ -188,7 +188,6 @@ export const CashBuyContractForm = (props: P) => {
       console.log("submit_response", tx_id);
 
       showSuccessToast("Contract creation request sent to network!");
-
       showSuccessToast("Awaiting block confirmation...");
       await algosdk.waitForConfirmation(
         Algod.getAlgod(settings.selectedAlgorandNetwork),
