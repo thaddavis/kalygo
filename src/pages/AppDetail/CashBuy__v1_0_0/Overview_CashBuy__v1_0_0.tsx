@@ -162,16 +162,18 @@ function Overview_CashBuy__v1_0_0() {
           loading: false,
           error: null,
         });
+
+        const parsedGlobalState = parseGlobalState(
+          appResponse?.application?.params &&
+            appResponse.application.params["global-state"]
+        );
+
         // STEP 3
         let assetInfo = await Algod.getIndexer(settings.selectedAlgorandNetwork)
           .searchForAssets()
-          .index(
-            parseGlobalState(
-              appResponse?.application?.params &&
-                appResponse.application.params["global-state"]
-            )["glbl_asa_id"]
-          )
+          .index(parsedGlobalState["glbl_asa_id"])
           .do();
+
         setAsset({
           val: assetInfo,
           loading: false,
@@ -223,7 +225,9 @@ function Overview_CashBuy__v1_0_0() {
     }
   }
 
-  console.log("app --->>>", account);
+  console.log("app --->>>", app);
+  console.log("account --->>>", account);
+  console.log("asset --->>>", asset);
 
   return app.error ? (
     <h1>ERROR</h1>

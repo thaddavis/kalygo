@@ -176,6 +176,7 @@ export const CashBuyContractForm = (props: P) => {
         note: new Uint8Array(Buffer.from(supportedContracts.cashBuy__v1_0_0)),
         signer: signer,
         onComplete: onComplete,
+        extraPages: 1,
       });
 
       const tx_id = await atc.submit(

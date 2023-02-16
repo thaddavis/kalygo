@@ -1,5 +1,6 @@
 import React from "react";
-import { Col, Row, Card, Form, Button } from "react-bootstrap";
+import { Col, Row, Card, Form, Button, InputGroup } from "react-bootstrap";
+import Datetime from "react-datetime";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import get from "lodash/get";
@@ -14,9 +15,11 @@ import { supportedContracts } from "../../../../data/supportedContracts";
 import { formatCurrency } from "../../../../components/Forms/helpers/formatCurrency";
 import { Buffer } from "buffer";
 import { supportedStablecoins } from "../../../../components/Forms/helpers/supportedStablecoins";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { Algod } from "../../../../services/algod";
-
+import moment from "moment-timezone";
 import { Tooltip } from "./Tooltip";
 
 import algosdk, {
@@ -68,6 +71,12 @@ export function UpdateContractForm(props: P) {
       escrowAmount1: "",
       escrowAmount2: "",
       escrowTotal: "",
+      inspectPeriodStart: "",
+      inspectPeriodEnd: "",
+      inspectPeriodExtension: "",
+      movingDate: "",
+      closingDate: "",
+      freeFundsDate: "",
     },
   });
 
@@ -77,7 +86,19 @@ export function UpdateContractForm(props: P) {
   const onSubmit = async (data: any) => {
     try {
       console.log("-> data <-", data);
-      const { buyer, seller, escrowAmount1, escrowAmount2, escrowTotal } = data;
+      const {
+        buyer,
+        seller,
+        escrowAmount1,
+        escrowAmount2,
+        escrowTotal,
+        inspectPeriodStart,
+        inspectPeriodEnd,
+        inspectPeriodExtension,
+        movingDate,
+        closingDate,
+        freeFundsDate,
+      } = data;
       console.log("errors", errors);
 
       let escrowAmount1AsInt = escrowAmount1;
@@ -109,8 +130,8 @@ export function UpdateContractForm(props: P) {
 
       let methodByName = ``;
       if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
-        // methodByName = `buyer_request_contract_update`;
-        methodByName = `seller_request_contract_update`;
+        methodByName = `buyer_request_contract_update`;
+        // methodByName = `seller_request_contract_update`;
       } else if (
         settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
       ) {
@@ -119,6 +140,8 @@ export function UpdateContractForm(props: P) {
         showErrorToast("Invalid Role");
         return;
       }
+
+      console.log("methodByName", methodByName);
 
       atc.addMethodCall({
         appID: Number.parseInt(id!),
@@ -166,8 +189,8 @@ export function UpdateContractForm(props: P) {
 
   let role = ``;
   if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
-    // role = `Buyer`;
-    role = `Seller`;
+    role = `Buyer`;
+    // role = `Seller`;
   } else if (
     settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
   ) {
@@ -205,6 +228,40 @@ export function UpdateContractForm(props: P) {
                 setValue("escrowAmount1", escrow1FORMATTED);
                 setValue("escrowAmount2", escrow2FORMATTED);
                 setValue("escrowTotal", escrowTotalFORMATTED);
+                // inspectPeriodStart
+                setValue(
+                  "inspectPeriodStart",
+                  moment(
+                    globalState["glbl_inspect_start_date"] * 1000
+                  ).toString()
+                );
+                // inspectPeriodEnd
+                setValue(
+                  "inspectPeriodEnd",
+                  moment(globalState["glbl_inspect_end_date"] * 1000).toString()
+                );
+                // inspectPeriodExtension
+                setValue(
+                  "inspectPeriodExtension",
+                  moment(
+                    globalState["glbl_inspect_extension_date"] * 1000
+                  ).toString()
+                );
+                // movingDate
+                setValue(
+                  "movingDate",
+                  moment(globalState["glbl_moving_date"] * 1000).toString()
+                );
+                // closingDate
+                setValue(
+                  "closingDate",
+                  moment(globalState["glbl_closing_date"] * 1000).toString()
+                );
+                // freeFundsDate
+                setValue(
+                  "freeFundsDate",
+                  moment(globalState["glbl_free_funds_date"] * 1000).toString()
+                );
               } else {
                 showErrorToast("No Buyer Proposed Revision");
               }
@@ -414,6 +471,204 @@ export function UpdateContractForm(props: P) {
                     })}
                     type="text"
                     placeholder="Seller Wallet Address"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row className="align-items-center">
+              <Col md={6} className="mb-3">
+                <Form.Group id="inspect-period-start">
+                  <Form.Label>Inspection Period Start</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("inspectPeriodStart", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("inspectPeriodStart", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("inspectPeriodStart")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                        />
+                      </InputGroup>
+                    )}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Group id="inspect-period-end">
+                  <Form.Label>Inspection Period End</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("inspectPeriodEnd", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("inspectPeriodEnd", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("inspectPeriodEnd")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                        />
+                      </InputGroup>
+                    )}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6} className="mb-3">
+                <Form.Group id="inspect-period-end">
+                  <Form.Label>Inspection Period Extension</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("inspectPeriodExtension", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("inspectPeriodExtension", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("inspectPeriodExtension")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                        />
+                      </InputGroup>
+                    )}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Group id="closing-date">
+                  <Form.Label>Moving Date</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("movingDate", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("movingDate", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("movingDate")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                          onChange={() => {}}
+                        />
+                      </InputGroup>
+                    )}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6} className="mb-3">
+                <Form.Group id="closing-date">
+                  <Form.Label>Closing Date</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("closingDate", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("closingDate", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("closingDate")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                          onChange={() => {}}
+                        />
+                      </InputGroup>
+                    )}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Group id="closing-date">
+                  <Form.Label>Free Funds Date</Form.Label>
+                  <Datetime
+                    timeFormat={true}
+                    onChange={(e: any) => {
+                      // console.log("e", e.unix());
+
+                      setValue("freeFundsDate", e.toString());
+                    }}
+                    renderInput={(props, openCalendar) => (
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </InputGroup.Text>
+                        <Form.Control
+                          {...register("freeFundsDate", {
+                            required: true,
+                          })}
+                          type="text"
+                          value={getValues("freeFundsDate")}
+                          placeholder="mm/dd/yyyy"
+                          onFocus={(e: any) => {
+                            openCalendar();
+                          }}
+                          onChange={() => {}}
+                        />
+                      </InputGroup>
+                    )}
                   />
                 </Form.Group>
               </Col>

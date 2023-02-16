@@ -63,7 +63,7 @@ const Presentation = () => {
               </div>
               <div>
                 <FontAwesomeIcon
-                  style={{ height: 192, width: 192 }}
+                  style={{ height: 160, width: 160 }}
                   icon={faHive}
                   className="d-block mx-auto py-0 px-4"
                 />
@@ -76,11 +76,12 @@ const Presentation = () => {
         <Container>
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
-              <h2>Stablecoin Escrow</h2>
-              <p className="mb-3 lead fw-bold">Fast, Secure, and Cheap</p>
+              <h1>Cheap</h1>
+              <p className="mb-3 lead fw-bold">
+                Average fee of a successful transaction is 0.5%
+              </p>
               <p className="mb-4">
-                Kalygo facilitates stablecoin escrow in a peer-to-peer manner
-                using the world's premier blockchains
+                * in case of arbitration variable legal fees apply
               </p>
             </Col>
           </Row>
@@ -90,12 +91,10 @@ const Presentation = () => {
         <Container>
           <Row className="justify-content-center text-center text-white">
             <Col xs={12}>
-              <h2 className="fw-light mb-3">
+              <h1 className="fw-light mb-3">Fast</h1>
+              <p className="lead px-lg-8">
                 Less <span className="fw-bold">stress</span>, more{" "}
                 <span className="fw-bold">time for you</span>
-              </h2>
-              <p className="lead px-lg-8">
-                Enhance your escrow experience with Kalygo
               </p>
             </Col>
           </Row>
@@ -106,14 +105,13 @@ const Presentation = () => {
           <Row className="justify-content-end align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <div className="text-right">
-                <h2>Only the finest</h2>
+                <h1>Secure</h1>
                 <p className="mb-3 lead fw-bold">
                   Audited and Community Vetted
                 </p>
                 <p className="mb-4">
                   Kalygo prioritizes rigorously vetted contracts and excellent
-                  UI/UX. Enter the app to explore Kalygo's premium selection of
-                  contracts
+                  customer experience
                 </p>
               </div>
             </Col>
