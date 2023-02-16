@@ -87,14 +87,15 @@ export function ProposedRevisionDiff(props: P) {
     globalState.val && globalState.val[`glbl_${role}_update`];
 
   if (roleRequestedRevision && globalState.val) {
-    console.log(globalState.val["glbl_escrow_1"]);
-    console.log(roleRequestedRevision[2]);
-    console.log(typeof roleRequestedRevision[2]);
+    console.log(roleRequestedRevision);
+    // console.log(globalState.val["glbl_escrow_1"]);
+    // console.log(roleRequestedRevision[2]);
+    // console.log(typeof roleRequestedRevision[2]);
 
-    console.log(
-      BigInt(globalState.val["glbl_escrow_1"]) !==
-        toObject(roleRequestedRevision[2])
-    );
+    // console.log(
+    //   BigInt(globalState.val["glbl_escrow_1"]) !==
+    //     toObject(roleRequestedRevision[2])
+    // );
   }
 
   return (
@@ -106,6 +107,8 @@ export function ProposedRevisionDiff(props: P) {
         <>
           <div>
             <b>Buyer </b>
+            <span>{globalState.val["glbl_buyer"]}</span>
+            {" > "}
             <span
               style={{
                 color:
@@ -114,14 +117,14 @@ export function ProposedRevisionDiff(props: P) {
                     : "#4A5073",
               }}
             >
-              {globalState.val["glbl_buyer"]}
-              {" > "}
               {roleRequestedRevision[0]}
             </span>
           </div>
           {/*  */}
           <div>
             <b>Seller </b>
+            <span>{globalState.val["glbl_seller"]}</span>
+            {" > "}
             <span
               style={{
                 color:
@@ -130,8 +133,6 @@ export function ProposedRevisionDiff(props: P) {
                     : "#4A5073",
               }}
             >
-              {globalState.val["glbl_seller"]}
-              {" > "}
               {roleRequestedRevision[1]}
             </span>
           </div>
@@ -184,6 +185,23 @@ export function ProposedRevisionDiff(props: P) {
               }}
             >
               {toObject(roleRequestedRevision[4])}
+            </span>
+          </div>
+          {/*  */}
+          <div>
+            <b>Inspect Start Date</b>
+            <span>{globalState.val["glbl_inspect_start_date"]}</span>
+            {" > "}
+            <span
+              style={{
+                color:
+                  globalState.val["glbl_inspect_start_date"] !==
+                  roleRequestedRevision[5]
+                    ? "green"
+                    : "#4A5073",
+              }}
+            >
+              {roleRequestedRevision[5]}
             </span>
           </div>
         </>

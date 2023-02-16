@@ -107,7 +107,7 @@ export function UpdateContract() {
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Revise Contract</h1>
       </div>
-      <Accordion defaultActiveKey="0" alwaysOpen>
+      <Accordion defaultActiveKey="2" alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Last Seller Proposed Revision</Accordion.Header>
           <Accordion.Body>

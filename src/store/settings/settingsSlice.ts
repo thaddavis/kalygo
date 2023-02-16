@@ -43,8 +43,8 @@ interface SettingsStateForSpread {
 // Define the initial state using that type
 const initialState: SettingsState = {
   selectedEthereumNetwork: "Goerli",
-  selectedAlgorandNetwork: "TestNet",
-  // selectedAlgorandNetwork: "localhost",
+  // selectedAlgorandNetwork: "TestNet",
+  selectedAlgorandNetwork: "localhost",
   supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
   supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
   supportedBlockchains: [
@@ -59,10 +59,10 @@ const initialState: SettingsState = {
   accountsAlgorand: [],
   // selectedAccount: "T4N73AL4F4ZL6VJZWJ2QP2KV5VJEHJYFTFMVNTWG45MP4S4EDPJIWC45WI",
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
-  // selectedAlgorandAccount:
-  //   "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
   selectedAlgorandAccount:
-    "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+    "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
+  // selectedAlgorandAccount:
+  //   "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
   selectedEthereumAccount: "",
   // selectedBlockchain: "Ethereum",
   selectedBlockchain: "Algorand",
