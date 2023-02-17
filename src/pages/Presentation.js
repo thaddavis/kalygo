@@ -92,8 +92,7 @@ const Presentation = () => {
             <Col xs={12}>
               <h1 className="fw-light mb-3">Fast</h1>
               <p className="lead px-lg-8">
-                Less <span className="fw-bold">stress</span>, more{" "}
-                <span className="fw-bold">time for you</span>
+                <span className="fw-bold">Less stress, more time for you</span>
               </p>
               <p>
                 Real Estate and Business Purchases can be settled in less than
