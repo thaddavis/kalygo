@@ -63,7 +63,7 @@ const Presentation = () => {
               </div>
               <div>
                 <FontAwesomeIcon
-                  style={{ height: 160, width: 160 }}
+                  style={{ height: 148, width: 148 }}
                   icon={faHive}
                   className="d-block mx-auto py-0 px-4"
                 />
@@ -77,11 +77,10 @@ const Presentation = () => {
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <h1>Cheap</h1>
-              <p className="mb-3 lead fw-bold">
-                Average fee of a successful transaction is 0.5%
-              </p>
+              <p className="mb-3 lead fw-bold">0.3% platform fee</p>
               <p className="mb-4">
-                * in case of arbitration variable legal fees apply
+                ~$0.003 USD to execute an escrow agreement excluding contracts
+                that result in arbitration
               </p>
             </Col>
           </Row>
@@ -95,6 +94,10 @@ const Presentation = () => {
               <p className="lead px-lg-8">
                 Less <span className="fw-bold">stress</span>, more{" "}
                 <span className="fw-bold">time for you</span>
+              </p>
+              <p>
+                Real Estate and Business Purchases can be settled in less than
+                60 seconds
               </p>
             </Col>
           </Row>

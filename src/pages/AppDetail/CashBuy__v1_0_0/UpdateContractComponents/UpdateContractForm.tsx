@@ -130,8 +130,8 @@ export function UpdateContractForm(props: P) {
 
       let methodByName = ``;
       if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
-        methodByName = `buyer_request_contract_update`;
-        // methodByName = `seller_request_contract_update`;
+        // methodByName = `buyer_request_contract_update`;
+        methodByName = `seller_request_contract_update`;
       } else if (
         settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
       ) {
@@ -184,13 +184,14 @@ export function UpdateContractForm(props: P) {
       showSuccessToast("Proposed Revision request was successful...");
     } catch (e) {
       console.error(e);
+      showErrorToast("Error occurred during revision request...");
     }
   };
 
   let role = ``;
   if (settings.selectedAlgorandAccount === get(globalState, `glbl_buyer`)) {
-    role = `Buyer`;
-    // role = `Seller`;
+    // role = `Buyer`;
+    role = `Seller`;
   } else if (
     settings.selectedAlgorandAccount === get(globalState, `glbl_seller`)
   ) {
@@ -290,6 +291,41 @@ export function UpdateContractForm(props: P) {
                 setValue("escrowAmount1", escrow1FORMATTED);
                 setValue("escrowAmount2", escrow2FORMATTED);
                 setValue("escrowTotal", escrowTotalFORMATTED);
+
+                // inspectPeriodStart
+                setValue(
+                  "inspectPeriodStart",
+                  moment(
+                    globalState["glbl_inspect_start_date"] * 1000
+                  ).toString()
+                );
+                // inspectPeriodEnd
+                setValue(
+                  "inspectPeriodEnd",
+                  moment(globalState["glbl_inspect_end_date"] * 1000).toString()
+                );
+                // inspectPeriodExtension
+                setValue(
+                  "inspectPeriodExtension",
+                  moment(
+                    globalState["glbl_inspect_extension_date"] * 1000
+                  ).toString()
+                );
+                // movingDate
+                setValue(
+                  "movingDate",
+                  moment(globalState["glbl_moving_date"] * 1000).toString()
+                );
+                // closingDate
+                setValue(
+                  "closingDate",
+                  moment(globalState["glbl_closing_date"] * 1000).toString()
+                );
+                // freeFundsDate
+                setValue(
+                  "freeFundsDate",
+                  moment(globalState["glbl_free_funds_date"] * 1000).toString()
+                );
               } else {
                 showErrorToast("No Buyer Proposed Revision");
               }
@@ -318,6 +354,41 @@ export function UpdateContractForm(props: P) {
                 setValue("escrowAmount1", escrow1FORMATTED);
                 setValue("escrowAmount2", escrow2FORMATTED);
                 setValue("escrowTotal", escrowTotalFORMATTED);
+
+                // inspectPeriodStart
+                setValue(
+                  "inspectPeriodStart",
+                  moment(
+                    globalState["glbl_inspect_start_date"] * 1000
+                  ).toString()
+                );
+                // inspectPeriodEnd
+                setValue(
+                  "inspectPeriodEnd",
+                  moment(globalState["glbl_inspect_end_date"] * 1000).toString()
+                );
+                // inspectPeriodExtension
+                setValue(
+                  "inspectPeriodExtension",
+                  moment(
+                    globalState["glbl_inspect_extension_date"] * 1000
+                  ).toString()
+                );
+                // movingDate
+                setValue(
+                  "movingDate",
+                  moment(globalState["glbl_moving_date"] * 1000).toString()
+                );
+                // closingDate
+                setValue(
+                  "closingDate",
+                  moment(globalState["glbl_closing_date"] * 1000).toString()
+                );
+                // freeFundsDate
+                setValue(
+                  "freeFundsDate",
+                  moment(globalState["glbl_free_funds_date"] * 1000).toString()
+                );
               } else {
                 showErrorToast("No Seller Proposed Revision");
               }

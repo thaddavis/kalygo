@@ -235,7 +235,7 @@ function Overview_CashBuy__v1_0_0() {
     <ErrorBoundary>
       <div className="d-flex flex-column flex-wrap flex-md-nowrap align-items-center py-4">
         <h1>Cash Buy</h1>
-        <h6>{get(account, "val.address", "")}</h6>
+        {/* <h6>{get(account, "val.address", "")}</h6> */}
       </div>
 
       <Row>

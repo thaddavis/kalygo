@@ -15,7 +15,7 @@ export async function withdrawEscrow(
   network: string
 ) {
   try {
-    console.log("withdrawEscrow");
+    console.log("withdrawEscrow", sender, appId, fungibleTokenId, network);
     const contract = new algosdk.ABIContract(ABI.contract);
     let atc = new AtomicTransactionComposer();
     let params = await Algod.getAlgod(network).getTransactionParams().do();
