@@ -338,34 +338,6 @@ export const CashBuyContractForm = (props: P) => {
                   {...register("asaId", { required: true })}
                   onChange={(e: React.FormEvent<EventTarget>) => {
                     let target = e.target as HTMLSelectElement;
-
-                    // console.log("!@#!@#", target.value);
-                    // console.warn(
-                    //   "Need to populate network select with relevant networks for chosen blockchain"
-                    // );
-
-                    // setValue("selectedAlgorandAccount", "");
-                    // setValue("selectedAlgorandNetwork", "");
-                    // setValue("selectedBlockchain", target.value);
-
-                    // console.log(
-                    //   "___ ___ ___",
-                    //   settings.selectedAlgorandNetwork
-                    // );
-
-                    // dispatch(
-                    //   updateState({
-                    //     selectedBlockchain: target.value,
-                    //   })
-                    // );
-
-                    // switch (target.value) {
-                    //   case "Ethereum":
-                    //     break;
-                    //   case "Algorand":
-                    //     // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
-                    //     break;
-                    // }
                   }}
                   style={{
                     paddingRight: "32px",

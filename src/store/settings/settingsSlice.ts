@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import { PeraWalletConnect } from "@perawallet/connect";
 
 type EmptyNetwork = "";
 type SupportedEthereumNetworks = "MainNet" | "TestNet" | "localhost";
@@ -20,6 +21,7 @@ interface SettingsState {
   selectedEthereumNetwork: string;
   selectedAlgorandNetwork: string;
   supportedAlgorandNetworks: string[];
+  supportedAlgorandWallets: string[];
   supportedEthereumNetworks: string[];
   supportedBlockchains: SupportedBlockchain[];
   accountsEthereum: any[];
@@ -27,17 +29,21 @@ interface SettingsState {
   selectedEthereumAccount: string;
   selectedAlgorandAccount: string;
   selectedBlockchain: string;
+  selectedAlgorandWallet: string;
 }
 
 interface SettingsStateForSpread {
   network?: string[];
   supportedBlockchains?: SupportedBlockchain[];
   supportedNetworks?: string[];
-  accounts?: any[];
+
   selectedAccount?: string;
   selectedEthereumNetwork?: string;
   selectedAlgorandNetwork?: string;
   selectedBlockchain?: string;
+  selectedAlgorandWallet?: string;
+  accountsAlgorand?: any[];
+  accountsEthereum?: any[];
 }
 
 // Define the initial state using that type
@@ -46,6 +52,7 @@ const initialState: SettingsState = {
   selectedAlgorandNetwork: "TestNet",
   // selectedAlgorandNetwork: "localhost",
   supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
+  supportedAlgorandWallets: ["AlgoSigner", "Pera"],
   supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
   supportedBlockchains: [
     { name: "Algorand", enabled: true },
@@ -61,6 +68,7 @@ const initialState: SettingsState = {
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
   // selectedAlgorandAccount:
   //   "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
+  selectedAlgorandWallet: "Pera",
   selectedAlgorandAccount:
     "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
   selectedEthereumAccount: "",
@@ -103,6 +111,37 @@ export const fetchAlgoSignerNetworkAccounts = createAsyncThunk(
         accounts: [],
       };
     }
+  }
+);
+
+export const fetchPeraNetworkAccounts = createAsyncThunk(
+  "pera/fetchNetworkAccounts",
+  async (network: string, thunkAPI) => {
+    console.log("->->->", network, thunkAPI);
+
+    const peraWallet = new PeraWalletConnect({
+      // Default chainId is "4160"
+
+      chainId: 416001,
+    });
+
+    peraWallet
+      .connect()
+      .then((newAccounts) => {
+        // Setup the disconnect event listener
+        peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
+
+        // setAccountAddress(newAccounts[0]);
+
+        console.log("newAccounts ->", newAccounts);
+      })
+      .catch((error: any) => {
+        // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
+        // For the async/await syntax you MUST use try/catch
+        if (error?.data?.type !== "CONNECT_MODAL_CLOSED") {
+          // log the necessary errors
+        }
+      });
   }
 );
 

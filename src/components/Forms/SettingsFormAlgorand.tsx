@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { RootState } from "../../store/store";
 import {
   fetchAlgoSignerNetworkAccounts,
+  fetchPeraNetworkAccounts,
   fetchMetamaskNetworkAccounts,
   updateState,
 } from "../../store/settings/settingsSlice";
@@ -34,6 +35,7 @@ export const SettingsFormAlgorand = (props: P) => {
       selectedBlockchain: settings.selectedBlockchain,
       selectedAlgorandNetwork: settings.selectedAlgorandNetwork,
       selectedAlgorandAccount: settings.selectedAlgorandAccount,
+      selectedAlgorandWallet: settings.selectedAlgorandWallet,
     },
   });
 
@@ -134,6 +136,55 @@ export const SettingsFormAlgorand = (props: P) => {
             <Col md={6} className="mb-3">
               <Form.Group id="network">
                 <Form.Label>
+                  Wallet{" "}
+                  {errors.selectedAlgorandWallet && (
+                    <span style={{ color: "red" }}>*required</span>
+                  )}
+                </Form.Label>
+                <Form.Select
+                  {...register("selectedAlgorandWallet", { required: true })}
+                  onChange={(e: React.FormEvent<EventTarget>) => {
+                    let target = e.target as HTMLSelectElement;
+
+                    console.log("!@#!@#", target.value);
+
+                    setValue("selectedAlgorandAccount", "");
+
+                    dispatch(
+                      updateState({
+                        accountsAlgorand: [],
+                      })
+                    );
+                  }}
+                  style={{
+                    paddingRight: "32px",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {settings.supportedAlgorandWallets.map(
+                    (i: any, idx: number) => {
+                      return (
+                        <option
+                          key={i}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i}
+                        >
+                          {i}
+                        </option>
+                      );
+                    }
+                  )}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row className="align-items-center">
+            <Col md={6} className="mb-3">
+              <Form.Group id="network">
+                <Form.Label>
                   Network{" "}
                   {errors.selectedAlgorandNetwork && (
                     <span style={{ color: "red" }}>*required</span>
@@ -186,11 +237,23 @@ export const SettingsFormAlgorand = (props: P) => {
                     icon={faRotate}
                     onClick={() => {
                       console.log("_+_ Algorand _+_");
-                      dispatch(
-                        fetchAlgoSignerNetworkAccounts(
-                          getValues("selectedAlgorandNetwork")
-                        )
-                      );
+
+                      switch (settings.selectedAlgorandWallet) {
+                        case "AlgoSigner":
+                          dispatch(
+                            fetchAlgoSignerNetworkAccounts(
+                              getValues("selectedAlgorandNetwork")
+                            )
+                          );
+                          break;
+                        case "Pera":
+                          dispatch(
+                            fetchPeraNetworkAccounts(
+                              getValues("selectedAlgorandNetwork")
+                            )
+                          );
+                          break;
+                      }
 
                       console.log("___ ___ ___");
                     }}

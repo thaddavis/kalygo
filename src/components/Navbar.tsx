@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+import { PeraWalletConnect } from "@perawallet/connect";
+
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/hooks";
 import { showErrorToast } from "../utility/errorToast";
@@ -53,24 +55,66 @@ export const NavbarComponent = (props: P) => {
                 onClick={() => {
                   switch (settings.selectedBlockchain) {
                     case "Algorand":
-                      if (typeof (window as any).AlgoSigner !== "undefined") {
-                        (window as any).AlgoSigner.connect()
-                          .then(() =>
-                            (window as any).AlgoSigner.accounts({
-                              ledger: settings.selectedAlgorandNetwork,
-                            })
-                          )
-                          .then((accountData: any) => {
-                            console.log(accountData);
-                          })
-                          .catch((e: any) => {
-                            console.error(e);
+                      switch (settings.selectedAlgorandWallet) {
+                        case "AlgoSigner":
+                          if (
+                            typeof (window as any).AlgoSigner !== "undefined"
+                          ) {
+                            (window as any).AlgoSigner.connect()
+                              .then(() =>
+                                (window as any).AlgoSigner.accounts({
+                                  ledger: settings.selectedAlgorandNetwork,
+                                })
+                              )
+                              .then((accountData: any) => {
+                                console.log(accountData);
+                              })
+                              .catch((e: any) => {
+                                console.error(e);
+                              });
+                          } else {
+                            console.error("NO AlgoSigner");
+                            showErrorToast(
+                              "Make sure you have a compatible wallet installed on your browser"
+                            );
+                          }
+                          break;
+                        case "Pera":
+                          // showErrorToast("Need to connect to Pera Wallet");
+                          type AlgorandChainIDs =
+                            | 416001
+                            | 416002
+                            | 416003
+                            | 4160;
+
+                          const peraWallet = new PeraWalletConnect({
+                            // Default chainId is "4160"
+                            chainId: 416001,
                           });
-                      } else {
-                        console.error("NO AlgoSigner");
-                        showErrorToast(
-                          "Make sure you have a compatible wallet installed on your browser"
-                        );
+
+                          peraWallet
+                            .connect()
+                            .then((newAccounts) => {
+                              // Setup the disconnect event listener
+                              peraWallet.connector?.on("disconnect", () =>
+                                peraWallet.disconnect()
+                              );
+
+                              // setAccountAddress(newAccounts[0]);
+
+                              console.log("newAccounts", newAccounts);
+                            })
+                            .catch((error: any) => {
+                              // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
+                              // For the async/await syntax you MUST use try/catch
+                              if (
+                                error?.data?.type !== "CONNECT_MODAL_CLOSED"
+                              ) {
+                                // log the necessary errors
+                              }
+                            });
+
+                          break;
                       }
                       break;
                     case "Ethereum":

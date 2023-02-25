@@ -265,7 +265,7 @@ const RouteWithSidebar = (props: any) => {
 
           dispatch(
             updateState({
-              accounts: accounts,
+              accountsAlgorand: accounts,
             })
           );
         } catch (e) {}
@@ -294,7 +294,7 @@ const RouteWithSidebar = (props: any) => {
 
           dispatch(
             updateState({
-              accounts: accounts,
+              accountsEthereum: accounts,
             })
           );
         } catch (e) {
