@@ -305,14 +305,16 @@ const RouteWithSidebar = (props: any) => {
       }
     }
 
-    switch (settings.selectedBlockchain) {
-      case "Ethereum":
-        loadMetamask();
-        break;
-      case "Algorand":
-        loadAlgoSigner();
-        break;
-    }
+    // switch (settings.selectedBlockchain) {
+    //   case "Ethereum":
+    //     loadMetamask();
+    //     break;
+    //   case "Algorand":
+    //     loadAlgoSigner();
+    //     break;
+    // }
+
+    console.warn("Need to load up previously configured state");
   }, []);
 
   const localStorageIsSettingsVisible = () => {

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { PeraWalletConnect } from "@perawallet/connect";
+import { AlgorandChainIDs } from "@perawallet/connect/dist/util/peraWalletTypes";
 
 type EmptyNetwork = "";
 type SupportedEthereumNetworks = "MainNet" | "TestNet" | "localhost";
@@ -69,8 +70,10 @@ const initialState: SettingsState = {
   // selectedAlgorandAccount:
   //   "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
   selectedAlgorandWallet: "Pera",
+  // selectedAlgorandAccount:
+  //   "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
   selectedAlgorandAccount:
-    "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+    "MTUSAPRF4IN37AYD5OO2UUXFTDBU53IFYICMTTXA4BCH66MU7MWP5IBDFI",
   selectedEthereumAccount: "",
   // selectedBlockchain: "Ethereum",
   selectedBlockchain: "Algorand",
@@ -119,29 +122,55 @@ export const fetchPeraNetworkAccounts = createAsyncThunk(
   async (network: string, thunkAPI) => {
     console.log("->->->", network, thunkAPI);
 
-    const peraWallet = new PeraWalletConnect({
-      // Default chainId is "4160"
+    let chainId: AlgorandChainIDs = 4160;
+    switch (network) {
+      case "MainNet":
+        chainId = 416001;
+        break;
+      case "TestNet":
+        chainId = 416002;
+        break;
+      case "BetaNet":
+        chainId = 416003;
+        break;
+    }
 
-      chainId: 416001,
-    });
+    console.log("chainId", chainId);
 
-    peraWallet
-      .connect()
-      .then((newAccounts) => {
-        // Setup the disconnect event listener
-        peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
-
-        // setAccountAddress(newAccounts[0]);
-
-        console.log("newAccounts ->", newAccounts);
-      })
-      .catch((error: any) => {
-        // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
-        // For the async/await syntax you MUST use try/catch
-        if (error?.data?.type !== "CONNECT_MODAL_CLOSED") {
-          // log the necessary errors
-        }
+    try {
+      const peraWallet = new PeraWalletConnect({
+        chainId: chainId,
       });
+
+      let accounts = await peraWallet.connect();
+      peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
+
+      console.log("accounts", accounts);
+
+      return {
+        accounts,
+      };
+
+      // .then((newAccounts) => {
+      //   // Setup the disconnect event listener
+      //   peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
+
+      //   // setAccountAddress(newAccounts[0]);
+
+      //   console.log("newAccounts ->", newAccounts);
+      // })
+      // .catch((error: any) => {
+      //   // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
+      //   // For the async/await syntax you MUST use try/catch
+      //   if (error?.data?.type !== "CONNECT_MODAL_CLOSED") {
+      //     // log the necessary errors
+      //   }
+      // });
+    } catch (e) {
+      return {
+        accounts: [],
+      };
+    }
   }
 );
 
@@ -227,6 +256,17 @@ export const settingsSlice = createSlice({
         // state.selectedNetwork = action.payload.network as SupportedNetworks;
       }
     );
+
+    builder.addCase(fetchPeraNetworkAccounts.fulfilled, (state, action) => {
+      // Add user to the state array
+      // state.entities.push(action.payload);
+      state.accountsAlgorand = action.payload.accounts;
+      // state.selectedAccount =
+      //   action.payload.accounts.length > 0
+      //     ? action.payload.accounts[0].address
+      //     : "";
+      // state.selectedNetwork = action.payload.network as SupportedNetworks;
+    });
 
     builder.addCase(fetchMetamaskNetworkAccounts.fulfilled, (state, action) => {
       // Add user to the state array

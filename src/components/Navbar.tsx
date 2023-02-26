@@ -49,7 +49,7 @@ export const NavbarComponent = (props: P) => {
                 className="text-dark me-2"
               > */}
             <Nav.Item>
-              <Button
+              {/* <Button
                 variant="secondary"
                 className="text-dark me-2"
                 onClick={() => {
@@ -80,7 +80,6 @@ export const NavbarComponent = (props: P) => {
                           }
                           break;
                         case "Pera":
-                          // showErrorToast("Need to connect to Pera Wallet");
                           type AlgorandChainIDs =
                             | 416001
                             | 416002
@@ -88,29 +87,22 @@ export const NavbarComponent = (props: P) => {
                             | 4160;
 
                           const peraWallet = new PeraWalletConnect({
-                            // Default chainId is "4160"
                             chainId: 416001,
                           });
 
                           peraWallet
                             .connect()
                             .then((newAccounts) => {
-                              // Setup the disconnect event listener
                               peraWallet.connector?.on("disconnect", () =>
                                 peraWallet.disconnect()
                               );
 
-                              // setAccountAddress(newAccounts[0]);
-
                               console.log("newAccounts", newAccounts);
                             })
                             .catch((error: any) => {
-                              // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
-                              // For the async/await syntax you MUST use try/catch
                               if (
                                 error?.data?.type !== "CONNECT_MODAL_CLOSED"
                               ) {
-                                // log the necessary errors
                               }
                             });
 
@@ -123,17 +115,6 @@ export const NavbarComponent = (props: P) => {
                         (window as any).ethereum.request({
                           method: "eth_requestAccounts",
                         });
-                        //   .then(() =>
-                        //     (window as any).AlgoSigner.accounts({
-                        //       ledger: settings.selectedNetwork,
-                        //     })
-                        //   )
-                        //   .then((accountData: any) => {
-                        //     console.log(accountData);
-                        //   })
-                        //   .catch((e: any) => {
-                        //     console.error(e);
-                        //   });
                       } else {
                         console.error("NO Ethereum");
                         showErrorToast(
@@ -146,7 +127,7 @@ export const NavbarComponent = (props: P) => {
               >
                 <FontAwesomeIcon icon={faWallet} className="me-2" />
                 <span>Sync Wallet</span>
-              </Button>
+              </Button> */}
             </Nav.Item>
 
             {/* </Dropdown.Toggle> */}

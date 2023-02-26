@@ -16,6 +16,12 @@ interface ContractOption {
 
 let AlgorandContracts: ContractOption[] = [
   {
+    title: "💍 Promise",
+    desc: "Safely blockchainify any puzzle game",
+    pathTo: RoutesData.CashBuy.path,
+    disabled: false,
+  },
+  {
     title: "Cash Buy",
     desc: "Buyer purchases property with 100% 'cash'",
     pathTo: RoutesData.CashBuy.path,

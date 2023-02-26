@@ -61,6 +61,8 @@ export const SettingsFormAlgorand = (props: P) => {
 
   console.log("__ __", settings.selectedAlgorandNetwork);
 
+  console.log("___ ___", settings);
+
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
@@ -153,6 +155,7 @@ export const SettingsFormAlgorand = (props: P) => {
                     dispatch(
                       updateState({
                         accountsAlgorand: [],
+                        selectedAlgorandWallet: target.value,
                       })
                     );
                   }}
@@ -200,7 +203,7 @@ export const SettingsFormAlgorand = (props: P) => {
                     setValue("selectedAlgorandAccount", "");
                     setValue("selectedAlgorandNetwork", target.value);
 
-                    dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                    // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
                   }}
                   style={{
                     paddingRight: "32px",
@@ -276,6 +279,7 @@ export const SettingsFormAlgorand = (props: P) => {
                     Select...
                   </option>
                   {settings.selectedBlockchain === "Algorand" &&
+                    settings.selectedAlgorandWallet === "AlgoSigner" &&
                     settings.accountsAlgorand.map((i: any, idx: number) => {
                       return (
                         <option
@@ -286,6 +290,22 @@ export const SettingsFormAlgorand = (props: P) => {
                           value={i.address}
                         >
                           {i.address}
+                        </option>
+                      );
+                    })}
+
+                  {settings.selectedBlockchain === "Algorand" &&
+                    settings.selectedAlgorandWallet === "Pera" &&
+                    settings.accountsAlgorand.map((i: any, idx: number) => {
+                      return (
+                        <option
+                          key={i}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i}
+                        >
+                          {i}
                         </option>
                       );
                     })}
