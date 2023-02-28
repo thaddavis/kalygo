@@ -9,6 +9,7 @@ import { Buffer } from "buffer";
 import Datetime from "react-datetime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import get from "lodash/get";
 
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -39,6 +40,22 @@ export const CashBuyContractForm = (props: P) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [asset, setAsset] = useState<any>({
+    val: undefined,
+    loading: false,
+    error: undefined,
+  });
+
+  let defaultASAid = "23";
+  switch (settings.selectedAlgorandNetwork) {
+    case "MainNet":
+      defaultASAid = "31566704";
+      break;
+    case "TestNet":
+      defaultASAid = "10458941";
+      break;
+  }
+
   const {
     register,
     trigger,
@@ -51,11 +68,11 @@ export const CashBuyContractForm = (props: P) => {
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      escrowAmount1: "$100,000.00",
-      escrowAmount2: "$100,000.00",
-      escrowTotal: "$200,000.00",
+      escrowAmount1: "$10,000.00",
+      escrowAmount2: "$90,000.00",
+      escrowTotal: "$100,000.00",
       // asaId: 95939489,
-      asaId: "23",
+      asaId: defaultASAid,
       customAsaId: "",
       inspectPeriodStart: moment().add("1", "m").add("0", "s").toString(),
       inspectPeriodEnd: moment().add("2", "m").toString(),
@@ -80,9 +97,48 @@ export const CashBuyContractForm = (props: P) => {
   });
 
   const asaId = watch("asaId");
+  const customAsaId = watch("customAsaId");
 
   console.log("asaId", asaId);
   console.log("--->>>", asaId === "-1");
+
+  useEffect(() => {
+    async function fetch() {
+      try {
+        console.log("asaId", asaId);
+        console.log("customAsaId", customAsaId);
+
+        let assetInfo = await Algod.getIndexer(settings.selectedAlgorandNetwork)
+          .searchForAssets()
+          .index(
+            asaId === "-1"
+              ? Number.parseInt(customAsaId)
+              : Number.parseInt(asaId)
+          )
+          .do();
+
+        setAsset({
+          val: assetInfo,
+          loading: false,
+          error: null,
+        });
+      } catch (e) {
+        console.log("e", e);
+
+        showErrorToast("Error when fetching ASA metadata");
+
+        setAsset({
+          val: null,
+          loading: false,
+          error: e,
+        });
+      }
+    }
+
+    fetch();
+  }, [asaId, customAsaId]);
+
+  console.log(get(asset, "val.assets.0.params.decimals", 0));
 
   const onSubmit = async (data: any) => {
     try {
@@ -116,20 +172,36 @@ export const CashBuyContractForm = (props: P) => {
 
       console.log("errors", errors);
 
+      const assetDecimalsConfig = get(asset, "val.assets.0.params.decimals");
+
+      console.log("assetDecimalsConfig --->", assetDecimalsConfig);
+
+      if (!assetDecimalsConfig) throw "Error accessing Asset Config";
+
       let escrowAmount1AsInt = escrowAmount1;
       try {
         escrowAmount1AsInt =
-          Number(escrowAmount1.replace(/[^0-9.-]+/g, "")) * 100;
-      } catch (e) {}
+          Number(escrowAmount1.replace(/[^0-9.-]+/g, "")) *
+          Math.pow(10, assetDecimalsConfig);
+      } catch (e) {
+        console.error(e);
+      }
       let escrowAmount2AsInt = escrowAmount2;
       try {
         escrowAmount2AsInt =
-          Number(escrowAmount2.replace(/[^0-9.-]+/g, "")) * 100;
-      } catch (e) {}
+          Number(escrowAmount2.replace(/[^0-9.-]+/g, "")) *
+          Math.pow(10, assetDecimalsConfig);
+      } catch (e) {
+        console.error(e);
+      }
       let escrowTotalAsInt = escrowTotal;
       try {
-        escrowTotalAsInt = Number(escrowTotal.replace(/[^0-9.-]+/g, "")) * 100;
-      } catch (e) {}
+        escrowTotalAsInt =
+          Number(escrowTotal.replace(/[^0-9.-]+/g, "")) *
+          Math.pow(10, assetDecimalsConfig);
+      } catch (e) {
+        console.error(e);
+      }
 
       const contract = new algosdk.ABIContract(ABI.contract);
       let atc = new AtomicTransactionComposer();
@@ -221,7 +293,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-1">
-                <Form.Label>Escrow 1</Form.Label>
+                <Form.Label>Earnest Payment</Form.Label>
                 <Form.Control
                   {...register("escrowAmount1", { required: true })}
                   type="tel"
@@ -247,7 +319,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
             <Col sm={4} className="mb-3">
               <Form.Group id="escrow-amount-2">
-                <Form.Label>Escrow 2</Form.Label>
+                <Form.Label>2nd Payment</Form.Label>
                 <Form.Control
                   {...register("escrowAmount2", { required: true })}
                   type="tel"
@@ -597,7 +669,7 @@ export const CashBuyContractForm = (props: P) => {
           <Row>
             <Col sm={12} className="mb-3">
               <Form.Group id="buyer">
-                <Form.Label>Buyer (multisig w/ Realtor)</Form.Label>
+                <Form.Label>Buyer</Form.Label>
                 <Form.Control
                   {...register("buyer", {
                     required: true,
@@ -609,7 +681,7 @@ export const CashBuyContractForm = (props: P) => {
             </Col>
             <Col sm={12} className="mb-3">
               <Form.Group id="seller">
-                <Form.Label>Seller (multisig w/ Realtor)</Form.Label>
+                <Form.Label>Seller</Form.Label>
                 <Form.Control
                   {...register("seller", {
                     required: true,

@@ -89,10 +89,7 @@ export function Governance() {
               <article className="py-4">
                 <h1 id="governance">Governance </h1>
                 <p>Kalygo is an open source platform.</p>
-                <p>
-                  Standard jurisdictional fees (ie: 3% realtor commissions/1-2%
-                  title fees/etc.) apply.
-                </p>
+                <p>Standard jurisdictional fees apply.</p>
                 <p>
                   Company ownership is bonded to the ERC-20 token linked below
                 </p>
@@ -108,17 +105,19 @@ export function Governance() {
                   <CustomRow
                     theKey={"Token Name"}
                     value={
-                      get(tokenMetadata, "loading")
-                        ? "..."
-                        : get(tokenMetadata, "val.contract.name", "Not Found")
+                      "Kalygo"
+                      // get(tokenMetadata, "loading")
+                      //   ? "..."
+                      //   : get(tokenMetadata, "val.contract.name", "Not Found")
                     }
                   />
                   <CustomRow
                     theKey={"Token Symbol"}
                     value={
-                      get(tokenMetadata, "loading")
-                        ? "..."
-                        : get(tokenMetadata, "val.contract.symbol", "Not Found")
+                      "KALYGO"
+                      // get(tokenMetadata, "loading")
+                      //   ? "..."
+                      //   : get(tokenMetadata, "val.contract.symbol", "Not Found")
                     }
                   />
                 </ListGroup>

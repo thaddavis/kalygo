@@ -89,8 +89,7 @@ export const ActionsWidget = (props: P) => {
     <Card border="light" className="text-center p-0 mb-4">
       <Card.Body className="">
         <Card.Title>Actions</Card.Title>
-        {operator === buyer && <span>Buyer</span>}
-        <br />
+        {operator === buyer && <div className="pt-2">Buyer</div>}
         {operator === buyer && (
           <>
             {/* {
@@ -289,10 +288,7 @@ export const ActionsWidget = (props: P) => {
             }
           </>
         )}
-        <br />
-        <br />
-        {operator === seller && <span>Seller</span>}
-        <br />
+        {operator === seller && <div className="pt-2">Seller</div>}
         {operator === seller && (
           <>
             {
@@ -391,12 +387,9 @@ export const ActionsWidget = (props: P) => {
             }
           </>
         )}
-        <br />
-        <br />
         {operator === stablecoinIssuerClawbackAddress && (
-          <span>Stablecoin Issuer</span>
+          <div className="pt-2">Stablecoin Issuer</div>
         )}
-        <br />
         {operator === stablecoinIssuerClawbackAddress && (
           <>
             {
@@ -441,10 +434,7 @@ export const ActionsWidget = (props: P) => {
             }
           </>
         )}
-        <br />
-        <br />
-        {true && <span>General</span>}
-        <br />
+        {true && <div className="pt-2">General</div>}
         {true && (
           <>
             {

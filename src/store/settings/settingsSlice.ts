@@ -22,7 +22,7 @@ interface SettingsState {
   selectedEthereumNetwork: string;
   selectedAlgorandNetwork: string;
   supportedAlgorandNetworks: string[];
-  supportedAlgorandWallets: string[];
+  supportedAlgorandWallets: { name: string; enabled: boolean }[];
   supportedEthereumNetworks: string[];
   supportedBlockchains: SupportedBlockchain[];
   accountsEthereum: any[];
@@ -53,7 +53,16 @@ const initialState: SettingsState = {
   selectedAlgorandNetwork: "TestNet",
   // selectedAlgorandNetwork: "localhost",
   supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
-  supportedAlgorandWallets: ["AlgoSigner", "Pera"],
+  supportedAlgorandWallets: [
+    {
+      name: "AlgoSigner",
+      enabled: true,
+    },
+    {
+      name: "Pera",
+      enabled: false,
+    },
+  ],
   supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
   supportedBlockchains: [
     { name: "Algorand", enabled: true },
@@ -69,11 +78,11 @@ const initialState: SettingsState = {
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
   // selectedAlgorandAccount:
   //   "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
-  selectedAlgorandWallet: "Pera",
-  // selectedAlgorandAccount:
-  //   "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  selectedAlgorandWallet: "AlgoSigner",
   selectedAlgorandAccount:
-    "MTUSAPRF4IN37AYD5OO2UUXFTDBU53IFYICMTTXA4BCH66MU7MWP5IBDFI",
+    "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  // selectedAlgorandAccount:
+  //   "MTUSAPRF4IN37AYD5OO2UUXFTDBU53IFYICMTTXA4BCH66MU7MWP5IBDFI",
   selectedEthereumAccount: "",
   // selectedBlockchain: "Ethereum",
   selectedBlockchain: "Algorand",

@@ -21,6 +21,7 @@ import {
   faTwitter,
   faInstagram,
   faYoutube,
+  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 
 import { HashLink } from "react-router-hash-link";
@@ -145,6 +146,14 @@ const RouteWithLoader = (props: any) => {
             <Col xs={12} sm={4}>
               <ul className="d-flex flex-row justify-content-evenly py-4">
                 <li>
+                  <a href="https://www.linkedin.com/company/kalygo">
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faLinkedin}
+                    />
+                  </a>
+                </li>
+                <li>
                   <a href="https://twitter.com/kalygo_io">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
@@ -153,18 +162,18 @@ const RouteWithLoader = (props: any) => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/kalygo.io">
-                    <FontAwesomeIcon
-                      style={{ height: 24, width: 24 }}
-                      icon={faInstagram}
-                    />
-                  </a>
-                </li>
-                <li>
                   <a href="https://www.youtube.com/channel/UCho0SXnGBfEabvHdvaaz9oQ">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
                       icon={faYoutube}
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/kalygo.io">
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faInstagram}
                     />
                   </a>
                 </li>
@@ -358,11 +367,12 @@ const Router = () => (
     <Routes>
       <Route path="/" element={<RouteWithLoader />}>
         <Route path={""} element={<Presentation />} />
-      </Route>
-
-      <Route path="/" element={<RouteWithSidebar />}>
         <Route path={"governance"} element={<Governance />} />
       </Route>
+
+      {/* <Route path="/" element={<RouteWithSidebar />}>
+        <Route path={"governance"} element={<Governance />} />
+      </Route> */}
       {/* <Route
       path={RoutesData.Signin.path}
       element={<RouteWithLoader component={Signin} />}

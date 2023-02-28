@@ -16,15 +16,15 @@ interface ContractOption {
 
 let AlgorandContracts: ContractOption[] = [
   {
-    title: "💍 Promise",
-    desc: "Safely blockchainify any puzzle game",
+    title: "Escrow Agreement",
+    desc: "Timed escrow agreement with stablecoin payments",
     pathTo: RoutesData.CashBuy.path,
     disabled: false,
   },
   {
-    title: "Cash Buy",
-    desc: "Buyer purchases property with 100% 'cash'",
-    pathTo: RoutesData.CashBuy.path,
+    title: "ASA",
+    desc: "Create a fungible token",
+    pathTo: RoutesData.FungibleTokenContract.path,
     disabled: false,
   },
   // {
@@ -34,9 +34,15 @@ let AlgorandContracts: ContractOption[] = [
   //   disabled: false,
   // },
   {
-    title: "Rental Deposit",
-    desc: "Coming Soon...",
+    title: "Security Deposit",
+    desc: "Peer-to-peer security deposit",
     pathTo: RoutesData.FungibleTokenContract.path,
+    disabled: true,
+  },
+  {
+    title: "💍 Promise",
+    desc: "Safely blockchainify any Q&A prize game",
+    pathTo: RoutesData.CashBuy.path,
     disabled: true,
   },
   {
@@ -82,15 +88,15 @@ export default function ContractOptions() {
         {contracts.map((i, idx) => {
           return (
             <Col key={i.title} xs={12} sm={6} xl={4} className="mb-4">
-              <Card>
-                <Card.Body>
+              <Card className="h-100">
+                <Card.Body className="d-flex flex-column">
                   <Card.Title className="d-flex justify-content-between">
                     {i.title}{" "}
                     <Image
-                      width={32}
-                      height={32}
+                      width={24}
+                      height={24}
                       src={AlgoHelper_Gear}
-                      className="img-fluid"
+                      className="img-fluid mx-2"
                     />
                   </Card.Title>
                   <Card.Text>{i.desc}</Card.Text>

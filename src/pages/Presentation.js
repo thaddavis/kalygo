@@ -43,13 +43,12 @@ const Presentation = () => {
               <h1 className="fw-bolder text-secondary display-1 mb-0 ls-6">
                 KALYGO
               </h1>
-              {/* <h3 className=" text-secondary mb-4">Escrow</h3> */}
-              {/* <p className="text-muted fw-light mb-3 h5">
-                "Because what you put in is what you get out"
-              </p> */}
-              <div className="d-flex align-items-center justify-content-center py-4">
+              <h3 className=" text-secondary">Low Code meets Algorand</h3>
+              {/* <p className="text-muted fw-light mb-3 h5"></p> */}
+              <div className="d-flex align-items-center justify-content-center py-2">
                 <Button
                   variant="secondary"
+                  size="lg"
                   as={Link}
                   to={RoutesData.DashboardOverview.path}
                   className="text-dark me-3"
@@ -61,59 +60,56 @@ const Presentation = () => {
                   /> */}
                 </Button>
               </div>
-              <div>
+              {/* <div>
                 <FontAwesomeIcon
                   style={{ height: 148, width: 148 }}
                   icon={faHive}
                   className="d-block mx-auto py-0 px-4"
                 />
-              </div>
+              </div> */}
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="section section-md bg-soft" id="features">
+      <section className="section section-sm bg-soft" id="features">
         <Container>
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <h1>Cheap</h1>
-              <p className="mb-3 lead fw-bold">0.3% platform fee</p>
+              <p className="mb-2 lead fw-bold">Low Transaction Fees</p>
               <p className="mb-4">
-                ~$0.003 USD to execute an escrow agreement excluding contracts
-                that result in arbitration
+                Algorand's fees are among the lowest in the smart contract
+                landscape
               </p>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="section section-lg bg-primary" id="getting-started">
+      <section className="section section-sm bg-primary" id="getting-started">
         <Container>
           <Row className="justify-content-center text-center text-white">
             <Col xs={12}>
-              <h1 className="fw-light mb-3">Fast</h1>
-              <p className="lead px-lg-8">
+              <h1 className="fw-light mb-2">Fast</h1>
+              <p className="mb-2">
                 <span className="fw-bold">Less stress, more time for you</span>
               </p>
-              <p>
-                Real Estate and Business Purchases can be settled in less than
-                60 seconds
-              </p>
+              <p>Block times average about ~3.6 seconds and are final</p>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="section section-md bg-white" id="download">
+      <section className="section section-sm bg-white" id="download">
         <Container>
           <Row className="justify-content-end align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
               <div className="text-right">
                 <h1>Secure</h1>
-                <p className="mb-3 lead fw-bold">
+                <p className="mb-2 lead fw-bold">
                   Audited and Community Vetted
                 </p>
                 <p className="mb-4">
                   Kalygo prioritizes rigorously vetted contracts and excellent
-                  customer experience
+                  community experience
                 </p>
               </div>
             </Col>

@@ -30,6 +30,12 @@ export function Support() {
                     >
                       AlgoSigner
                     </Card.Link>
+                    {/* <Card.Link
+                      href="https://web.perawallet.app/"
+                      target="_blank"
+                    >
+                      Pera Web
+                    </Card.Link> */}
                   </li>
                   <li>
                     Ethereum{" "}
@@ -43,7 +49,7 @@ export function Support() {
                       Coming Soon...
                     </Card.Link>
                   </li>
-                  <li>
+                  {/* <li>
                     Solana{" "}
                     <Card.Link href="https://solana.com/" target="_blank">
                       Coming Soon...
@@ -60,7 +66,7 @@ export function Support() {
                     <Card.Link href="https://cardano.org/" target="_blank">
                       Coming Soon...
                     </Card.Link>
-                  </li>
+                  </li> */}
                 </ul>
 
                 <h2 id="getting-support">Getting support</h2>

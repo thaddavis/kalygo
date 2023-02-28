@@ -168,13 +168,14 @@ export const SettingsFormAlgorand = (props: P) => {
                     (i: any, idx: number) => {
                       return (
                         <option
-                          key={i}
+                          disabled={!i.enabled}
+                          key={i.name}
                           style={{
                             textOverflow: "ellipsis",
                           }}
-                          value={i}
+                          value={i.name}
                         >
-                          {i}
+                          {i.name}
                         </option>
                       );
                     }
