@@ -21,17 +21,11 @@ let AlgorandContracts: ContractOption[] = [
     pathTo: RoutesData.CashBuy.path,
     disabled: false,
   },
-  // {
-  //   title: "Property Rights DAO",
-  //   desc: "Coming soon...",
-  //   pathTo: RoutesData.NewFinanceDealContract.path,
-  //   disabled: false,
-  // },
   {
-    title: "Rental Deposit",
-    desc: "Coming Soon...",
+    title: "ASA",
+    desc: "Create and manage a fungible token in a low-code manner",
     pathTo: RoutesData.FungibleTokenContract.path,
-    disabled: true,
+    disabled: false,
   },
   {
     title: "Financed Deal",
