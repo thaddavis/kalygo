@@ -146,18 +146,10 @@ const RouteWithLoader = (props: any) => {
             <Col xs={12} sm={4}>
               <ul className="d-flex flex-row justify-content-evenly py-4">
                 <li>
-                  <a href="https://www.linkedin.com/company/kalygo">
+                  <a href="https://www.instagram.com/kalygo.io">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
-                      icon={faLinkedin}
-                    />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://twitter.com/kalygo_io">
-                    <FontAwesomeIcon
-                      style={{ height: 24, width: 24 }}
-                      icon={faTwitter}
+                      icon={faInstagram}
                     />
                   </a>
                 </li>
@@ -170,10 +162,18 @@ const RouteWithLoader = (props: any) => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/kalygo.io">
+                  <a href="https://twitter.com/kalygo_io">
                     <FontAwesomeIcon
                       style={{ height: 24, width: 24 }}
-                      icon={faInstagram}
+                      icon={faTwitter}
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/company/kalygo">
+                    <FontAwesomeIcon
+                      style={{ height: 24, width: 24 }}
+                      icon={faLinkedin}
                     />
                   </a>
                 </li>

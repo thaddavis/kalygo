@@ -75,11 +75,11 @@ const Presentation = () => {
         <Container>
           <Row className="justify-content-between align-items-center">
             <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
-              <h1>Cheap</h1>
-              <p className="mb-2 lead fw-bold">Low Transaction Fees</p>
+              <h1>Secure</h1>
+              <p className="mb-2 lead fw-bold">Audited and Community Vetted</p>
               <p className="mb-4">
-                Algorand's fees are among the lowest in the smart contract
-                landscape
+                Kalygo prioritizes rigorously vetted contracts and excellent
+                community experience
               </p>
             </Col>
           </Row>
@@ -101,17 +101,13 @@ const Presentation = () => {
       <section className="section section-sm bg-white" id="download">
         <Container>
           <Row className="justify-content-end align-items-center">
-            <Col lg={5} className="order-lg-2 mb-0 mb-lg-0">
-              <div className="text-right">
-                <h1>Secure</h1>
-                <p className="mb-2 lead fw-bold">
-                  Audited and Community Vetted
-                </p>
-                <p className="mb-4">
-                  Kalygo prioritizes rigorously vetted contracts and excellent
-                  community experience
-                </p>
-              </div>
+            <Col lg={5} className="order-lg-2 mb-0 mb-lg-0 text-right">
+              <h1>Cheap</h1>
+              <p className="mb-2 lead fw-bold">Low Transaction Fees</p>
+              <p className="mb-4">
+                Algorand's fees are among the lowest in the smart contract
+                landscape
+              </p>
             </Col>
           </Row>
         </Container>
