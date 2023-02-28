@@ -13,7 +13,7 @@ export const supportedStablecoins: any = {
     TestNet: [
       {
         symbol: "USDCa",
-        tokenId: "23",
+        tokenId: "10458941",
       },
       {
         symbol: "Other",

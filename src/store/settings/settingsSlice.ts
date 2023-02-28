@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import { PeraWalletConnect } from "@perawallet/connect";
+import { AlgorandChainIDs } from "@perawallet/connect/dist/util/peraWalletTypes";
 
 type EmptyNetwork = "";
 type SupportedEthereumNetworks = "MainNet" | "TestNet" | "localhost";
@@ -20,6 +22,7 @@ interface SettingsState {
   selectedEthereumNetwork: string;
   selectedAlgorandNetwork: string;
   supportedAlgorandNetworks: string[];
+  supportedAlgorandWallets: { name: string; enabled: boolean }[];
   supportedEthereumNetworks: string[];
   supportedBlockchains: SupportedBlockchain[];
   accountsEthereum: any[];
@@ -27,17 +30,21 @@ interface SettingsState {
   selectedEthereumAccount: string;
   selectedAlgorandAccount: string;
   selectedBlockchain: string;
+  selectedAlgorandWallet: string;
 }
 
 interface SettingsStateForSpread {
   network?: string[];
   supportedBlockchains?: SupportedBlockchain[];
   supportedNetworks?: string[];
-  accounts?: any[];
+
   selectedAccount?: string;
   selectedEthereumNetwork?: string;
   selectedAlgorandNetwork?: string;
   selectedBlockchain?: string;
+  selectedAlgorandWallet?: string;
+  accountsAlgorand?: any[];
+  accountsEthereum?: any[];
 }
 
 // Define the initial state using that type
@@ -46,6 +53,16 @@ const initialState: SettingsState = {
   selectedAlgorandNetwork: "TestNet",
   // selectedAlgorandNetwork: "localhost",
   supportedAlgorandNetworks: ["MainNet", "TestNet", "localhost"],
+  supportedAlgorandWallets: [
+    {
+      name: "AlgoSigner",
+      enabled: true,
+    },
+    {
+      name: "Pera",
+      enabled: false,
+    },
+  ],
   supportedEthereumNetworks: ["Mainnet", "Sepolia", "Goerli", "localhost"],
   supportedBlockchains: [
     { name: "Algorand", enabled: true },
@@ -61,8 +78,11 @@ const initialState: SettingsState = {
   // selectedAccount: "RHKHUONCBB7JOIQ2RDCSV3NUX5JFKLLOG2RKN4LRIJ6DQMAIBTFLLO72DM",
   // selectedAlgorandAccount:
   //   "YRRGGYPFQYUIKHTYCWL3V7FGMDNNVZ46QJKE6GQQDURQL3NIVUIUFQSXAY", // localhost
+  selectedAlgorandWallet: "AlgoSigner",
   selectedAlgorandAccount:
     "STRA24PIDCBJIWPSH7QEBM4WWUQU36WVGCEPAKOLZ6YK7IVLWPGL6AN6RU",
+  // selectedAlgorandAccount:
+  //   "MTUSAPRF4IN37AYD5OO2UUXFTDBU53IFYICMTTXA4BCH66MU7MWP5IBDFI",
   selectedEthereumAccount: "",
   // selectedBlockchain: "Ethereum",
   selectedBlockchain: "Algorand",
@@ -100,6 +120,63 @@ export const fetchAlgoSignerNetworkAccounts = createAsyncThunk(
 
       return {
         // network,
+        accounts: [],
+      };
+    }
+  }
+);
+
+export const fetchPeraNetworkAccounts = createAsyncThunk(
+  "pera/fetchNetworkAccounts",
+  async (network: string, thunkAPI) => {
+    console.log("->->->", network, thunkAPI);
+
+    let chainId: AlgorandChainIDs = 4160;
+    switch (network) {
+      case "MainNet":
+        chainId = 416001;
+        break;
+      case "TestNet":
+        chainId = 416002;
+        break;
+      case "BetaNet":
+        chainId = 416003;
+        break;
+    }
+
+    console.log("chainId", chainId);
+
+    try {
+      const peraWallet = new PeraWalletConnect({
+        chainId: chainId,
+      });
+
+      let accounts = await peraWallet.connect();
+      peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
+
+      console.log("accounts", accounts);
+
+      return {
+        accounts,
+      };
+
+      // .then((newAccounts) => {
+      //   // Setup the disconnect event listener
+      //   peraWallet.connector?.on("disconnect", () => peraWallet.disconnect());
+
+      //   // setAccountAddress(newAccounts[0]);
+
+      //   console.log("newAccounts ->", newAccounts);
+      // })
+      // .catch((error: any) => {
+      //   // You MUST handle the reject because once the user closes the modal, peraWallet.connect() promise will be rejected.
+      //   // For the async/await syntax you MUST use try/catch
+      //   if (error?.data?.type !== "CONNECT_MODAL_CLOSED") {
+      //     // log the necessary errors
+      //   }
+      // });
+    } catch (e) {
+      return {
         accounts: [],
       };
     }
@@ -188,6 +265,17 @@ export const settingsSlice = createSlice({
         // state.selectedNetwork = action.payload.network as SupportedNetworks;
       }
     );
+
+    builder.addCase(fetchPeraNetworkAccounts.fulfilled, (state, action) => {
+      // Add user to the state array
+      // state.entities.push(action.payload);
+      state.accountsAlgorand = action.payload.accounts;
+      // state.selectedAccount =
+      //   action.payload.accounts.length > 0
+      //     ? action.payload.accounts[0].address
+      //     : "";
+      // state.selectedNetwork = action.payload.network as SupportedNetworks;
+    });
 
     builder.addCase(fetchMetamaskNetworkAccounts.fulfilled, (state, action) => {
       // Add user to the state array

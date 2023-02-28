@@ -58,7 +58,7 @@ export const EscrowWidget = (props: P) => {
     );
   };
 
-  const escrowTokenName = fungibleTokenName;
+  const escrowTokenName = fungibleTokenName || "";
   const formatter = new Intl.NumberFormat("en-US", {
     style: "decimal",
     minimumFractionDigits: 2, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -69,15 +69,18 @@ export const EscrowWidget = (props: P) => {
   const fungibleTokenBalanceFORMATTED = formatter.format(
     moveDecimal(fungibleTokenBalance, fungibleTokenDecimals)
   );
-  const escrowAmount1FORMATTED = formatter.format(
-    moveDecimal(escrowAmount1, fungibleTokenDecimals)
-  );
-  const escrowAmount2FORMATTED = formatter.format(
-    moveDecimal(escrowAmount2, fungibleTokenDecimals)
-  );
-  const totalValueFORMATTED = formatter.format(
-    moveDecimal(totalValue, fungibleTokenDecimals)
-  );
+  const escrowAmount1FORMATTED =
+    escrowAmount1 && fungibleTokenDecimals
+      ? formatter.format(moveDecimal(escrowAmount1, fungibleTokenDecimals))
+      : "ø";
+  const escrowAmount2FORMATTED =
+    escrowAmount2 && fungibleTokenDecimals
+      ? formatter.format(moveDecimal(escrowAmount2, fungibleTokenDecimals))
+      : "ø";
+  const totalValueFORMATTED =
+    totalValue && fungibleTokenDecimals
+      ? formatter.format(moveDecimal(totalValue, fungibleTokenDecimals))
+      : "ø";
 
   return (
     <Card

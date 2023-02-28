@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { RootState } from "../../store/store";
 import {
   fetchAlgoSignerNetworkAccounts,
+  fetchPeraNetworkAccounts,
   fetchMetamaskNetworkAccounts,
   updateState,
 } from "../../store/settings/settingsSlice";
@@ -34,6 +35,7 @@ export const SettingsFormAlgorand = (props: P) => {
       selectedBlockchain: settings.selectedBlockchain,
       selectedAlgorandNetwork: settings.selectedAlgorandNetwork,
       selectedAlgorandAccount: settings.selectedAlgorandAccount,
+      selectedAlgorandWallet: settings.selectedAlgorandWallet,
     },
   });
 
@@ -58,6 +60,8 @@ export const SettingsFormAlgorand = (props: P) => {
   };
 
   console.log("__ __", settings.selectedAlgorandNetwork);
+
+  console.log("___ ___", settings);
 
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
@@ -134,6 +138,57 @@ export const SettingsFormAlgorand = (props: P) => {
             <Col md={6} className="mb-3">
               <Form.Group id="network">
                 <Form.Label>
+                  Wallet{" "}
+                  {errors.selectedAlgorandWallet && (
+                    <span style={{ color: "red" }}>*required</span>
+                  )}
+                </Form.Label>
+                <Form.Select
+                  {...register("selectedAlgorandWallet", { required: true })}
+                  onChange={(e: React.FormEvent<EventTarget>) => {
+                    let target = e.target as HTMLSelectElement;
+
+                    console.log("!@#!@#", target.value);
+
+                    setValue("selectedAlgorandAccount", "");
+
+                    dispatch(
+                      updateState({
+                        accountsAlgorand: [],
+                        selectedAlgorandWallet: target.value,
+                      })
+                    );
+                  }}
+                  style={{
+                    paddingRight: "32px",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {settings.supportedAlgorandWallets.map(
+                    (i: any, idx: number) => {
+                      return (
+                        <option
+                          disabled={!i.enabled}
+                          key={i.name}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i.name}
+                        >
+                          {i.name}
+                        </option>
+                      );
+                    }
+                  )}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row className="align-items-center">
+            <Col md={6} className="mb-3">
+              <Form.Group id="network">
+                <Form.Label>
                   Network{" "}
                   {errors.selectedAlgorandNetwork && (
                     <span style={{ color: "red" }}>*required</span>
@@ -149,7 +204,7 @@ export const SettingsFormAlgorand = (props: P) => {
                     setValue("selectedAlgorandAccount", "");
                     setValue("selectedAlgorandNetwork", target.value);
 
-                    dispatch(fetchAlgoSignerNetworkAccounts(target.value));
+                    // dispatch(fetchAlgoSignerNetworkAccounts(target.value));
                   }}
                   style={{
                     paddingRight: "32px",
@@ -186,11 +241,23 @@ export const SettingsFormAlgorand = (props: P) => {
                     icon={faRotate}
                     onClick={() => {
                       console.log("_+_ Algorand _+_");
-                      dispatch(
-                        fetchAlgoSignerNetworkAccounts(
-                          getValues("selectedAlgorandNetwork")
-                        )
-                      );
+
+                      switch (settings.selectedAlgorandWallet) {
+                        case "AlgoSigner":
+                          dispatch(
+                            fetchAlgoSignerNetworkAccounts(
+                              getValues("selectedAlgorandNetwork")
+                            )
+                          );
+                          break;
+                        case "Pera":
+                          dispatch(
+                            fetchPeraNetworkAccounts(
+                              getValues("selectedAlgorandNetwork")
+                            )
+                          );
+                          break;
+                      }
 
                       console.log("___ ___ ___");
                     }}
@@ -213,6 +280,7 @@ export const SettingsFormAlgorand = (props: P) => {
                     Select...
                   </option>
                   {settings.selectedBlockchain === "Algorand" &&
+                    settings.selectedAlgorandWallet === "AlgoSigner" &&
                     settings.accountsAlgorand.map((i: any, idx: number) => {
                       return (
                         <option
@@ -223,6 +291,22 @@ export const SettingsFormAlgorand = (props: P) => {
                           value={i.address}
                         >
                           {i.address}
+                        </option>
+                      );
+                    })}
+
+                  {settings.selectedBlockchain === "Algorand" &&
+                    settings.selectedAlgorandWallet === "Pera" &&
+                    settings.accountsAlgorand.map((i: any, idx: number) => {
+                      return (
+                        <option
+                          key={i}
+                          style={{
+                            textOverflow: "ellipsis",
+                          }}
+                          value={i}
+                        >
+                          {i}
                         </option>
                       );
                     })}

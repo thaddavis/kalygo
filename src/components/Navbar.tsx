@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+import { PeraWalletConnect } from "@perawallet/connect";
+
 import { RootState } from "../store/store";
 import { useAppSelector } from "../store/hooks";
 import { showErrorToast } from "../utility/errorToast";
@@ -47,30 +49,64 @@ export const NavbarComponent = (props: P) => {
                 className="text-dark me-2"
               > */}
             <Nav.Item>
-              <Button
+              {/* <Button
                 variant="secondary"
                 className="text-dark me-2"
                 onClick={() => {
                   switch (settings.selectedBlockchain) {
                     case "Algorand":
-                      if (typeof (window as any).AlgoSigner !== "undefined") {
-                        (window as any).AlgoSigner.connect()
-                          .then(() =>
-                            (window as any).AlgoSigner.accounts({
-                              ledger: settings.selectedAlgorandNetwork,
-                            })
-                          )
-                          .then((accountData: any) => {
-                            console.log(accountData);
-                          })
-                          .catch((e: any) => {
-                            console.error(e);
+                      switch (settings.selectedAlgorandWallet) {
+                        case "AlgoSigner":
+                          if (
+                            typeof (window as any).AlgoSigner !== "undefined"
+                          ) {
+                            (window as any).AlgoSigner.connect()
+                              .then(() =>
+                                (window as any).AlgoSigner.accounts({
+                                  ledger: settings.selectedAlgorandNetwork,
+                                })
+                              )
+                              .then((accountData: any) => {
+                                console.log(accountData);
+                              })
+                              .catch((e: any) => {
+                                console.error(e);
+                              });
+                          } else {
+                            console.error("NO AlgoSigner");
+                            showErrorToast(
+                              "Make sure you have a compatible wallet installed on your browser"
+                            );
+                          }
+                          break;
+                        case "Pera":
+                          type AlgorandChainIDs =
+                            | 416001
+                            | 416002
+                            | 416003
+                            | 4160;
+
+                          const peraWallet = new PeraWalletConnect({
+                            chainId: 416001,
                           });
-                      } else {
-                        console.error("NO AlgoSigner");
-                        showErrorToast(
-                          "Make sure you have a compatible wallet installed on your browser"
-                        );
+
+                          peraWallet
+                            .connect()
+                            .then((newAccounts) => {
+                              peraWallet.connector?.on("disconnect", () =>
+                                peraWallet.disconnect()
+                              );
+
+                              console.log("newAccounts", newAccounts);
+                            })
+                            .catch((error: any) => {
+                              if (
+                                error?.data?.type !== "CONNECT_MODAL_CLOSED"
+                              ) {
+                              }
+                            });
+
+                          break;
                       }
                       break;
                     case "Ethereum":
@@ -79,17 +115,6 @@ export const NavbarComponent = (props: P) => {
                         (window as any).ethereum.request({
                           method: "eth_requestAccounts",
                         });
-                        //   .then(() =>
-                        //     (window as any).AlgoSigner.accounts({
-                        //       ledger: settings.selectedNetwork,
-                        //     })
-                        //   )
-                        //   .then((accountData: any) => {
-                        //     console.log(accountData);
-                        //   })
-                        //   .catch((e: any) => {
-                        //     console.error(e);
-                        //   });
                       } else {
                         console.error("NO Ethereum");
                         showErrorToast(
@@ -102,7 +127,7 @@ export const NavbarComponent = (props: P) => {
               >
                 <FontAwesomeIcon icon={faWallet} className="me-2" />
                 <span>Sync Wallet</span>
-              </Button>
+              </Button> */}
             </Nav.Item>
 
             {/* </Dropdown.Toggle> */}

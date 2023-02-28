@@ -79,6 +79,10 @@ export const OperatorConfig = () => {
               {/* New York, USA */}
               {settings.selectedAlgorandAccount}
             </Card.Text>
+            <Card.Subtitle className="fw-normal">Wallet</Card.Subtitle>
+            <Card.Text className="text-gray mb-4">
+              {settings.selectedAlgorandWallet}
+            </Card.Text>
           </>
         )}
 
